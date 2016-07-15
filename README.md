@@ -1,1 +1,2 @@
-# Riak-TS-Data-Modeling
+# Riak TS - Data Modeling
+
