@@ -1,0 +1,20 @@
+# Sample CREATE TABLE statement used on the site Wiki at:
+# https://github.com/cvitter/Riak-TS-Data-Modeling/wiki/1.-Data-Modeling-Basics
+
+CREATE TABLE WeatherStationData 
+(
+	StationId			VARCHAR		NOT NULL,
+	ReadingTimeStamp	TIMESTAMP	NOT NULL,
+	Temperature			SINT64,
+	Humidity			DOUBLE,
+	WindSpeed			DOUBLE,
+	WindDirection		DOUBLE,
+	PRIMARY KEY (
+		(StationId, QUANTUM(ReadingTimeStamp, 1, 'd') ),
+		 StationId, ReadingTimeStamp
+	)		
+);
+
+# Same statement as above optimized for use with Riak TS Shell
+
+CREATE TABLE WeatherStationData (StationId VARCHAR NOT NULL, ReadingTimeStamp TIMESTAMP NOT NULL, Temperature SINT64, Humidity DOUBLE, WindSpeed DOUBLE, WindDirection DOUBLE, PRIMARY KEY ((StationId, QUANTUM(ReadingTimeStamp, 1, 'd')), StationId, ReadingTimeStamp));
