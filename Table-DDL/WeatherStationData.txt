@@ -15,6 +15,6 @@ CREATE TABLE WeatherStationData
 	)		
 );
 
-# Same statement as above optimized for use with Riak TS Shell
+# Same statement as above optimized for use with Riak TS Shell (riak-shell)
 
 CREATE TABLE WeatherStationData (StationId VARCHAR NOT NULL, ReadingTimeStamp TIMESTAMP NOT NULL, Temperature SINT64, Humidity DOUBLE, WindSpeed DOUBLE, WindDirection DOUBLE, PRIMARY KEY ((StationId, QUANTUM(ReadingTimeStamp, 1, 'd')), StationId, ReadingTimeStamp));
