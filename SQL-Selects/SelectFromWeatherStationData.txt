@@ -1,3 +1,10 @@
 # Sample SELECT statement used on the site Wiki at:
 # https://github.com/cvitter/Riak-TS-Data-Modeling/wiki/1.-Data-Modeling-Basics#select
 
+SELECT * FROM WeatherStationData WHERE
+	StationId = 'Station-1001' AND
+	ReadingTimeStamp >= 1469204577 AND ReadingTimeStamp <= 1469204977;
+
+# Same statement as above but optimized for use with Riak TS Shell (riak-shell)
+
+SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= 1469204577 AND ReadingTimeStamp <= 1469204977;
