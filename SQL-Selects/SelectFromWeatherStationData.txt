@@ -1,0 +1,3 @@
+# Sample SELECT statement used on the site Wiki at:
+# https://github.com/cvitter/Riak-TS-Data-Modeling/wiki/1.-Data-Modeling-Basics#select
+
