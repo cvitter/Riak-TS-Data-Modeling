@@ -1,0 +1,7 @@
+# Sample INSERT statement used on the site Wiki at:
+# https://github.com/cvitter/Riak-TS-Data-Modeling/wiki/1.-Data-Modeling-Basics#insert
+
+INSERT INTO WeatherStationData
+	(StationId, ReadingTimeStamp, Temperature, Humidity, WindSpeed, WindDirection)
+VALUES
+	(1, 1469204877, 52, 43.2, 2.5, 290.0)
