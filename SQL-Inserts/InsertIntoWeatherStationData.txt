@@ -4,4 +4,9 @@
 INSERT INTO WeatherStationData
 	(StationId, ReadingTimeStamp, Temperature, Humidity, WindSpeed, WindDirection)
 VALUES
-	(1, 1469204877, 52, 43.2, 2.5, 290.0)
+	('Station-1001', 1469204877, 52, 43.2, 2.5, 290.0);
+	
+# Same statement as above but without the optional column names and
+# optimized for use with Riak TS Shell (riak-shell)
+
+INSERT INTO WeatherStationData VALUES ('Station-1001', 1469204877, 52, 43.2, 2.5, 290.0);
