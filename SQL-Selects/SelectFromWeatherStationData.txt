@@ -8,3 +8,7 @@ SELECT * FROM WeatherStationData WHERE
 # Same statement as above but optimized for use with Riak TS Shell (riak-shell)
 
 SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= 1469204577 AND ReadingTimeStamp <= 1469204977;
+
+# Demonstrates how to run the same query using the HTTP API via Curl
+
+curl -XPOST http://127.0.0.1:8098/ts/v1/query --data "SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= 1469204577 AND ReadingTimeStamp <= 1469204977;"
