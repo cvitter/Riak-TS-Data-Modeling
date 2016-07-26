@@ -6,7 +6,7 @@ Riak TS is a distributed NoSQL database that is designed to scale to handle mass
 
 ## Partitions, AKA The Ring
 
-Riak TS divides its dataset into partitions. By default Riak TS has 64 partitions however this number is configurable and can range from a minimum of 8 to a maximum 1024 (in powers of 2 e.g.: 8, 16, 32, 64, 128, 256, 512, 1024). The number of partition is specified in the ``` riak.conf ``` in the ``` etc ``` directory. The following lines from the ``` riak.conf ``` contain the ``` ring_size ``` parameter and basic information about setting the parameter:
+Riak TS divides its dataset into partitions. By default Riak TS has 64 partitions however this number is configurable and can range from a minimum of 8 to a maximum 1024 in powers of 2 (e.g.: 8, 16, 32, 64, 128, 256, 512, 1024). The number of partitions is specified in the ``` riak.conf ``` file in the ``` etc ``` directory. The following lines from the ``` riak.conf ``` contain the ``` ring_size ``` parameter and basic information about setting the parameter:
 
 ```
 ## Number of partitions in the cluster (only valid when first

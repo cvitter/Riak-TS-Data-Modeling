@@ -1,4 +1,4 @@
-Installing Riak TS
+# [Riak TS](README.md) - Installing Riak TS
 
 Installing a single node of Riak TS locally for learning or development is a relatively simple task. If you haven't already done so you should download the latest version of TS from the official TS website: http://docs.basho.com/riak/ts/latest/downloads/.
 
