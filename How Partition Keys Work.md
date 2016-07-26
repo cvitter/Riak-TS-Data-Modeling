@@ -41,7 +41,9 @@ or
 
 ``` 0 - 1,461,501,637,330,902,918,203,684,832,716,283,019,655,932,542,976 ```
 
- keys that are shared equally across each partition in the cluster. Each partition will have the following number of keys assigned to it (where N equals the number of partitions):
+ keys that are shared equally across each partition in the cluster. 
+
+ Each partition will have the following number of keys assigned to it (where N equals the number of partitions):
 
 ``` 2^160 / N ```
 
@@ -51,20 +53,10 @@ The following graphic provides a simplified illustration of how Riak TS assigns 
 ![alt text](Images/riak-ring.png)
 
 
-The table below illustrates how Riak TS assigns key ranges to each partition:
-
-| Partition | Start Key | End Key |
-|-----------|-----------|---------|
-| 1         | 0         | 2^160 / N |
-| 2         | 2^160 / N + 1 | ( 2^160 / N ) * 2 |
-| 3         | ( 2^160 / N ) * 2 + 1 | ( 2^160 / N ) * 3 |
-| ...       | ...       | ...     |
-| N         | ( 2^160 / N ) * (N - 1) + 1 | 2^160 |
-
-
-
 
 ## Consistent Hashing
+
+
 
 
 ## The Partition Key
