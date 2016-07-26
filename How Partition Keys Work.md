@@ -102,8 +102,6 @@ When selecting a quantum to use for your partition key it is important to keep i
 
 1. Colocate data close together to improve query performance.
 
-Small quamtums favor writes in terms of performance and storage while larger quantums favor querying. Selecting the right quantum for your partition key (if you use quantum) is often the most challenging piece of the data modeling process.
-
-
+Small quantums favor writes in terms of performance and storage while larger quantums favor querying. Selecting the right quantum for your partition key (if you use quantum) is often the most challenging piece of the data modeling process.
 
 
