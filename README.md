@@ -15,6 +15,3 @@ If you are new to Riak TS I would suggest reading each of the following sections
 If you have any questions, feedback, suggestions, etc. please submit them via issues here: https://github.com/cvitter/Riak-TS-Data-Modeling/issues
 
 If you find errors please feel to submit pull requests. Any help in improving this resource is appreciated!
-
-- Craig
-
