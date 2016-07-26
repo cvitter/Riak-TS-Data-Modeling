@@ -56,7 +56,7 @@ The following graphic provides a simplified illustration of how Riak TS assigns 
 
 ## Consistent Hashing
 
-
+How does Riak TS know which partition a key/value pair should be written too or read from? It is quite simple really. Riak TS uses a consistent hashing (https://en.wikipedia.org/wiki/Consistent_hashing) function based on the SHA-1 algorith (https://en.wikipedia.org/wiki/SHA-1) to convert the key into a number. Since every node in a Riak TS cluster has an updated copy of "the ring" (kept up to date via gossip protocol) every node in the cluster is capable of serving reads and writes using this simple consistent hashing mechanism.
 
 
 ## The Partition Key
