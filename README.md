@@ -4,6 +4,7 @@ This project and its supporting files serve as an introduction to the basics of 
 
 
 * [Data Modeling Basics](Data Modeling Basics.md)
+* [How Partition Keys Work](How Partition Keys Work.md)
 
 
 # Questions, Feedback, Pull Requests Etc.
