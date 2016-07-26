@@ -92,11 +92,15 @@ When you specify a partition key with a quantum function you are telling Riak TS
 
 Will all hash to the same value and be stored on the same partion. The following key however hashes to a different quantum since the date/timestamp falls on the next day:
 
-* Key = {'Station-1001', 1469300000} - Date/Time Stamp = 7/23/2016, 2:53:20 PM GMT-4:00 DST
+* Key = {'Station-1001', 1469300000} - Date/timestamp = 7/23/2016, 2:53:20 PM GMT-4:00 DST
 
+**Note**: Riak TS stores dates as UTC.
 
+When selecting a quantum to use for your partition key it is important to keep in mind that there are tradeoffs associated with the size of the quantum. There are two primary competing goals for choosing a quantum:
 
+1. Utilize your cluster's hardware efficiently by distributing the data evenly around the cluster (both in terms of storage and performance as focusing all of your reads and writes on a single node limits read and write throughput for the cluster);
 
+1. Colocate data close together to improve query performance.
 
 
 
