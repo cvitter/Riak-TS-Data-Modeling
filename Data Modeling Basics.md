@@ -3,11 +3,11 @@
 **Riak TS** stores data in "**tables**", "**columns**", and "**rows**" similar to a traditional relational database however TS has some unique architectural features that make data modeling a different challenge. In this section we are going to introduce the basics of data modeling with Riak TS including:
 
 * [How tables are created in Riak TS](#creating-a-table)
-* [Table naming requirements](https://github.com/cvitter/Riak-TS-Data-Modeling/wiki/1.-Data-Modeling-Basics#table-names)
-* [Columns and supported data types](https://github.com/cvitter/Riak-TS-Data-Modeling/wiki/1.-Data-Modeling-Basics#columns)
-* [Primary Keys](https://github.com/cvitter/Riak-TS-Data-Modeling/wiki/1.-Data-Modeling-Basics#the-primary-key)
-* [Reading and writing data with Riak TS](https://github.com/cvitter/Riak-TS-Data-Modeling/wiki/1.-Data-Modeling-Basics#reading-and-writing-data-with-riak-ts)
-* [And a brief discussion of Riak TS's table architecture](https://github.com/cvitter/Riak-TS-Data-Modeling/wiki/1.-Data-Modeling-Basics#riak-ts-table-architecture)
+* [Table naming requirements](#table-names)
+* [Columns and supported data types](#columns)
+* [Primary Keys](#the-primary-key)
+* [Reading and writing data with Riak TS](#reading-and-writing-data-with-riak-ts)
+* [And a brief discussion of Riak TS's table architecture](#riak-ts-table-architecture)
 
 ## Creating a Table
 
