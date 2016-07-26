@@ -86,13 +86,13 @@ As we learned previously in this section Riak TS using a consistent hashing func
 When you specify a partition key with a quantum function you are telling Riak TS that you want to colocate every record written for a specific range of time (one day in our current example) on a single partition. The boundaries for the quantum are calculated by Riak TS based on the start of the Unix Epoch (Jan 1, 1970 00:00:00). Every record written that falls within the boundaries of a quantum will have its partition key hash to the same value, e.g.:
 
 
-* Key = {'Station-1001', 1469204577} - Date/timestamp = 7/22/2016, 12:22:57 PM GMT-4:00 DST
-* Key = {'Station-1001', 1469204677} - Date/timestamp = 7/22/2016, 12:24:37 PM GMT-4:00 DST
-* Key = {'Station-1001', 1469205000} - Date/timestamp = 7/22/2016, 12:30:00 PM GMT-4:00 DST
+* Key = ```{'Station-1001', 1469204577}``` - Date/timestamp = 7/22/2016, 12:22:57 PM GMT-4:00 DST
+* Key = ```{'Station-1001', 1469204677}``` - Date/timestamp = 7/22/2016, 12:24:37 PM GMT-4:00 DST
+* Key = ```{'Station-1001', 1469205000}``` - Date/timestamp = 7/22/2016, 12:30:00 PM GMT-4:00 DST
 
 Will all hash to the same value and be stored on the same partion. The following key however hashes to a different quantum since the date/timestamp falls on the next day:
 
-* Key = {'Station-1001', 1469300000} - Date/timestamp = 7/23/2016, 2:53:20 PM GMT-4:00 DST
+* Key = ```{'Station-1001', 1469300000}``` - Date/timestamp = 7/23/2016, 2:53:20 PM GMT-4:00 DST
 
 **Note**: Riak TS stores dates as UTC.
 
