@@ -8,6 +8,7 @@ If you are new to Riak TS I would suggest reading each of the following sections
 
 * [Data Modeling Basics](Data Modeling Basics.md)
 * [How Partition Keys Work](How Partition Keys Work.md)
+* 
 
 
 # Questions, Feedback, Pull Requests Etc.

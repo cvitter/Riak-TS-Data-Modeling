@@ -1,4 +1,4 @@
-# Riak TS - Data Modeling Basics
+# [Riak TS](README.md) - Data Modeling Basics
 
 **Riak TS** stores data in "**tables**", "**columns**", and "**rows**" similar to a traditional relational database however TS has some unique architectural features that make data modeling a different challenge. In this section we are going to introduce the basics of data modeling with Riak TS including:
 
@@ -150,7 +150,7 @@ CREATE TABLE WeatherStationData
 )
 ```
 
-The primary key in Riak TS consists of two parts: A **Partition Key** and a **Local Key**. The partition key is used by Riak TS to determine which partition, or virtual node, in the Riak TS cluster a row of data should be written to/read from. The local key determines how the row is written to disk on its partition. The choice of key has a big impact on the performance of queries and how efficiently your cluster hardware is utilized so we will explore key selection in great depth in [How Partition Keys Work](https://github.com/cvitter/Riak-TS-Data-Modeling/wiki/2.-How-Partition-Keys-Work). In the remainder of this section we will just look at the basic rules associated with creating partition and local keys.
+The primary key in Riak TS consists of two parts: A **Partition Key** and a **Local Key**. The partition key is used by Riak TS to determine which partition, or virtual node, in the Riak TS cluster a row of data should be written to/read from. The local key determines how the row is written to disk on its partition. The choice of key has a big impact on the performance of queries and how efficiently your cluster hardware is utilized so we will explore key selection in great depth in [How Partition Keys Work](How Partition Keys Work.md). In the remainder of this section we will just look at the basic rules associated with creating partition and local keys.
 
 ### Partition Key
 
@@ -354,4 +354,4 @@ Riak TS should return the following JSON (formatted here for readability):
 }
 ```
 
-When Riak TS writes the (row) key/value pair it uses the two part key (partition and local) to determine where to write the data within the cluster and how to write the data on disk. In the next section we will go to more detail about how the keys work: [How Partition Keys Work](https://github.com/cvitter/Riak-TS-Data-Modeling/wiki/2.-How-Partition-Keys-Work).
+When Riak TS writes the (row) key/value pair it uses the two part key (partition and local) to determine where to write the data within the cluster and how to write the data on disk. In the next section we will go to more detail about how the keys work: [How Partition Keys Work](How Partition Keys Work.md).
