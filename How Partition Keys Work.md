@@ -83,7 +83,7 @@ In this example the partition portion of the key consists of the following:
 
 As we learned previously in this section Riak TS using a consistent hashing function to turn the key into a number in order to assign it to a partition. In the standard model for hashing keys (used by Riak KV and TS if you don't use a quantum function for your partition key) we would just concatenate the two parts of the key together and hash the resulting value into our number. However, when we use a quantum function in our partition key (e.g. ``` QUANTUM(ReadingTimeStamp, 1, 'd') ```), Riak TS behaves very differently.
 
-When you specify a partition key with a quantum function you are telling Riak TS that you want to colocate every record written for a specific range of time (one day in our current example) on a single partition. The boundaries for the quantum are calculated by Riak TS based on the start of the Unix Epoch (Jan 1, 1970 00:00:00). Every record written that falls within the boundaries of a quantum will have its partition key hash to the same value, e.g.:
+When you specify a partition key with a quantum function you are telling Riak TS that you want to colocate every record written for a specific range of time (one day in our current example) on a single partition. The boundaries for the quantum are calculated by Riak TS based on the start of the Unix Epoch: Jan 1, 1970 00:00:00 (If you are interested in the exact function that Riak TS uses to mark quantums you can view the code online here: https://github.com/basho/riak_ql/blob/develop/src/riak_ql_quanta.erl#L91). Every record written that falls within the boundaries of a quantum will have its partition key hash to the same value, e.g.:
 
 
 * Key = ```{'Station-1001', 1469204577}``` - Date/timestamp = 7/22/2016, 12:22:57 PM GMT-4:00 DST
@@ -94,13 +94,16 @@ Will all hash to the same value and be stored on the same partion. The following
 
 * Key = ```{'Station-1001', 1469300000}``` - Date/timestamp = 7/23/2016, 2:53:20 PM GMT-4:00 DST
 
-**Note**: Riak TS stores dates as UTC.
+**Note**: Riak TS stores dates as UTC and converts from your cluster's local time zone when saving a record.
 
 When selecting a quantum to use for your partition key it is important to keep in mind that there are tradeoffs associated with the size of the quantum. There are two primary competing goals for choosing a quantum:
 
 1. Utilize your cluster's hardware efficiently by distributing the data evenly around the cluster (both in terms of storage and performance as focusing all of your reads and writes on a single node limits read and write throughput for the cluster);
 
 1. Colocate data close together to improve query performance.
+
+Small quamtums favor writes in terms of performance and storage while larger quantums favor querying. Selecting the right quantum for your partition key (if you use quantum) is often the most challenging piece of the data modeling process.
+
 
 
 
