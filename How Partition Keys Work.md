@@ -48,7 +48,7 @@ or
 
 The following graphic provides a simplified illustration of how Riak TS assigns key ranges to partitions:
 
-(Images/riak-ring.png)
+![alt text](Images/riak-ring.png)
 
 
 The table below illustrates how Riak TS assigns key ranges to each partition:
