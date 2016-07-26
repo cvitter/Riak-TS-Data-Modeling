@@ -32,7 +32,7 @@ If you have a single Riak TS nodes all of the partitions will live on that singl
 
 ## The Ring and Consistent Hashing
 
-In order to write data to partitions in Riak TS those partitions need to have addresses. Riak TS's "Ring" is an a 160-bit integer address space:
+In order to write data to partitions in Riak TS those partitions need to have addresses. Riak TS's "Ring" is an a 160-bit integer address space. This means that each Riak TS cluster can have:
 
 ``` 0 - 2^160 ```
 
@@ -40,9 +40,19 @@ or
 
 ``` 0 - 1,461,501,637,330,902,918,203,684,832,716,283,019,655,932,542,976 ```
 
- that is shared equally across each partition.
+ keys that are shared equally across each partition in the cluster so that each partition will have the following number of keys assigned to it (where N equals the number of partitions):
 
- 
+``` 2^160 / N ```
+
+
+
+| Partition | Start Key | End Key |
+-----------------------------------
+| 1         | 0         | 2^160 / N |
+| 2         | 2^160 / N + 1 | ( 2^160 / N ) * 2 |
+| 3         | ( 2^160 / N ) * 2 + 1 | ( 2^160 / N ) * 3 |
+| ...       | ...       | ...     |
+| N         | ( 2^160 / N ) * (N - 1) + 1 | 2^160 |
 
 
 ## The Partition Key
