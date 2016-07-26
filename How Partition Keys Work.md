@@ -58,7 +58,28 @@ The following graphic provides a simplified illustration of how Riak TS assigns 
 
 How does Riak TS know which partition a key/value pair should be written too or read from? It is quite simple really. Riak TS uses a consistent hashing (https://en.wikipedia.org/wiki/Consistent_hashing) function based on the SHA-1 algorith (https://en.wikipedia.org/wiki/SHA-1) to convert the key into a number. Since every node in a Riak TS cluster has an updated copy of "the ring" (kept up to date via gossip protocol) every node in the cluster is capable of serving reads and writes using this simple consistent hashing mechanism.
 
+It is important to note that the consistent hashing mechanism that Riak TS (and KV) uses is designed to ensure an even distribution of data around your cluster. While you might expect that if you were to hash the letters of the alphabet (a, b, c, d, e, etc.) that the numeric output would be linear in fashion (example: 1, 2, 3, 4, 5, etc.) the opposite is actually true. To the casual observer the output of the hashing function would appear to be random in distribution (example: 1231014356, 3, 651231246633, 90123, 89923423112300012, etc.). 
+
+While this even distribution of data around the cluster is ideal for hardware utilization it isn't ideal for use cases where you want to perform range queries. In the next section [The Partition Key](#the-partition-key) we are going to discuss how Riak TS uses the partition key to enable collaction of data on partitions in support of range queries.
+
 
 ## The Partition Key
 
+Now that we understand how data is partitioned and addressed in Riak TS let's return to the primary key, or more specifically the partition portion of the primary key. In the previous section [Data Modeling Basics](Data Modeling Basics.md) we used the following primary key for the ``` WeatherStationData ``` table that we created:
+
+
+```
+	PRIMARY KEY (
+		(StationId, QUANTUM(ReadingTimeStamp, 1, 'd') ),
+		 StationId, ReadingTimeStamp
+	)
+```
+
+In this example the partition portion of the key consists of the following:
+
+```
+(StationId, QUANTUM(ReadingTimeStamp, 1, 'd') )
+```
+
+As we learned previously in this section
 
