@@ -274,7 +274,8 @@ The riak-admin tool doesn't provide a list of buckets however you can use Riak T
 
 **Important Note**: Listing buckets is an expensive operation and shouldn't be done on production clusters. See the following documentation for more information: http://docs.basho.com/riak/kv/2.1.4/developing/api/http/list-buckets/.
 
-If you'd like to see all of the properties associated with the WeatherStationData table you created you can using the riak-admin tool to list the bucket type properties:
+The riak-admin tool allows you to list all of the properties associated with a bucket type:
+
 
 ```
 > bin/riak-admin bucket-type status WeatherStationData
