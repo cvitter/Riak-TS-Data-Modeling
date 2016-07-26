@@ -1,4 +1,4 @@
-# Riak TS - Data Modeling Basics Introduction
+# Riak TS - Data Modeling Home
 
 **Riak TS** (http://docs.basho.com/riak/ts) is a distributed NoSQL database optimized for time series use cases. Although Riak TS is based on Riak KV (http://docs.basho.com/riak/kv), you interact with Riak TS via tables, rows, and columns. This wiki will walk you through the basics of Riak TS data modeling and then move on to providing practical guidance on how to model for a variety of common use cases.
 
