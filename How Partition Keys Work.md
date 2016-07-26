@@ -3,7 +3,8 @@
 Riak TS is a distributed NoSQL database that is designed to scale to handle massive data sets and high volumes of read and write operations. Riak TS achieves this scalability by being able to seamlessly distribute its data and workloads across many individual nodes (physical or virtual) in a cluster. Of course if data is distributed across many machines than the database needs to know how to address the data for reads and writes. In this section we are going to describe how Riak TS partitions data and how this influences the selection of partition keys:
 
 * [Partitions](#partitions)
-* [The Ring and Consistent Hashing](#the-ring-and-consistent-hashing)
+* [The Ring](#the-ring)
+* [Consistant Hashing](#consistent-hashing)
 * [The Partition Key](#the-partition-key)
 
 
@@ -30,7 +31,7 @@ If you have a single Riak TS nodes all of the partitions will live on that singl
 **Important Note:** The number of partitions has a direct impact on the scalability and performance of your cluster. Before setting up a production cluster please review the ring size planning guidance found here: http://docs.basho.com/riak/kv/2.1.4/setup/planning/cluster-capacity/#ring-size-number-of-partitions.
 
 
-## The Ring and Consistent Hashing
+## The Ring
 
 In order to write data to partitions in Riak TS those partitions need to have addresses. Riak TS's "Ring" is an a 160-bit integer address space. This means that each Riak TS cluster can have:
 
@@ -44,7 +45,7 @@ or
 
 ``` 2^160 / N ```
 
-
+The table below illustrates how Riak TS assigns key ranges to each partition:
 
 | Partition | Start Key | End Key |
 |-----------|-----------|---------|
@@ -54,6 +55,8 @@ or
 | ...       | ...       | ...     |
 | N         | ( 2^160 / N ) * (N - 1) + 1 | 2^160 |
 
+
+## Consistent Hashing
 
 
 ## The Partition Key
