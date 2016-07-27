@@ -56,19 +56,21 @@ Connected...
 riak-shell(1)>
 ```
 
-Copy and paste the following simplified version of the CREATE TABLE statement (all of the formatting that makes it easy to read above removed) in and hitting enter:
+Copy and paste the following simplified version of the CREATE TABLE statement (all of the formatting that makes it easy to read above removed) in to the shell and hitting enter:
 
 ```
 CREATE TABLE WeatherStationData (StationId VARCHAR NOT NULL, ReadingTimeStamp TIMESTAMP NOT NULL, Temperature SINT64, Humidity DOUBLE, WindSpeed DOUBLE, WindDirection DOUBLE, PRIMARY KEY ((StationId, QUANTUM(ReadingTimeStamp, 1, 'd')), StationId, ReadingTimeStamp));
 ```
 
-If Riak TS is able to add the new table successfully you should see a new command prompt (Riak TS won't send a success message). As noted above, once you have created a table you cannot alter or delete the table. If you try to send a new DDL for an existing table Riak TS will output the following error message:
+Riak TS doesn't send "success" messages when tables are created successfully. If Riak TS is able to add the new table successfully you should simply see a new command prompt upon completion. 
+
+As noted above, once you have created a table you cannot alter or delete the table. If you run the table create statement a second time the database should output the following error message:
 
 ``` Error (1014): Failed to create table WeatherStationData: already_active ```
 
 One way to verify that your table has been created successfully (other than the absence of an error message) is to use the ```DESCRIBE``` command to output your table's schema. Within riak-shell use the following command to output the schema for the WeatherStationData table:
 
-```> DESCRIBE WeatherStationData; ```
+``` DESCRIBE WeatherStationData; ```
 
 The DESCRIBE command should return the following output for the WeatherStationData table:
 
@@ -121,7 +123,7 @@ By default columns allow NULL values. If you need to prevent NULL values from be
 
 ```StationId			VARCHAR		NOT NULL,```
 
-**Important Note**: Columns used in the primary key must be defined with the ```NOT NULL``` constraint. See **The Primary Key** section below for more information.
+**Important Note**: Columns used in the primary key must be defined with the ```NOT NULL``` constraint. See **[The Primary Key](#the-primary-key)** section below for more information.
 
 ## The Primary Key
 
