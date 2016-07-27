@@ -262,7 +262,7 @@ Riak TS tables map one-to-one to Riak KV bucket types (see Riak KV's documentati
   WeatherStationData (active)
 ```
 
-The riak-admin tool doesn't provide a list of buckets however you can use Riak TS's HTTP interface to view the bucket created under the WeatherStationData bucket type:
+The riak-admin tool doesn't provide a list of buckets however but can use Riak TS's HTTP interface to view the bucket created under the WeatherStationData bucket enter the following URL into your Web browser (if you are running Riak TS locally, otherwise you will need to type the URL of the remote TS node):
 
 ``` http://127.0.0.1:8098/types/WeatherStationData/buckets?buckets=true ```
 
@@ -276,7 +276,7 @@ The riak-admin tool doesn't provide a list of buckets however you can use Riak T
 
 **Important Note**: Listing buckets is an expensive operation and shouldn't be done on production clusters. See the following documentation for more information: http://docs.basho.com/riak/kv/2.1.4/developing/api/http/list-buckets/.
 
-The riak-admin tool allows you to list all of the properties associated with a bucket type:
+The riak-admin tool allows you to list all of the properties associated with a bucket type including the table's schema and quantum information as illustrated below:
 
 
 ```
@@ -322,7 +322,6 @@ active: true
 claimant: 'riak@127.0.0.1'
 ```
 
-Riak TS stores all of the table's schema information at the bucket type level as illustrated in the output of the ``` riak-admin bucket-type status WeatherStationData ``` command above.
 
 ### Rows
 
