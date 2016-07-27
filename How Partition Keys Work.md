@@ -104,7 +104,9 @@ Small quanta favor writes in terms of performance and storage while larger quant
 
 The final important note to make about quanta is how they affect querying of data. When the database executes a ```SELECT``` statement that covers more than one quantum a sub-query is created for each quantum. By default Riak TS limits queries to a maximum span of 5 quanta in order to protect the cluster from being overloaded by queries attempting to retrieve too much data. If a query spans more than 5 quanta the database will return an error. The following ``` SELECT ``` example queries records across many years (when our table's quantum is set to 1 day) and will return an error when run:
 
-``` SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= 1 AND ReadingTimeStamp <= 1469800000; ```
+``` 
+SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= 1 AND ReadingTimeStamp <= 1469800000; 
+```
 
 When executed in the riak-shell application you should see the following error message:
 
