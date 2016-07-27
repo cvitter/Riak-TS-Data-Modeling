@@ -12,7 +12,7 @@ Based on this query execution pattern you should design your partition key keepi
 
 * As noted in the [How Partition Keys Work](How Partition Keys Work.md) section, querying across fewer quanta is better in terms for performance so when possilbe you should use partition keys that limit the number of quanta you need to span in queries.
 
-* Queries that _only_ require partition keys in their ``` WHERE ``` clauses will generally perform faster than similiar queries that add non-partition keys to the ``` WHERE ``` clause (because non-partition keys require a second level of filtering after the virtual node perfoms the intitial range scan on a partition).
+* Queries that _only_ require partition keys in their ``` WHERE ``` clauses will generally perform faster than similiar queries that add non-partition keys to the ``` WHERE ``` clause because non-partition keys require a second level of filtering after the virtual node perfoms the intitial range scan on a partition.
 
 
 
