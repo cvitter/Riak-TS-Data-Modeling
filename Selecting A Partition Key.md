@@ -6,11 +6,13 @@ Choosing the right partition key for your table is an important piece of ensurin
 
 ## The Importance of Partition Keys in a Query
 
-When Riak TS executes a query it splits the query into sub-queries along quantum boundaries. Each sub-query is then sent to the corresponding virtual node that handles that quantum's matching partition. At the partition level the virtual node performs a range scan based on the partition keys in the ``` WHERE ``` clause and then applies a secondary filter on non partition key fields.
+When Riak TS executes a query it splits the query into sub-queries along quantum boundaries. Each sub-query is then sent to the corresponding virtual node that handles that quantum's matching partition. At the partition level the virtual node first performs a range scan based on the partition keys in the ``` WHERE ``` clause _and then_ applies a secondary filter on non-partition key fields.
 
+Based on this query execution pattern you should design your partition key keeping in mind the following rules of thumb:
 
+* As noted in the [How Partition Keys Work](How Partition Keys Work.md) section querying across fewer quanta is better in terms for performance.
 
-As noted in the [How Partition Keys Work](How Partition Keys Work.md) section querying across fewer quanta is better in terms for performance.
+* Queries that _only_ require partition keys in their ``` WHERE ``` clauses will generally perform faster than similiar queries that add non-partition keys to the ``` WHERE ``` clause (because non-partition keys require a second level of filtering after the virtual node perfoms the intitial range scan on a partition).
 
 
 
