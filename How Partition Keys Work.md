@@ -123,11 +123,11 @@ timeseries_query_max_quanta_span = 5
 
 As noted in the comments above you should add one to the quanta that you plan on querying or else expect that some percentage of the data you are trying to query will fall outside of quanta span window.
 
-For more information about Riak TS specific configuration settings see the following documentation: http://docs.basho.com/riak/ts/latest/using/configuring/.
+**Note**: For more information about Riak TS specific configuration settings see the following documentation: http://docs.basho.com/riak/ts/latest/using/configuring/.
 
+In the next section [Selecting A Partition Key](Selecting A Partition Key.md) we will go into more detail about how to select partition keys that make sense for specific types of use cases.
 
-
-
+---
 
 
 
