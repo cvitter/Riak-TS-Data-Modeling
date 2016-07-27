@@ -359,4 +359,4 @@ When Riak TS writes the (row) key/value pair it uses the two part key (partition
 
 ---
 
- Previous: [ Data Modeling Home](README.md) | Next: [How Partition Keys Work](How Partition Keys Work.md)
+ **Previous**: [ Data Modeling Home](README.md) | **Next**: [How Partition Keys Work](How Partition Keys Work.md)
