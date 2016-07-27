@@ -356,3 +356,7 @@ Riak TS should return the following JSON (formatted here for readability):
 ```
 
 When Riak TS writes the (row) key/value pair it uses the two part key (partition and local) to determine where to write the data within the cluster and how to write the data on disk. In the next section we will go to more detail about how the keys work: [How Partition Keys Work](How Partition Keys Work.md).
+
+---
+
+ Previous: [ Data Modeling Home](README.md) | Next: [How Partition Keys Work](How Partition Keys Work.md)

@@ -129,5 +129,6 @@ In the next section [Selecting A Partition Key](Selecting A Partition Key.md) we
 
 ---
 
+ Previous: [ Data Modeling Basics](Data Modeling Basics.md) | Next: [Selecting A Partition Key](Selecting A Partition Key.md)
 
 
