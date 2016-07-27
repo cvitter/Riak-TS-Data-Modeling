@@ -37,11 +37,11 @@ CREATE TABLE WeatherStationData
 
 Once you have a DDL like the example above there are three ways that you can send the DDL to Riak TS to create your table:
 
-* Use Riak TS's REPL (read-eval-print-loop - https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) application riak-shell to execute the DDL;
+* Use Riak TS's REPL (read-eval-print-loop) application **riak-shell** (http://docs.basho.com/riak/ts/latest/using/riakshell/)  to execute the DDL;
 * Use one of Riak TS's client libraries (Java, Python, Erlang, Node.js, .Net, Go, Ruby, PHP - see the following page for more information on Riak TS's client libraries: http://docs.basho.com/riak/ts/latest/developing/) to execute the DDL;
 * Or use the riak-admin command tool (see the following page for details on how to do this: http://docs.basho.com/riak/ts/latest/using/creating-activating/#riak-admin).
 
-For most of this documentation we will use riak-shell (http://docs.basho.com/riak/ts/latest/using/riakshell/) to execute the example code. If you have already installed Riak TS let's go ahead and create the WeatherStationData table using riak-shell.
+For most of this documentation we will use riak-shell to execute the example code. If you have already installed Riak TS let's go ahead and create the WeatherStationData table using riak-shell.
 
 From within your Riak TS root directory launch riak-shell using:
 
