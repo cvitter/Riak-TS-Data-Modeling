@@ -56,7 +56,7 @@ Connected...
 riak-shell(1)>
 ```
 
-Copy and paste the following simplified version of the CREATE TABLE statement (all of the formatting that makes it easy to read above removed) in to the shell and hitting enter:
+Copy and paste the following simplified, single line version of the CREATE TABLE statement (riak-shell currently doesn't support multi-line input) in to the shell and hitting enter:
 
 ```
 CREATE TABLE WeatherStationData (StationId VARCHAR NOT NULL, ReadingTimeStamp TIMESTAMP NOT NULL, Temperature SINT64, Humidity DOUBLE, WindSpeed DOUBLE, WindDirection DOUBLE, PRIMARY KEY ((StationId, QUANTUM(ReadingTimeStamp, 1, 'd')), StationId, ReadingTimeStamp));
@@ -167,7 +167,7 @@ In our example DDL the partition key consists of the ```StationId``` column and 
 The quantum function is designed to allow Riak TS to colocate data in a cluster based on a range of time. The three parameters that the function takes include:
 
 * The name of the column to base the range of time on (must be of the TIMESTAMP data type)
-* Units of time expressed as a positive integer (i.e. greater than zero)
+* Units of time expressed as a positive integer (must be greater than zero)
 * The type unit of time expressed as one of the following string values:
 
 | Unit | Definition |
@@ -188,11 +188,11 @@ You can add additional columns to the local key (if for example additional colum
 
 ``` StationId, ReadingTimeStamp, Temperature ```
 
-as longs as the additional columns are added after the columns also contained within the partition key. 
+as long as the additional columns are added after the columns also contained within the partition key. 
 
 ## Reading and Writing Data with Riak TS
 
-Now that we understand the basics of data modeling with Riak TS and have added our first table to the database we can start inserting and reading data. In this section we are going to briefly cover the basics of using the SQL ```INSERT``` and ```SELECT``` commands with Riak TS and riak-shell.
+Now that we understand the basics of data modeling with Riak TS and have added our first table to the database we can start inserting and reading data. In this section we are going to briefly cover the basics of using the SQL ```INSERT``` and ```SELECT``` commands with riak-shell.
 
 ### Insert
 
