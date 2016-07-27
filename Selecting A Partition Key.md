@@ -6,6 +6,14 @@ Choosing the right partition key for your table is an important piece of ensurin
 
 ## The Importance of Partition Keys in a Query
 
+When Riak TS executes a query it splits the query into sub-queries along quantum boundaries. Each sub-query is then sent to the corresponding virtual node that handles that quantum's matching partition. At the partition level the virtual node performs a range scan based on the partition keys in the ``` WHERE ``` clause and then applies a secondary filter on non partition key fields.
+
+
+
+As noted in the [How Partition Keys Work](How Partition Keys Work.md) section querying across fewer quanta is better in terms for performance.
+
+
+
 
 ---
 
