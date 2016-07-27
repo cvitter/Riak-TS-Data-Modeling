@@ -83,7 +83,7 @@ In this example the partition portion of the key consists of the following:
 
 As we learned previously in this section Riak TS using a consistent hashing function to turn the key into a number in order to assign it to a partition. In the standard model for hashing keys (used by Riak KV and TS if you don't use a quantum function for your partition key) we would just concatenate the two parts of the key together and hash the resulting value into our number. However, when we use a quantum function in our partition key (e.g. ``` QUANTUM(ReadingTimeStamp, 1, 'd') ```), Riak TS behaves very differently.
 
-When you specify a partition key with a quantum function you are telling Riak TS that you want to colocate every record written for a specific range of time (one day in our current example) on a single partition. The boundaries for the quantum are calculated by Riak TS based on the start of the Unix Epoch: Jan 1, 1970 00:00:00 (If you are interested in the exact function that Riak TS uses to mark quantums you can view the code online here: https://github.com/basho/riak_ql/blob/develop/src/riak_ql_quanta.erl#L91). Every record written that falls within the boundaries of a quantum will have its partition key hash to the same value, e.g.:
+When you specify a partition key with a quantum function you are telling Riak TS that you want to colocate every record written for a specific range of time (one day in our current example) on a single partition. The boundaries for the quanta are calculated by Riak TS based on the start of the Unix Epoch: Jan 1, 1970 00:00:00 (If you are interested in the exact function that Riak TS uses to mark quanta you can view the code online here: https://github.com/basho/riak_ql/blob/develop/src/riak_ql_quanta.erl#L91). Every record written that falls within the boundaries of a quantum will have its partition key hash to the same value, e.g.:
 
 
 * Key = ```{'Station-1001', 1469204577}``` - Date/timestamp = 7/22/2016, 12:22:57 PM GMT-4:00 DST
@@ -102,6 +102,32 @@ When selecting a quantum to use for your partition key it is important to keep i
 
 1. Colocate data close together to improve query performance.
 
-Small quantums favor writes in terms of performance and storage while larger quantums favor querying. Selecting the right quantum for your partition key (if you use quantum) is often the most challenging piece of the data modeling process.
+Small quanta favor writes in terms of performance and storage while larger quanta favor querying. Selecting the right quantum for your partition key (if you use quantum function) is often the most challenging piece of the data modeling process.
+
+The final important note to make about quanta is how they affect querying of data. When the database executes a ```SELECT``` statement that covers more than one quantum a sub-query is created for each quantum. By default Riak TS limits queries to a maximum of 5 quanta. If a query would encompass more than 5 quanta the database will return an error. In the following select example attempts to query across many years (when our table's quantum is set to 1 day):
+
+``` SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= 1 AND ReadingTimeStamp <= 1469800000; ```
+
+When executed in the riak-shell application you should see the following error message:
+
+``` Error (1001): Too many subqueries (18) ```
+
+The maximum quanta that can be spanned in a query can be configured in the ``` riak.conf ``` file by setting the ``` timeseries_query_max_quanta_span ``` parameter. The parameter doesn't exist in the ``` riak.conf ``` file by default so you will have to add it, e.g.:
+
+```
+## Set the maximum number of quanta a query can span
+## The number should equal the number of quanta you wish
+## to query + 1
+timeseries_query_max_quanta_span = 5
+```
+
+As noted in the comments above you should add one to the quanta that you plan on querying or else expect that some percentage of the data you are trying to query will fall outside of quanta span window.
+
+For more information about Riak TS specific configuration settings see the following documentation: http://docs.basho.com/riak/ts/latest/using/configuring/.
+
+
+
+
+
 
 

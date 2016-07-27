@@ -1,14 +1,15 @@
 # Sample SELECT statement used on the site Wiki at:
 # https://github.com/cvitter/Riak-TS-Data-Modeling/wiki/1.-Data-Modeling-Basics#select
-
 SELECT * FROM WeatherStationData WHERE
 	StationId = 'Station-1001' AND
 	ReadingTimeStamp >= 1469204577 AND ReadingTimeStamp <= 1469204977;
 
 # Same statement as above but optimized for use with Riak TS Shell (riak-shell)
-
 SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= 1469204577 AND ReadingTimeStamp <= 1469204977;
 
 # Demonstrates how to run the same query using the HTTP API via Curl
-
 curl -XPOST http://127.0.0.1:8098/ts/v1/query --data "SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= 1469204577 AND ReadingTimeStamp <= 1469204977;"
+
+# The following SQL statement is designed to demonstrate what happens when you try and query across
+# too many quantums
+SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= 1 AND ReadingTimeStamp <= 1469800000;
