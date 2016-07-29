@@ -17,7 +17,8 @@ Based on this query execution pattern you should design your partition key keepi
 
 ## Why Use Quantums At All
 
-As discussed in [Date Modeling Basics](Data Modeling Basics.md#partition-key) a quantum function is not required in a table's partition key. 
+Although a quantum function is not required in a table's partition key (see: [Date Modeling Basics](Data Modeling Basics.md#partition-key)) Riak TS is optimized for their use. 
+
 
 ---
 
