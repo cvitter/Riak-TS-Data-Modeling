@@ -3,7 +3,7 @@
 Choosing the right partition key for your table is an important piece of ensuring both the performance of the cluster and queriability of your data. In [Data Modeling Basics](Data Modeling Basics.md) and [How Partition Keys Work](How Partition Keys Work.md) we introduced you to the basics of Riak TS table schemas and how the partition key shapes the distribution of data within a cluster. In this section we are going expand upon the theoretical knowledge with practical advice on choosing partition keys including:
 
 * [How Riak TS Executes Queries](#how-riak-ts-executes-queries) 
-* [To Quantize Or Not to Quantize?](#to-quantize-or-not-to-quantize?)
+* [Why Use Quantums At All](#why-use-quantums-at-all)
 
 ## How Riak TS Executes Queries
 
@@ -15,7 +15,7 @@ Based on this query execution pattern you should design your partition key keepi
 
 * Queries that _only_ require partition keys in their ``` WHERE ``` clauses will be faster than queries that add non-partition keys to the ``` WHERE ``` clause since non-partition keys require a second level of filtering _after_ the virtual node perfoms the intitial range scan on a partition.
 
-## To Quantize Or Not To Quantize?
+## Why Use Quantums At All
 
 
 
