@@ -220,7 +220,7 @@ If you cut and paste the SQL ```INSERT``` command above into riak-shell a new re
 Now that we have added a row to our ```WeatherStationData``` table we can verify that it is there by using the SQL ```SELECT``` command to retrieve the record. When querying your data the following rules apply to the partition portion of the record's primary key:
 
 * All columns in the partition key must be in the query's ```WHERE``` clause
-* The quantized field (if there is one, ```ReadingTimeStamp``` in our example) must be included as either an exact match (e.g. ```ReadingTimeStamp = 1469204877```) or a bounded range (e.g. ```ReadingTimeStamp >= 1469204877 AND ReadingTimeStamp <= 1469204977```)
+* The quantized field (if there is one, ```ReadingTimeStamp``` in our example) must be included as a bounded range (e.g. ```ReadingTimeStamp >= 1469204877 AND ReadingTimeStamp <= 1469204977```)
 * All other partition columns must be included as exact matches (e.g. ```StationId = 'Station-1001'```)
 
 The following SQL ```SELECT``` will select our newly created record from the database:
