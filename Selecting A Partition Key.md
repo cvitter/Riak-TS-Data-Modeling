@@ -13,7 +13,7 @@ Based on this query execution pattern you should design your partition key keepi
 
 * Querying across fewer quanta is better in terms of performance so, when possilbe, you should use partition keys that limit the number of quanta you need to span in queries.
 
-* Queries that _only_ require partition keys in their ``` WHERE ``` clauses will be faster than queries that add non-partition keys to the ``` WHERE ``` clause since non-partition keys require a second level of filtering _after_ the virtual node perfoms the intitial range scan on a partition.
+* Queries that **only** require partition keys in their ``` WHERE ``` clauses will be faster than queries that add non-partition keys to the ``` WHERE ``` clause since non-partition keys require a second level of filtering **after** the virtual node perfoms the intitial range scan on a partition.
 
 ## Why Use Quantums At All
 
