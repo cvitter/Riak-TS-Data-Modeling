@@ -7,7 +7,7 @@ Choosing the right partition key for your table is an important piece of ensurin
 
 ## How Riak TS Executes Queries
 
-When Riak TS executes a query it splits the query into sub-queries along quantum boundaries. Each sub-query is then sent to the corresponding virtual node that handles that quantum's matching partition. At the partition level the virtual node first performs a range scan based on the partition keys in the ``` WHERE ``` clause _and then_ applies a secondary filter on non-partition key fields.
+When Riak TS executes a query it splits the query into sub-queries along quantum boundaries. Each sub-query is then sent to the corresponding virtual node that handles that quantum's matching partition. At the partition level the virtual node **first** performs a range scan based on the partition keys in the ``` WHERE ``` clause **and then** applies a secondary filter on non-partition key fields.
 
 Based on this query execution pattern you should design your partition key keeping in mind the following rules of thumb:
 
