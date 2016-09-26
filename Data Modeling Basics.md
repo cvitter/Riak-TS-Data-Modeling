@@ -13,7 +13,7 @@
 
 Before writing data to Riak TS you need to create a table. Tables are created using a DDL (Data Definition Language - https://en.wikipedia.org/wiki/Data_definition_language) which is based on the standard SQL DDL. 
 
-**Important Note About Table Creation**: Riak TS tables cannot be altered or deleted after they have been created so it is very important to carefully plan the table's schema before creating that table.
+**Important Note About Table Creation**: Riak TS tables cannot be altered or deleted after they have been created so it is very important to carefully plan the table's schema before creating the table.
 
 The following sample DDL creates a table called WeatherStationData that has six columns:
 
