@@ -33,7 +33,7 @@ CREATE TABLE WeatherStationData
 )
 ```
 
-**Note**: In the DDL example above all of the keywords are written in UPPERCASE because I believe it makes the DDL more readable. In practice keywords can be in any case you wish to use as they are not case sensitive.
+**Note**: In the DDL example above all of the keywords are written in UPPERCASE because I believe it makes the DDL more readable. In practice keywords can be in any case you wish to use as **they are not case sensitive**.
 
 Once you have a DDL like the example above there are three ways that you can send the DDL to Riak TS to create your table:
 
@@ -41,7 +41,7 @@ Once you have a DDL like the example above there are three ways that you can sen
 * Use one of Riak TS's client libraries (Java, Python, Erlang, Node.js, .Net, Go, Ruby, PHP - see the following page for more information on Riak TS's client libraries: http://docs.basho.com/riak/ts/latest/developing/) to execute the DDL;
 * Or use the riak-admin command tool (see the following page for details on how to do this: http://docs.basho.com/riak/ts/latest/using/creating-activating/#riak-admin).
 
-For most of this documentation we will use riak-shell to execute the example code. If you have already installed Riak TS let's go ahead and create the WeatherStationData table using riak-shell.
+For most of this documentation we will use riak-shell to execute example code. If you have already installed Riak TS (and it is running) let's go ahead and create the WeatherStationData table using riak-shell.
 
 From within your Riak TS root directory launch riak-shell using:
 
