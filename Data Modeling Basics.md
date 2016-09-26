@@ -75,16 +75,16 @@ One way to verify that your table has been created successfully (other than the 
 The DESCRIBE command should return the following output for the WeatherStationData table:
 
 ```
-+----------------+---------+-------+-----------+---------+
-|     Column     |  Type   |Is Null|Primary Key|Local Key|
-+----------------+---------+-------+-----------+---------+
-|   StationId    | varchar | false |     1     |    1    |
-|ReadingTimeStamp|timestamp| false |     2     |    2    |
-|  Temperature   | sint64  | true  |           |         |
-|    Humidity    | double  | true  |           |         |
-|   WindSpeed    | double  | true  |           |         |
-| WindDirection  | double  | true  |           |         |
-+----------------+---------+-------+-----------+---------+
++----------------+---------+-------+-----------+---------+--------+----+
+|     Column     |  Type   |Is Null|Primary Key|Local Key|Interval|Unit|
++----------------+---------+-------+-----------+---------+--------+----+
+|   StationId    | varchar | false |     1     |    1    |        |    |
+|ReadingTimeStamp|timestamp| false |     2     |    2    |   1    | d  |
+|  Temperature   | sint64  | true  |           |         |        |    |
+|    Humidity    | double  | true  |           |         |        |    |
+|   WindSpeed    | double  | true  |           |         |        |    |
+| WindDirection  | double  | true  |           |         |        |    |
++----------------+---------+-------+-----------+---------+--------+----+
 ```
 
 Now that we have created the table within Riak TS lets take a deeper look at the individual components of our DDL starting with the table name.
