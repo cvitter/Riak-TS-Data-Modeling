@@ -192,11 +192,11 @@ as long as the additional columns are added after the columns also contained wit
 
 ## Reading and Writing Data with Riak TS
 
-Now that we understand the basics of data modeling with Riak TS and have added our first table to the database we can start inserting and reading data. In this section we are going to briefly cover the basics of using the SQL ```INSERT``` and ```SELECT``` commands with riak-shell.
+Now that we understand the basics of data modeling with Riak TS, and have added our first table to the database, we can start inserting and reading data. In this section we are going to briefly cover the basics of using the SQL ```INSERT``` and ```SELECT``` commands with riak-shell.
 
 ### Insert
 
-Inserting data into Riak TS can be done using standard SQL in riak-shell or via native methods in the client libraries. In the following example we are going to insert a row into our new table using SQL entered via riak-shell. The following example SQL INSERT statement will be our first record:
+Inserting data into Riak TS can be done using standard SQL within the riak-shell or via native methods in the client libraries. In the following example we are going to insert a row into our new table using SQL entered via riak-shell. The following example SQL INSERT statement will create our first record:
 
 ```
 INSERT INTO WeatherStationData
@@ -205,7 +205,7 @@ VALUES
 	('Station-1001', 1469204877, 52, 43.2, 2.5, 290.0);
 ```
 
-If you want to streamline your SQL a bit you can leave off the column names in your SQL as shown in the following example:
+Remembering that the current version or riak-shell doesn't support multi-line statements you can use the following streamlined version (it leave off the column names) to create your first record:
 
 ```
 INSERT INTO WeatherStationData VALUES ('Station-1001', 1469204877, 52, 43.2, 2.5, 290.0);
