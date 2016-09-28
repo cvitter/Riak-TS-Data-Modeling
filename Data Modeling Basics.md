@@ -202,47 +202,41 @@ Inserting data into Riak TS can be done using standard SQL within the riak-shell
 INSERT INTO WeatherStationData
 	(StationId, ReadingTimeStamp, Temperature, Humidity, WindSpeed, WindDirection)
 VALUES
-	('Station-1001', 1469204877, 52, 43.2, 2.5, 290.0);
+	('Station-1001', '2014-07-22 16:28:57', 52, 43.2, 2.5, 290.0);
 ```
 
 Remembering that the current version or riak-shell doesn't support multi-line statements you can use the following streamlined version (it leave off the column names) to create your first record:
 
 ```
-INSERT INTO WeatherStationData VALUES ('Station-1001', 1469204877, 52, 43.2, 2.5, 290.0);
+INSERT INTO WeatherStationData VALUES ('Station-1001', '2014-07-22 16:28:57', 52, 43.2, 2.5, 290.0);
 ```
 
 If you cut and paste the SQL ```INSERT``` command above into riak-shell a new record should be added to the ```WeatherStationData``` table.
 
-**Important Note**: The **ReadingTimeStamp** column is a TIMESTAMP field which is stored as an integer. The example below shows inserting an integer value into that columns that maps to the following date: 7/22/2016, 12:27:57 PM GMT-4:00 DST.
-
-As of Riak TS version 1.4 you can also write dates using the ISO 8061 data format (http://www.iso.org/iso/home/standards/iso8601.htm) as demonstrated in the SQL insert statement below that creates a second record (one minute later than the first record):
-
-```
-INSERT INTO WeatherStationData VALUES ('Station-1001', '2014-07-22 12:28:57', 53, 43.2, 2.5, 289.0);
-```
+**Important Note**:  As of Riak TS version 1.4 you can write dates using the ISO 8061 data format (http://www.iso.org/iso/home/standards/iso8601.htm) as demonstrated in the SQL insert statement above.
 
 
 ### Select
 
-Now that we have added a row to our ```WeatherStationData``` table we can verify that it is there by using the SQL ```SELECT``` command to retrieve the record. When querying your data the following rules apply to the partition portion of the record's primary key:
+Now that we have added a row to our ```WeatherStationData``` table we can verify that it was written by using the SQL ```SELECT``` command to retrieve the new record. When querying your data the following rules apply to the partition portion of the record's primary key:
 
 * All columns in the partition key must be in the query's ```WHERE``` clause
-* The quantized field (if there is one, ```ReadingTimeStamp``` in our example) must be included as a bounded range (e.g. ```ReadingTimeStamp >= 1469204877 AND ReadingTimeStamp <= 1469204977```)
+* The quantized field (if there is one, ```ReadingTimeStamp``` in our example) must be included as a bounded range (e.g. ```ReadingTimeStamp >= 1469204877 AND ReadingTimeStamp <= 1469204977``` or ```ReadingTimeStamp >= '2014-07-22 12:00:00' AND ReadingTimeStamp <= '2014-07-22 20:00:00'```)
 * All other partition columns must be included as exact matches (e.g. ```StationId = 'Station-1001'```)
 
-The following SQL ```SELECT``` will select our newly created record from the database:
+The following SQL ```SELECT``` will select our newly created records from the database:
 
 ```
 SELECT * FROM WeatherStationData WHERE
      StationId = 'Station-1001' AND
-     ReadingTimeStamp >= 1469204577 AND 
-     ReadingTimeStamp <= 1469204977;
+     ReadingTimeStamp >= '2014-07-22 12:00:00' AND 
+     ReadingTimeStamp <= '2014-07-22 20:00:00';
 ```
 
 Cut and paste the single line version of the SQL statement into riak-shell to test:
 
 ```
-SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= 1469204577 AND ReadingTimeStamp <= 1469204977;
+SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2014-07-22 12:00:00' AND ReadingTimeStamp <= '2014-07-22 20:00:00';
 ```
 
 When the command has executed riak-shell should return the following output:
