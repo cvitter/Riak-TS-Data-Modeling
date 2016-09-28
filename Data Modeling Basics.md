@@ -71,7 +71,7 @@ As noted above, once you have created a table you cannot alter or delete the tab
 There are two ways within riak-shell to verify that your table has been created successfully (other than the absence of an error message). The first method is to use the ``` SHOW TABLES ``` command as illustrated below:
 
 ```
->SHOW TABLES;
+riak-shell(2)>SHOW TABLES;
 +------------------+
 |      Table       |
 +------------------+
