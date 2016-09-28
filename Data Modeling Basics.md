@@ -181,14 +181,13 @@ The quantum function is designed to allow Riak TS to colocate data in a cluster 
 * Units of time expressed as a positive integer (must be greater than zero)
 * The type unit of time expressed as one of the following string values:
 
----------------------
 | Unit | Definition |
 |------|------------|
 | d    | Days       |
 | h    | Hours      |
 | m    | Minutes    |
 | s    | Seconds    |
----------------------
+
 
 ### Local Key
 
