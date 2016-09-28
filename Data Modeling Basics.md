@@ -346,6 +346,7 @@ A Riak TS row maps to a key/value pair. The value stored in the database contain
 
 Riak TS should return the following JSON (formatted here for readability):
 
+```
 {
   "columns":[
     "StationId",
