@@ -68,7 +68,18 @@ As noted above, once you have created a table you cannot alter or delete the tab
 
 ``` Error (1014): Failed to create table WeatherStationData: already_active ```
 
-One way to verify that your table has been created successfully (other than the absence of an error message) is to use the ```DESCRIBE``` command to output your table's schema. Within riak-shell use the following command to output the schema for the WeatherStationData table:
+There are two ways within riak-shell to verify that your table has been created successfully (other than the absence of an error message). The first method is to use the ``` SHOW TABLES ``` command as illustrated below:
+
+```
+>SHOW TABLES;
++------------------+
+|      Table       |
++------------------+
+|WeatherStationData|
++------------------+
+```
+
+The second method is to use the ```DESCRIBE``` command to output your table's schema. Within riak-shell use the following command to output the schema for the WeatherStationData table:
 
 ``` DESCRIBE WeatherStationData; ```
 
