@@ -170,13 +170,14 @@ The quantum function is designed to allow Riak TS to colocate data in a cluster 
 * Units of time expressed as a positive integer (must be greater than zero)
 * The type unit of time expressed as one of the following string values:
 
+---------------------
 | Unit | Definition |
 |------|------------|
 | d    | Days       |
 | h    | Hours      |
 | m    | Minutes    |
 | s    | Seconds    |
-
+---------------------
 
 ### Local Key
 
@@ -263,7 +264,7 @@ Riak TS tables map one-to-one to Riak KV bucket types (see Riak KV's documentati
   WeatherStationData (active)
 ```
 
-The riak-admin tool doesn't provide a list of buckets however but can use Riak TS's HTTP interface to view the bucket created under the WeatherStationData bucket enter the following URL into your Web browser (if you are running Riak TS locally, otherwise you will need to type the URL of the remote TS node):
+The riak-admin tool doesn't provide a list of buckets within each bucket type however you can use Riak TS's HTTP interface to view the bucket created under the WeatherStationData bucket by entering the following URL into your Web browser (if you are running Riak TS locally, otherwise you will need to type the URL of the remote TS node):
 
 ``` http://127.0.0.1:8098/types/WeatherStationData/buckets?buckets=true ```
 
@@ -275,7 +276,7 @@ The riak-admin tool doesn't provide a list of buckets however but can use Riak T
 }
 ```
 
-**Important Note**: Listing buckets is an expensive operation and shouldn't be done on production clusters. See the following documentation for more information: http://docs.basho.com/riak/kv/2.1.4/developing/api/http/list-buckets/.
+**Important Note**: Listing buckets is an expensive operation and shouldn't be done on production clusters. See the following documentation for more information: http://docs.basho.com/riak/kv/latest/developing/api/http/list-buckets/.
 
 The riak-admin tool allows you to list all of the properties associated with a bucket type including the table's schema and quantum information as illustrated below:
 
