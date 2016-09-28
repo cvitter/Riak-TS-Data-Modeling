@@ -213,7 +213,14 @@ INSERT INTO WeatherStationData VALUES ('Station-1001', 1469204877, 52, 43.2, 2.5
 
 If you cut and paste the SQL ```INSERT``` command above into riak-shell a new record should be added to the ```WeatherStationData``` table.
 
-**Important Note**: The **ReadingTimeStamp** column is a TIMESTAMP field which is stored as an integer. Currently you will need to manually convert date/time stamps into integers using a tool like http://www.epochconverter.com/. Basho is planning on adding date parsing capabilities to a future release of Riak TS.
+**Important Note**: The **ReadingTimeStamp** column is a TIMESTAMP field which is stored as an integer. The example below shows inserting an integer value into that columns that maps to the following date: 7/22/2016, 12:27:57 PM GMT-4:00 DST.
+
+As of Riak TS version 1.4 you can also write dates using the ISO 8061 data format (http://www.iso.org/iso/home/standards/iso8601.htm) as demonstrated in the SQL insert statement below that creates a second record (one minute later than the first record):
+
+```
+INSERT INTO WeatherStationData VALUES ('Station-1001', '2014-07-22 12:28:57', 53, 43.2, 2.5, 289.0);
+```
+
 
 ### Select
 
