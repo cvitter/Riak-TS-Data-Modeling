@@ -242,11 +242,11 @@ SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTim
 When the command has executed riak-shell should return the following output:
 
 ```
-+------------+----------------+-----------+--------------------------+--------------------------+--------------------------+
-| StationId  |ReadingTimeStamp|Temperature|         Humidity         |        WindSpeed         |      WindDirection       |
-+------------+----------------+-----------+--------------------------+--------------------------+--------------------------+
-|Station-1001|   1469204877   |    52     |4.32000000000000028422e+01|2.50000000000000000000e+00|2.90000000000000000000e+02|
-+------------+----------------+-----------+--------------------------+--------------------------+--------------------------+
++------------+--------------------+-----------+--------------------------+--------------------------+--------------------------+
+| StationId  |  ReadingTimeStamp  |Temperature|         Humidity         |        WindSpeed         |      WindDirection       |
++------------+--------------------+-----------+--------------------------+--------------------------+--------------------------+
+|Station-1001|2014-07-22T16:28:57Z|    53     |4.32000000000000028422e+01|2.50000000000000000000e+00|2.89000000000000000000e+02|
++------------+--------------------+-----------+--------------------------+--------------------------+--------------------------+
 ```
 
 ## Riak TS Table Architecture
@@ -255,7 +255,7 @@ Although Riak TS features tables, columns, and rows it is important to remember 
 
 ### Tables and Columns
 
-Riak TS tables map one-to-one to Riak KV bucket types (see Riak KV's documentation for more information on bucket types: http://docs.basho.com/riak/kv/2.1.4/using/reference/bucket-types/). Creating a new table creates a new bucket type and a bucket within that bucket type with the table's name. You can use the riak-admin tool to view the server's bucket types. From the command line type the following command (if you haven't quit out or riak-shell yet type ```q;``` to exit):
+Riak TS tables map one-to-one to Riak KV bucket types (see Riak KV's documentation for more information on bucket types: http://docs.basho.com/riak/kv/latest/using/reference/bucket-types/). Creating a new table creates a new bucket type and a bucket within that bucket type with the table's name. You can use the riak-admin tool to view the server's bucket types. From the command line type the following command (if you haven't quit out or riak-shell yet type ```q;``` to exit):
 
 ``` 
 > bin/riak-admin bucket-type list ```
