@@ -341,14 +341,13 @@ claimant: 'riak@127.0.0.1'
 A Riak TS row maps to a key/value pair. The value stored in the database contains both the values associated with each of the row's columns and the column names. If we run the SQL query from above using the HTTP API and curl, e.g.:
 
 ``` 
-> curl -XPOST http://127.0.0.1:8098/ts/v1/query --data "SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= 1469204577 AND ReadingTimeStamp <= 1469204977;"
+> curl -XPOST http://127.0.0.1:8098/ts/v1/query --data "SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2014-07-22 12:00:00' AND ReadingTimeStamp <= '2014-07-22 20:00:00';"
 ```
 
 Riak TS should return the following JSON (formatted here for readability):
 
-```
 {
-  "columns": [
+  "columns":[
     "StationId",
     "ReadingTimeStamp",
     "Temperature",
@@ -356,14 +355,14 @@ Riak TS should return the following JSON (formatted here for readability):
     "WindSpeed",
     "WindDirection"
   ],
-  "rows": [
+  "rows":[
     [
       "Station-1001",
-      1469204877,
-      52,
+      1406032137000,
+      53,
       43.2,
       2.5,
-      290.0
+      289.0
     ]
   ]
 }
