@@ -10,7 +10,7 @@ Riak TS is a distributed NoSQL database that is designed to scale to handle mass
 
 ## Partitions
 
-Riak TS divides its dataset into partitions (which are managed by **Virtual Nodes**: http://docs.basho.com/riak/kv/2.1.4/learn/concepts/vnodes/). By default Riak TS has 64 partitions however this number is configurable and can range from a minimum of 8 partitions up to a maximum 1024 in powers of 2 (e.g.: 8, 16, 32, 64, 128, 256, 512, and 1024). The number of partitions is specified in the ``` riak.conf ``` file in the ``` etc ``` directory. The following lines from the ``` riak.conf ``` contain the ``` ring_size ``` parameter and basic information about setting the parameter:
+Riak TS divides its dataset into partitions (which are managed by **Virtual Nodes**: http://docs.basho.com/riak/kv/2.1.4/learn/concepts/vnodes/). By default Riak TS has 64 partitions however this number is configurable and can range from a minimum of 8 partitions up to a maximum 1024 (in powers of 2 e.g.: 8, 16, 32, 64, 128, 256, 512, and 1024). The number of partitions is specified in the ``` riak.conf ``` file in Riak TS's ``` etc ``` directory. The following lines from the ``` riak.conf ``` contain the ``` ring_size ``` parameter and basic information about setting the parameter:
 
 ```
 ## Number of partitions in the cluster (only valid when first
@@ -24,7 +24,7 @@ Riak TS divides its dataset into partitions (which are managed by **Virtual Node
 ## ring_size = 64
 ```
 
-By default ``` ring_size ``` is commented out but defaults to 64. To set the value uncomment the parameter and update its value.
+When first installed the ``` ring_size ``` parameter is commented out and the value defaults to 64. To set the value uncomment the parameter and update its value appropriately.
 
 If you have a single Riak TS node all of the partitions will live on that single node. If you have a cluster of Riak TS nodes than the partitions are distributed equally around the cluster. For example, if you have 8 nodes and 64 partitions then each node will have 8 partitions.
 
