@@ -79,7 +79,7 @@ In this example the partition portion of the key consists of the following:
 (StationId, QUANTUM(ReadingTimeStamp, 1, 'd') )
 ```
 
-As we learned previously in this section Riak TS using a consistent hashing function to turn the key into a number in order to assign it to a partition. In the standard model for hashing keys (used by Riak KV and TS if you don't use a quantum function for your partition key) we would just concatenate the two parts of the key together and hash the resulting value into our number. However, when we use a quantum function in our partition key (e.g. ``` QUANTUM(ReadingTimeStamp, 1, 'd') ```), Riak TS behaves very differently.
+As we learned previously Riak TS is using a consistent hashing function to turn the key into a number in order to assign it to a partition. In the standard model for hashing keys (used by Riak KV and TS if you don't use a quantum function for your partition key) we would just concatenate the two parts (columns) of the key together and hash the resulting value into our number. However, when we use a quantum function in our partition key (e.g. ``` QUANTUM(ReadingTimeStamp, 1, 'd') ```), Riak TS behaves very differently.
 
 When you specify a partition key with a quantum function you are telling Riak TS that you want to colocate every record written for a specific range of time (one day in our current example) on a single partition. The boundaries for the quanta are calculated by Riak TS based on the start of the Unix Epoch: Jan 1, 1970 00:00:00 (If you are interested in the exact function that Riak TS uses to mark quanta you can view the code online here: https://github.com/basho/riak_ql/blob/develop/src/riak_ql_quanta.erl#L91). Every record written that falls within the boundaries of a quantum will have its partition key hash to the same value, e.g.:
 
@@ -96,7 +96,7 @@ Will all hash to the same value and be stored on the same partition. The followi
 
 When selecting a quantum to use for your partition key it is important to keep in mind that there are tradeoffs associated with the size of the quantum. There are two primary competing goals for choosing a quantum:
 
-1. Utilize your cluster's hardware efficiently by distributing the data evenly around the cluster (both in terms of storage and performance as focusing all of your reads and writes on a single node limits read and write throughput for the cluster);
+1. Utilize your cluster's hardware efficiently by distributing the data evenly around the cluster (both in terms of storage and performance since focusing all of your reads and writes on a single node limits read and write throughput for the cluster);
 
 1. Colocate data close together to improve query performance.
 
@@ -112,14 +112,22 @@ When executed in the riak-shell application you should see the following error m
 
 ``` Error (1001): Too many subqueries (18) ```
 
-The maximum quanta that can be spanned in a query can be configured in the ``` riak.conf ``` file by setting the ``` timeseries_query_max_quanta_span ``` parameter. The parameter doesn't exist in the ``` riak.conf ``` file by default so you will have to add it, e.g.:
+The maximum quanta that can be spanned in a query can be configured in the ``` riak.conf ``` file by setting the ``` riak_kv.query.timeseries.max_quanta_span ``` parameter as shown below:
 
 ```
-## Set the maximum number of quanta a query can span
-## The number should equal the number of quanta you wish
-## to query + 1
-timeseries_query_max_quanta_span = 5
+## Maximum number of quanta that a query can span. Larger quanta spans
+## mean the time duration for a query can be bigger. This is constrained to
+## prevent excessively long running queries that could affect the performance
+## of the cluster.
+## 
+## Default: 5
+## 
+## Acceptable values:
+##   - an integer
+riak_kv.query.timeseries.max_quanta_span = 5
 ```
+
+**Note**: The ``` riak_kv.query.timeseries.max_quanta_span ``` parameter replaced the ``` timeseries_query_max_quanta_span = 5 ``` parameter in Riak TS 1.4.
 
 As noted in the comments above you should add one to the quanta that you plan on querying or else expect that some percentage of the data you are trying to query will fall outside of quanta span window.
 
