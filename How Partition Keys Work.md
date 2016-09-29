@@ -4,7 +4,7 @@ Riak TS is a distributed NoSQL database that is designed to scale to handle mass
 
 * [Partitions](#partitions)
 * [The Ring](#the-ring)
-* [Consistant Hashing](#consistent-hashing)
+* [Consistent Hashing](#consistent-hashing)
 * [The Partition Key](#the-partition-key)
 
 
