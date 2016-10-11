@@ -7,13 +7,13 @@ Choosing the right partition key for your table is an important piece of ensurin
 
 ## How Riak TS Executes Queries
 
-When Riak TS executes a query it splits the query into sub-queries along quantum boundaries. Each sub-query is then sent to the corresponding virtual node that handles that quantum's matching partition. At the partition level the virtual node **first** performs a range scan based on the partition keys in the ``` WHERE ``` clause **and then** applies a secondary filter on non key fields.
+When Riak TS executes a query it splits the query into sub-queries along quantum boundaries. Each sub-query is then sent to the corresponding virtual node that handles that quantum's matching partition (or partition key's where no quantum is specified). At the partition level the virtual node **first** performs a range scan based on the partition keys in the ``` WHERE ``` clause **and then** applies a secondary filter on any additional fields included in the where clause.
 
 Based on this query execution pattern you should design your partition key keeping in mind the following rules of thumb:
 
-* Querying across fewer quanta is better in terms of performance so, when possilbe, you should use partition keys that limit the number of quanta you need to span in queries.
+* Querying across fewer quanta is better in terms of performance. When possible you should use partition keys that limit the number of quanta you need to span in queries.
 
-* Queries that **only** require keys in their ``` WHERE ``` clauses will be faster than queries that add non key columns to the ``` WHERE ``` clause since non key fields require a second level of filtering **after** the virtual node perfoms the intitial range scan on a partition.
+* Queries that **only** require partition keys in their ``` WHERE ``` clauses will be faster than queries that add additional columns (local key or otherwise) to the ``` WHERE ``` clause since non key fields require a second level of filtering **after** the virtual node perfoms the intitial range scan on a partition.
 
 ## Why Use Quantums At All
 
