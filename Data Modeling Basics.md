@@ -216,7 +216,7 @@ VALUES
 	('Station-1001', '2014-07-22 16:28:57', 52, 43.2, 2.5, 290.0);
 ```
 
-Remembering that the current version or riak-shell doesn't support multi-line statements you can use the following streamlined version (it leave off the column names) to create your first record:
+Remembering that the current version or riak-shell doesn't support multi-line statements you can use the following streamlined version of the INSERT statement (it leaves off the column names) to create your first record:
 
 ```
 INSERT INTO WeatherStationData VALUES ('Station-1001', '2014-07-22 16:28:57', 52, 43.2, 2.5, 290.0);
@@ -259,6 +259,8 @@ When the command has executed riak-shell should return the following output:
 |Station-1001|2014-07-22T16:28:57Z|    53     |4.32000000000000028422e+01|2.50000000000000000000e+00|2.89000000000000000000e+02|
 +------------+--------------------+-----------+--------------------------+--------------------------+--------------------------+
 ```
+
+**Note**: In Riak TS 1.5 the ```SELECT``` command is planned to include support for strict equality (e.g. ```ReadingTimeStamp <= '2014-07-22 20:00:00'```) in addition to bounded ranges for quantized fields in the ```WHERE``` clause.
 
 ## Riak TS Table Architecture
 
