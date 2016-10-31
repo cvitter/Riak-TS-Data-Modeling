@@ -110,7 +110,7 @@ When creating a new table keep in mind the following rules for table names:
 
 1. Table names must be unique
 1. Table names can only contain ASCII characters
-1. Table names can contain spaces and special characters (!, @, #, $, %, ^, &, etc) only **if** the name is double quoted, e.g.: ```CREATE TABLE "Weather Station Data"``` and ```CREATE TABLE "Weather@Station$Data!"```
+1. Table names can contain spaces and special characters (!, @, #, $, %, ^, &, etc) only **if** the name is double quoted in the DDL, e.g.: ```CREATE TABLE "Weather Station Data"``` and ```CREATE TABLE "Weather@Station$Data!"```
 
 ## Columns
 
@@ -118,7 +118,7 @@ Column definitions within DDLs contain three parts: the column's name, the data 
 
 1. Column names must be unique within the table
 1. Column names can only contain ASCII characters
-1. Column names can contain spaces and special characters (!, @, #, $, %, ^, &, etc) only **if** the name is double quoted, e.g.: ```"Column Name``` and ```"Column_Name_!"```
+1. Column names can contain spaces and special characters (!, @, #, $, %, ^, &, etc) only **if** the name is double quoted in the DDL, e.g.: ```"Column Name``` and ```"Column_Name_!"```
 
 The five data types currently supported by Riak TS are:
 
@@ -179,7 +179,7 @@ The quantum function is designed to allow Riak TS to colocate data in a cluster 
 
 * The name of the column to base the range of time on (must be of the TIMESTAMP data type)
 * Units of time expressed as a positive integer (must be greater than zero)
-* The type unit of time expressed as one of the following string values:
+* The type of unit of time expressed as one of the following string values:
 
 | Unit | Definition |
 |------|------------|
@@ -195,7 +195,7 @@ Riak TS uses the local key when writing data to disk to determine how data is so
 
 ``` StationId, ReadingTimeStamp ```
 
-You can add additional columns to the local key (if for example additional columns are required to ensure key uniqueness), e.g.:
+You can add additional columns to the local key if for example additional columns are required to ensure key uniqueness, e.g.:
 
 ``` StationId, ReadingTimeStamp, Temperature ```
 
