@@ -41,7 +41,7 @@ or
 ``` 2^160 / N ```
 
 
-The following graphic provides a simplified illustration of how Riak TS assigns key ranges to partitions and partitions to nodes (if the there are 32 partitions and 4 nodes):
+The following graphic provides a simplified illustration of how Riak TS assigns key ranges to partitions and partitions to nodes (if there are 32 partitions and 4 nodes):
 
 ![alt text](Images/riak-ring.png)
 
