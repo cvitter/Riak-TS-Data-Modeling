@@ -41,7 +41,7 @@ or
 ``` 2^160 / N ```
 
 
-The following graphic provides a simplified illustration of how Riak TS assigns key ranges to partitions and partitions to nodes (if there are 32 partitions and 4 nodes):
+The following graphic provides a simplified illustration of how Riak TS assigns key ranges to partitions and partitions to nodes (if there are 32 partitions distributed across a total of 4 nodes):
 
 ![alt text](Images/riak-ring.png)
 
@@ -53,7 +53,7 @@ How does Riak TS know which partition a key/value pair should be written too or 
 
 It is important to note that the consistent hashing mechanism that Riak TS (and KV) uses is designed to ensure an even distribution of data around your cluster. While you might expect that if you were to hash the letters of the alphabet (a, b, c, d, e, etc.) that the numeric output would be linear in fashion (example: 1, 2, 3, 4, 5, etc.) the opposite is actually true. To the casual observer the output of the hashing function would appear to be random in distribution (example: 1231014356, 3, 651231246633, 90123, 89923423112300012, etc.). 
 
-While this even distribution of data around the cluster is ideal for hardware utilization it isn't ideal for use cases where you want to perform range queries. In the next section [The Partition Key](#the-partition-key) we are going to discuss how Riak TS uses the partition key to enable colocation of data on partitions in support of range queries.
+While this even distribution of data around the cluster is ideal for hardware utilization it isn't ideal for use cases where you want to perform range queries. In the next section, [The Partition Key](#the-partition-key), we are going to discuss how Riak TS uses the partition key to enable colocation of data on partitions in support of range queries.
 
 
 ## The Partition Key
@@ -74,7 +74,7 @@ In this example the partition portion of the key consists of the following:
 (StationId, QUANTUM(ReadingTimeStamp, 1, 'd') )
 ```
 
-As we learned previously Riak TS is using a consistent hashing function to turn the key into a number in order to assign it to a partition. In the standard model for hashing keys (used by Riak KV and TS if you don't use a quantum function for your partition key) we would just concatenate the two parts (columns) of the key together and hash the resulting value into our number. However, when we use a quantum function in our partition key (e.g. ``` QUANTUM(ReadingTimeStamp, 1, 'd') ```), Riak TS behaves very differently.
+As we learned previously Riak TS is using a consistent hashing function to turn the key into a number in order to assign it to a partition. In the standard model for hashing keys (used by Riak KV and TS if you don't use a quantum function for your partition key) we would just concatenate the table name (bucket) and the two parts of the key (columns) together and hash the resulting value into our number. However, when we use a quantum function in our partition key (e.g. ``` QUANTUM(ReadingTimeStamp, 1, 'd') ```), Riak TS behaves very differently.
 
 When you specify a partition key with a quantum function you are telling Riak TS that you want to colocate every record written for a specific range of time (one day in our current example) on a single partition. The boundaries for the quanta are calculated by Riak TS based on the start of the Unix Epoch: Jan 1, 1970 00:00:00 (If you are interested in the exact function that Riak TS uses to mark quanta you can view the code online here: https://github.com/basho/riak_ql/blob/develop/src/riak_ql_quanta.erl#L91). Every record written that falls within the boundaries of a quantum will have its partition key hash to the same value, e.g.:
 
