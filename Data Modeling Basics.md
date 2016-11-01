@@ -271,7 +271,7 @@ Although Riak TS features tables, columns, and rows it is important to remember 
 Riak TS tables map one-to-one to Riak KV bucket types (see Riak KV's documentation for more information on bucket types: http://docs.basho.com/riak/kv/latest/using/reference/bucket-types/). Creating a new table creates a new bucket type and a bucket within that bucket type with the table's name. You can use the riak-admin tool to view the server's bucket types. From the command line type the following command (if you haven't quit out or riak-shell yet type ```q;``` to exit):
 
 ``` 
-> bin/riak-admin bucket-type list ```
+> bin/riak-admin bucket-type list
   default (active)
   WeatherStationData (active)
 ```
