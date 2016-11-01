@@ -30,11 +30,11 @@ If you have a single Riak TS node all of the partitions will live on that single
 
 In order to write data to partitions in Riak TS those partitions need to have addresses. Riak TS's "Ring" is a 160-bit integer address space. This means that each Riak TS cluster can have:
 
-``` 0 - 2^160 ```
+``` 2^160 ```
 
 or
 
-``` 0 - 1,461,501,637,330,902,918,203,684,832,716,283,019,655,932,542,976 ```
+``` 1,461,501,637,330,902,918,203,684,832,716,283,019,655,932,542,976 ```
 
  keys. Each partition will have the following number of keys assigned to it (where N equals the number of partitions):
 
