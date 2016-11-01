@@ -260,7 +260,7 @@ When the command has executed riak-shell should return the following output:
 +------------+--------------------+-----------+--------------------------+--------------------------+--------------------------+
 ```
 
-**Note**: In Riak TS 1.5 the ```SELECT``` command is planned to include support for strict equality (e.g. ```ReadingTimeStamp = '2014-07-22 20:00:00'```) in addition to bounded ranges for quantized fields in the ```WHERE``` clause.
+**Note**: In Riak TS 1.5 the ```SELECT``` command is planned to include support for the equality operator (e.g. ```ReadingTimeStamp = '2014-07-22 20:00:00'```) in addition to bounded ranges for quantized fields in the ```WHERE``` clause.
 
 ## Riak TS Table Architecture
 
