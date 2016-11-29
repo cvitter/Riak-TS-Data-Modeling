@@ -163,7 +163,7 @@ CREATE TABLE WeatherStationData
 )
 ```
 
-The primary key in Riak TS consists of two parts: A **Partition Key** and a **Local Key**. The partition key is used by Riak TS to determine which partition, or virtual node, in the Riak TS cluster a row of data should be written to/read from. The local key determines how the row is written to disk on its partition. The choice of key has a big impact on the performance of queries and how efficiently your cluster hardware is utilized so we will explore key selection in great depth in [How Partition Keys Work](How Partition Keys Work.md). In the remainder of this section we will review the basic rules associated with creating partition and local keys.
+The primary key in Riak TS consists of two parts: A **Partition Key** and a **Local Key**. The partition key is used by Riak TS to determine which partition, or virtual node, in a Riak TS cluster a row of data should be written to/read from. The local key determines how the row is written to disk on its partition. The choice of key has a big impact on the performance of queries and how efficiently your cluster hardware is utilized so we will explore key selection in great depth in [How Partition Keys Work](How Partition Keys Work.md). In the remainder of this section we will review the basic rules associated with creating partition and local keys.
 
 ### Partition Key
 
@@ -191,7 +191,7 @@ The quantum function is designed to allow Riak TS to colocate data in a cluster 
 
 ### Local Key
 
-Riak TS uses the local key when writing data to disk to determine how data is sorted within the partition. The local key has to (at a minimum) have the same columns, in the same order, that are in the partition key. In our example DDL the local key is specified as:
+Riak TS uses the local key when writing data to disk to determine row uniqueness and how rows are sorted within the partition. The local key has to (at a minimum) have the same columns, in the same order, that are in the partition key. In our example DDL the local key is specified as:
 
 ``` StationId, ReadingTimeStamp ```
 
