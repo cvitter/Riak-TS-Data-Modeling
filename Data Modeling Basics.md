@@ -30,14 +30,14 @@ CREATE TABLE WeatherStationData
 		(StationId, QUANTUM(ReadingTimeStamp, 1, 'd') ),
 		 StationId, ReadingTimeStamp
 	)		
-)
+);
 ```
 
-**Note**: In the DDL example above all of the keywords are written in UPPERCASE because I believe it makes the DDL more readable. In practice keywords can be in any case you wish to use as **they are not case sensitive**.
+**Note**: In the DDL example above all of the keywords are written in UPPERCASE because I believe it makes the DDL easier to read. In practice keywords can be in any case you wish to use as **they are not case sensitive**.
 
 Once you have a DDL like the example above there are three ways that you can send the DDL to Riak TS to create your table:
 
-* Use Riak TS's REPL (read-eval-print-loop) application **riak-shell** (http://docs.basho.com/riak/ts/latest/using/riakshell/)  to execute the DDL;
+* Use **riak-shell** (http://docs.basho.com/riak/ts/latest/using/riakshell/)  to execute the DDL;
 * Use one of Riak TS's client libraries (Java, Python, Erlang, Node.js, .Net, Go, Ruby, PHP - see the following page for more information on Riak TS's client libraries: http://docs.basho.com/riak/ts/latest/developing/) to execute the DDL;
 * Or use the riak-admin command tool (see the following page for details on how to do this: http://docs.basho.com/riak/ts/latest/using/creating-activating/#riak-admin).
 
@@ -47,7 +47,7 @@ From within your Riak TS root directory launch riak-shell using:
 
 ``` > bin/riak-shell ```
 
-Riak-shell will output the following text when it launches:
+Riak-shell will output text that looks like the following example when it launches:
 ```
 Erlang R16B02_basho10 (erts-5.10.3) [source] [64-bit] [smp:4:4] [async-threads:10] [kernel-poll:false] [frame-pointer] [dtrace]
 
@@ -56,7 +56,7 @@ Connected...
 riak-shell(1)>
 ```
 
-Copy and paste the following simplified, single line version of the CREATE TABLE statement (riak-shell currently doesn't support multi-line input) in to the shell and hitting enter:
+Copy and paste the following simplified, single line version of the CREATE TABLE statement (riak-shell currently doesn't pasting in multi-line code fragments) in to the shell and hitting enter:
 
 ```
 CREATE TABLE WeatherStationData (StationId VARCHAR NOT NULL, ReadingTimeStamp TIMESTAMP NOT NULL, Temperature SINT64, Humidity DOUBLE, WindSpeed DOUBLE, WindDirection DOUBLE, PRIMARY KEY ((StationId, QUANTUM(ReadingTimeStamp, 1, 'd')), StationId, ReadingTimeStamp));
