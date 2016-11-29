@@ -277,7 +277,7 @@ Riak TS tables map one-to-one to Riak KV bucket types (see Riak KV's documentati
   WeatherStationData (active)
 ```
 
-The riak-admin tool doesn't provide a list of buckets within each bucket type however you can use Riak TS's HTTP interface to view the bucket created under the WeatherStationData bucket by entering the following URL into your Web browser (if you are running Riak TS locally, otherwise you will need to type the URL of the remote TS node):
+The riak-admin tool doesn't provide a list of buckets within each bucket type but Riak TS's HTTP interface allows you to view the bucket created under the WeatherStationData bucket by entering the following URL into your Web browser (if you are running Riak TS locally, otherwise you will need to type the URL of the remote TS node):
 
 ``` http://127.0.0.1:8098/types/WeatherStationData/buckets?buckets=true ```
 
