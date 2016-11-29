@@ -35,9 +35,10 @@ CREATE TABLE WeatherStationData
 
 **Note**: In the DDL example above all of the keywords are written in UPPERCASE because I believe it makes the DDL easier to read. In practice keywords can be in any case you wish to use as **they are not case sensitive**.
 
-Once you have a DDL like the example above there are three ways that you can send the DDL to Riak TS to create your table:
+Once you have a DDL like the example above there are four ways that you can send the DDL to Riak TS to create your table:
 
 * Use **riak-shell** (http://docs.basho.com/riak/ts/latest/using/riakshell/)  to execute the DDL;
+* Use Riak TS's HTTP API (http://docs.basho.com/riak/ts/1.4.0/developing/http/) to execute the DDL;
 * Use one of Riak TS's client libraries (Java, Python, Erlang, Node.js, .Net, Go, Ruby, PHP - see the following page for more information on Riak TS's client libraries: http://docs.basho.com/riak/ts/latest/developing/) to execute the DDL;
 * Or use the riak-admin command tool (see the following page for details on how to do this: http://docs.basho.com/riak/ts/latest/using/creating-activating/#riak-admin).
 
@@ -195,7 +196,7 @@ Riak TS uses the local key when writing data to disk to determine row uniqueness
 
 ``` StationId, ReadingTimeStamp ```
 
-You can add additional columns to the local key if for example additional columns are required to ensure key uniqueness, e.g.:
+You can add additional columns to the local key if for example additional columns are required to create a unique key for a row, e.g.:
 
 ``` StationId, ReadingTimeStamp, Temperature ```
 
@@ -207,7 +208,7 @@ Now that we understand the basics of data modeling with Riak TS, and have added 
 
 ### Insert
 
-Inserting data into Riak TS can be done using standard SQL within the riak-shell or via native methods in the client libraries. In the following example we are going to insert a row into our new table using SQL entered via riak-shell. The following example SQL INSERT statement will create our first record:
+Inserting data into Riak TS can be done using standard SQL within the riak-shell, the HTTP API, or via code using one of the client libraries. In the following example we are going to insert a row into our new table using SQL entered via riak-shell. The following example SQL INSERT statement will create our first record:
 
 ```
 INSERT INTO WeatherStationData
@@ -216,7 +217,7 @@ VALUES
 	('Station-1001', '2014-07-22 16:28:57', 52, 43.2, 2.5, 290.0);
 ```
 
-Remembering that the current version or riak-shell doesn't support multi-line statements you can use the following streamlined version of the INSERT statement (it leaves off the column names) to create your first record:
+Remembering that the current version or riak-shell doesn't support pasting multi-line statements you can use the following streamlined version of the INSERT statement (it leaves off the column names) to create your first record:
 
 ```
 INSERT INTO WeatherStationData VALUES ('Station-1001', '2014-07-22 16:28:57', 52, 43.2, 2.5, 290.0);
