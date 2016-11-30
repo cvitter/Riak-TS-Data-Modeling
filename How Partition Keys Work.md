@@ -38,9 +38,7 @@ or
 
  keys. 
 
- Each partition will have the following number of keys assigned to it (where N equals the number of partitions):
-
-``` 2^160 / N ```
+ Each partition has a range of keys assigned to it equal to ``` 2^160 / N ``` where N is equal to the number of partitions in the cluster (or the ring size).
 
 
 The following graphic provides a simplified illustration of how Riak TS assigns key ranges to partitions and partitions to nodes (if there are 32 partitions distributed across a total of 4 nodes):
