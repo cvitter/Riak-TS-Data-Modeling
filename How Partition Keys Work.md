@@ -41,10 +41,11 @@ or
  Each partition has a range of keys assigned to it equal to ``` 2^160 / N ``` where N is equal to the number of partitions in the cluster (or the ring size).
 
 
-The following graphic provides a simplified illustration of how Riak TS assigns key ranges to partitions and partitions to nodes (if there are 32 partitions distributed across a total of 4 nodes):
+The following graphic provides a simplified illustration of how Riak TS assigns key ranges to partitions and partitions to nodes.
 
 ![alt text](Images/riak-ring.png)
 
+In the above example we have 32 partitions (instead of the default 64) distributed across 4 nodes.
 
 
 ## Consistent Hashing
