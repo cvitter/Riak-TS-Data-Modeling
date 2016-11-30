@@ -1,6 +1,6 @@
 # [Riak TS](README.md) - How Partition Keys Work
 
-Riak TS is a distributed NoSQL database that is designed to scale to handle massive data sets and high volumes of read and write operations. Riak TS achieves this scalability by being able to seamlessly distribute its data and workloads across many individual nodes (physical or virtual) in a cluster. Of course if data is distributed across many machines than the database needs to know how to address (or find) the data for reads and writes. In this section we are going to describe how Riak TS partitions data and how this influences the selection of partition keys.
+Riak TS is designed to scale to handle massive data sets and high volumes of read and write operations (1,000,000+ IOPs with the right number and type of hardware or virtual hosts for your specific use case). Riak TS achieves this scalability by being able to seamlessly distribute its data and workloads across many individual nodes in a cluster. Of course if data is distributed across many machines than the database needs to know how to address (or find) the data for reads and writes. In this section we are going to describe how Riak TS partitions data and how this influences the selection of partition keys.
 
 
 ## Partitions
