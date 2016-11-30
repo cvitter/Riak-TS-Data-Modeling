@@ -45,7 +45,48 @@ The following graphic provides a simplified illustration of how Riak TS assigns 
 
 ![alt text](Images/riak-ring.png)
 
-In the above example we have 32 partitions (instead of the default 64) distributed across 4 nodes.
+In the above example we have 32 partitions (instead of the default 64) distributed across 4 nodes. 
+
+When you create a Riak TS cluster you add nodes together using the ``` riak-admin cluster join ``` command and then execute the ``` riak-admin cluster plan ``` command which determines how to distribute the partitions across the nodes being added to the cluster and outputs the results of that calculation which will look like the following example:
+
+```
+=============================== Staged Changes ================================
+Action         Nodes(s)
+-------------------------------------------------------------------------------
+join           'riak@192.168.2.2'
+join           'riak@192.168.2.2'
+join           'riak@192.168.2.2'
+join           'riak@192.168.2.2'
+-------------------------------------------------------------------------------
+
+
+NOTE: Applying these changes will result in 1 cluster transition
+
+###############################################################################
+                         After cluster transition 1/1
+###############################################################################
+
+================================= Membership ==================================
+Status     Ring    Pending    Node
+-------------------------------------------------------------------------------
+valid     100.0%     20.3%    'riak@192.168.2.2'
+valid       0.0%     20.3%    'riak@192.168.2.3'
+valid       0.0%     20.3%    'riak@192.168.2.4'
+valid       0.0%     20.3%    'riak@192.168.2.5'
+valid       0.0%     18.8%    'riak@192.168.2.6'
+-------------------------------------------------------------------------------
+Valid:5 / Leaving:0 / Exiting:0 / Joining:0 / Down:0
+
+Transfers resulting from cluster changes: 51
+  12 transfers from 'riak@192.168.2.2' to 'riak@192.168.2.3'
+  13 transfers from 'riak@192.168.2.2' to 'riak@192.168.2.4'
+  13 transfers from 'riak@192.168.2.2' to 'riak@192.168.2.5'
+  13 transfers from 'riak@192.168.2.2' to 'riak@192.168.2.6'
+```
+
+The final step in creating the cluster is to run the ``` riak-admin cluster commit ``` command. Once the  ``` commit ``` command is executed Riak TS will begin the process of moving each partition to its assigned node.
+
+**Note**: See the following documentation for a more complete introduction to creating a cluster: http://docs.basho.com/riak/kv/2.2.0/using/running-a-cluster/.
 
 
 ## Consistent Hashing
