@@ -36,7 +36,9 @@ or
 
 ``` 1,461,501,637,330,902,918,203,684,832,716,283,019,655,932,542,976 ```
 
- keys. Each partition will have the following number of keys assigned to it (where N equals the number of partitions):
+ keys. 
+
+ Each partition will have the following number of keys assigned to it (where N equals the number of partitions):
 
 ``` 2^160 / N ```
 
