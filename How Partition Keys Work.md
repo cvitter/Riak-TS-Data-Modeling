@@ -49,7 +49,7 @@ The following graphic provides a simplified illustration of how Riak TS assigns 
 
 In the above example we have 32 partitions (instead of the default 64) distributed across 4 nodes. 
 
-When you create a Riak TS cluster you add nodes together using the ``` riak-admin cluster join ``` command and then execute the ``` riak-admin cluster plan ``` command which determines how to distribute the partitions across the nodes being added to the cluster and outputs the results of that calculation which will look like the following example:
+When you create a Riak TS cluster you add nodes together using the first step is to "join" all of the nodes together using the ``` riak-admin cluster join ``` command. The second step involves using the ``` riak-admin cluster plan ``` command to determines how to distribute the partitions around the nodes. The ``` plan ``` command outputs the results of its calculations which will look like the following example:
 
 ```
 =============================== Staged Changes ================================
