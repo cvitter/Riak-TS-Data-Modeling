@@ -153,6 +153,25 @@ When executed in the riak-shell application you should see the following error m
 
 Notice that the number of quanta that the query would span is included in the error message, e.g.: ``` (32) ```.
 
+If you are really curious you can use the ``` EXPLAIN ``` statement in riak-shell to see details on how Riak TS executes the query above:
+
+``` EXPLAIN SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2016-07-01 00:00:00' AND ReadingTimeStamp <= '2016-08-01 00:00:00';  ```
+
+and Riak will return the following output (I truncated the output here to save some space):
+
+```
++--------+-------------------------------------------------------+------------------------------------------------------------+-------------------+------------------------------------------------------------+-----------------+------+
+|Subquery|                     Coverage Plan                     |                    Range Scan Start Key                    |Is Start Inclusive?|                     Range Scan End Key                     |Is End Inclusive?|Filter|
++--------+-------------------------------------------------------+------------------------------------------------------------+-------------------+------------------------------------------------------------+-----------------+------+
+|   1    |riak@127.0.0.1/61, riak@127.0.0.1/62, riak@127.0.0.1/63|StationId = 'Station-1001', ReadingTimeStamp = 1467331200000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467417600000|      false      |      |
+|   2    |riak@127.0.0.1/39, riak@127.0.0.1/40, riak@127.0.0.1/41|StationId = 'Station-1001', ReadingTimeStamp = 1467417600000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467504000000|      false      |      |
+|   3    | riak@127.0.0.1/10, riak@127.0.0.1/8, riak@127.0.0.1/9 |StationId = 'Station-1001', ReadingTimeStamp = 1467504000000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467590400000|      false      |      |
+|   4    |riak@127.0.0.1/18, riak@127.0.0.1/19, riak@127.0.0.1/20|StationId = 'Station-1001', ReadingTimeStamp = 1467590400000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467676800000|      false      |      |
+|   5    |riak@127.0.0.1/11, riak@127.0.0.1/12, riak@127.0.0.1/13|StationId = 'Station-1001', ReadingTimeStamp = 1467676800000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467763200000|      false      |      |
+|   6    |riak@127.0.0.1/24, riak@127.0.0.1/25, riak@127.0.0.1/26|StationId = 'Station-1001', ReadingTimeStamp = 1467763200000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467849600000|      false      |      |
+```
+
+
 The maximum quanta that can be spanned in a query can be configured in the ``` riak.conf ``` file by setting the ``` riak_kv.query.timeseries.max_quanta_span ``` parameter as shown below:
 
 ```
