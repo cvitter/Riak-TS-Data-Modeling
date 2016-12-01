@@ -174,6 +174,10 @@ and Riak will return the following output (truncated here to save some space):
 ```
 
 
+
+
+## Configuring The Quanta Span
+
 The maximum quanta that can be spanned in a query can be configured in the ``` riak.conf ``` file by setting the ``` riak_kv.query.timeseries.max_quanta_span ``` parameter as shown below:
 
 ```
@@ -192,6 +196,8 @@ riak_kv.query.timeseries.max_quanta_span = 5
 **Note**: The ``` riak_kv.query.timeseries.max_quanta_span ``` parameter replaced the ``` timeseries_query_max_quanta_span = 5 ``` parameter in Riak TS 1.4.
 
 As noted in the comments above you should add one to the quanta that you plan on querying or else expect that some percentage of the data you are trying to query will fall outside of quanta span window.
+
+**Warning**: Remember that the quanta span limit was put into place for a reason. Increasing the limit too much may result in negative impacts on the performance of your Riak TS cluster. 
 
 **Note**: For more information about Riak TS specific configuration settings see the following documentation: http://docs.basho.com/riak/ts/latest/using/configuring/.
 
