@@ -155,9 +155,11 @@ Notice that the number of quanta that the query would span is included in the er
 
 If you are really curious you can use the ``` EXPLAIN ``` statement in riak-shell to see details on how Riak TS executes the query above:
 
-``` EXPLAIN SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2016-07-01 00:00:00' AND ReadingTimeStamp <= '2016-08-01 00:00:00';  ```
+```
+EXPLAIN SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2016-07-01 00:00:00' AND ReadingTimeStamp <= '2016-08-01 00:00:00';
+```
 
-and Riak will return the following output (I truncated the output here to save some space):
+and Riak will return the following output (truncated here to save some space):
 
 ```
 +--------+-------------------------------------------------------+------------------------------------------------------------+-------------------+------------------------------------------------------------+-----------------+------+
