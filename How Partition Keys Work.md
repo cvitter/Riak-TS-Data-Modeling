@@ -151,6 +151,8 @@ When executed in the riak-shell application you should see the following error m
 
 ``` Error (1001): Too many subqueries (32) ```
 
+Notice that the number of quanta that the query would span is included in the error message, e.g.: ``` (32) ```.
+
 The maximum quanta that can be spanned in a query can be configured in the ``` riak.conf ``` file by setting the ``` riak_kv.query.timeseries.max_quanta_span ``` parameter as shown below:
 
 ```
