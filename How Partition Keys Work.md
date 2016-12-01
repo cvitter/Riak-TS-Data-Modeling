@@ -118,7 +118,7 @@ In this example the partition portion of the key consists of the following:
 (StationId, QUANTUM(ReadingTimeStamp, 1, 'd') )
 ```
 
-As we learned previously Riak TS is using a consistent hashing function to turn the the table name and key into a number in order to assign it to a partition. In the standard model for hashing keys (used by Riak KV and TS if you don't use a quantum function for your partition key) we would just concatenate the table name (bucket) and the two parts of the partition key (columns) together and hash the resulting value into our number. However, when we use a quantum function in our partition key (e.g. ``` QUANTUM(ReadingTimeStamp, 1, 'd') ```), Riak TS behaves very differently.
+As we learned previously Riak TS is using a consistent hashing function to turn the the table name and key into a number in order to assign it to a partition. In the standard model for hashing keys (used by Riak KV and TS if you don't use a quantum function for your partition key) we would just concatenate the table name (bucket) and the two parts of the partition key (the StationId and ReadingTimeStamp columns) together and hash the resulting value into our number. However, when we use a quantum function in our partition key (e.g. ``` QUANTUM(ReadingTimeStamp, 1, 'd') ```), Riak TS behaves very differently.
 
 When you specify a partition key with a quantum function you are telling Riak TS that you want to colocate every record written for a specific range of time (one day in our current example) on a single partition. The boundaries for the quanta are calculated by Riak TS based on the start of the Unix Epoch: Jan 1, 1970 00:00:00 (If you are interested in the exact function that Riak TS uses to mark quanta you can view the code online here: https://github.com/basho/riak_ql/blob/develop/src/riak_ql_quanta.erl#L91). Every record written that falls within the boundaries of a quantum will have its partition key hash to the same value, e.g.:
 
@@ -139,17 +139,17 @@ When selecting a quantum to use for your partition key it is important to keep i
 
 1. Colocate data close together to improve query performance.
 
-Small quanta favor writes in terms of performance and storage while larger quanta favor querying. Selecting the right quantum for your partition key (if you use a quantum function) is often the most challenging piece of the data modeling process.
+Small quanta favor writes in terms of performance and storage while larger quanta favor querying. Selecting the right quantum for your partition key is often the most challenging piece of the data modeling process.
 
-The final important note to make about quanta is how they affect querying of data. When the database executes a ```SELECT``` statement that covers more than one quantum a sub-query is created for each quantum. By default Riak TS limits queries to a maximum span of 5 quanta in order to protect the cluster from being overloaded by queries attempting to retrieve too much data. If a query spans more than 5 quanta the database will return an error. The following ``` SELECT ``` example queries records across many years (when our table's quantum is set to 1 day) and will return an error when run:
+The final important note to make about quanta is how they affect querying of data. When the database executes a ```SELECT``` statement that covers more than one quantum a sub-query is created for each quantum. By default Riak TS limits queries to a maximum span of 5 quanta in order to protect the cluster from being overloaded by queries attempting to retrieve too much data. If a query spans more than 5 quanta the database will return an error. The following ``` SELECT ``` example queries records across the entire month of July 2016 (when our table's quantum is set to 1 day) and will return an error when run:
 
 ``` 
-SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= 1 AND ReadingTimeStamp <= 1469800000; 
+SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2016-07-01 00:00:00' AND ReadingTimeStamp <= '2016-08-01 00:00:00'; 
 ```
 
 When executed in the riak-shell application you should see the following error message:
 
-``` Error (1001): Too many subqueries (18) ```
+``` Error (1001): Too many subqueries (32) ```
 
 The maximum quanta that can be spanned in a query can be configured in the ``` riak.conf ``` file by setting the ``` riak_kv.query.timeseries.max_quanta_span ``` parameter as shown below:
 
