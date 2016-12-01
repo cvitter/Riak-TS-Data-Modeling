@@ -38,7 +38,7 @@ or
 
 ``` 1,461,501,637,330,902,918,203,684,832,716,283,019,655,932,542,976 ```
 
- keys. 
+ keys (which is a lot of keys).
 
  Each partition has a range of keys assigned to it equal to ``` 2^160 / N ``` where N is equal to the number of partitions in the cluster (or the ring size).
 
