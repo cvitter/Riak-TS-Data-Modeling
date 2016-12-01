@@ -93,11 +93,11 @@ The final step in creating the cluster is to run the ``` riak-admin cluster comm
 
 ## Consistent Hashing
 
-How does Riak TS know which partition a key/value pair should be written too or read from? It is quite simple really. Riak TS uses a consistent hashing (https://en.wikipedia.org/wiki/Consistent_hashing) function based on the SHA-1 algorithm (https://en.wikipedia.org/wiki/SHA-1) to convert the key into a number. Since every node in a Riak TS cluster has an updated copy of "the ring" (kept updated via gossip protocol) every node in the cluster is capable of serving reads and writes using this simple consistent hashing mechanism.
+How does Riak TS know which partition a key/value pair should be written too or read from? It's quite simple really. Riak TS uses a consistent hashing (https://en.wikipedia.org/wiki/Consistent_hashing) function based on the SHA-1 algorithm (https://en.wikipedia.org/wiki/SHA-1) to convert the table name and key concatenated together into a number. Since every node in a Riak TS cluster has an updated copy of "the ring" (kept updated via gossip protocol) every node in the cluster is capable of serving reads and writes using this simple consistent hashing mechanism.
 
 It is important to note that the consistent hashing mechanism that Riak TS (and KV) uses is designed to ensure an even distribution of data around your cluster. While you might expect that if you were to hash the letters of the alphabet (a, b, c, d, e, etc.) that the numeric output would be linear in fashion (example: 1, 2, 3, 4, 5, etc.) the opposite is actually true. To the casual observer the output of the hashing function would appear to be random in distribution (example: 1231014356, 3, 651231246633, 90123, 89923423112300012, etc.). 
 
-While this even distribution of data around the cluster is ideal for hardware utilization it isn't ideal for use cases where you want to perform range queries. In the next section, [The Partition Key](#the-partition-key), we are going to discuss how Riak TS uses the partition key to enable colocation of data on partitions in support of range queries.
+While this even distribution of data around the cluster is ideal for hardware utilization it is not ideal for use cases where you want to perform range queries. In the next section, [The Partition Key](#the-partition-key), we are going to discuss how Riak TS uses the partition key to enable colocation of data on partitions in support of range queries.
 
 
 ## The Partition Key
