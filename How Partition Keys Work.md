@@ -173,8 +173,15 @@ and Riak will return the following output (truncated here to save some space):
 |   6    |riak@127.0.0.1/24, riak@127.0.0.1/25, riak@127.0.0.1/26|StationId = 'Station-1001', ReadingTimeStamp = 1467763200000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467849600000|      false      |      |
 ```
 
+The output of the ``` EXPLAIN ``` statement includes the following details which help us understand:
 
+* Subquery: unique interger for each subquery;
+* Coverage Plan: The nodes and partitions a subquery will run on (in the above example there are two interesting details to note: 1. The Riak TS cluster this was run on consisted of a single node and 2. the table we are querying uses Riak TS's default replication factor of 3 which is why there are three partitions listed for each subquery instead of only 1);
+* Range Scan Start Key: The subquery start key;
+* Range Scan End Key: The subquery end key;
+* Filter: Any non-partition key fields included in the WHERE clause of the query.
 
+**Note**: ``` EXPLAIN ``` was added in Riak TS 1.4 as an undocumented preview feature.
 
 ## Configuring The Quanta Span
 
