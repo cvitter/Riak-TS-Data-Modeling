@@ -8,8 +8,18 @@ In [Data Modeling Basics](Data Modeling Basics.md) and [How Partition Keys Work]
 
 ## Optimizing Partition Keys for Write Performance
 
-The choice of partition key affects Riak TS's write performance in the same way that the key affects the distribution of data around a cluster. Riak TS distributes the data and the write workload around a cluster using the partition key. In a high write workload environment the choice of partition key can be a significant factor in determining how many writes per second a cluster can sustain.
+The choice of partition key affects Riak TS's write performance in the same way that the key affects the distribution of data around a cluster. Riak TS distributes the data and the write workload around a cluster using the partition key. In a high write workload environment the choice of partition key can be a significant factor in determining how many writes per second a cluster can sustain. Consider again the example table that we created in the [Data Modeling Basics](Data Modeling Basics.md) section with the following primary key:
 
+```
+	PRIMARY KEY (
+		(StationId, QUANTUM(ReadingTimeStamp, 1, 'd') ),
+		 StationId, ReadingTimeStamp
+	)
+```
+
+The partition key in this example specifies that the combination of the StationId column and ReadingTimeStamp column will hash to one partition (quantum) for a twenty-four hour period. That is an average of 1440 writes per day per weather station.
+
+What if we were collecting data for 100,000 weather stations?
 
 
 ## How Riak TS Executes Queries
