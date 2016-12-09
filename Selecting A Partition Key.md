@@ -1,9 +1,12 @@
 # [Riak TS](README.md) - Selecting A Partition Key
 
-Choosing the right partition key for your table is an important piece of ensuring the performance of the cluster (both in terms of writes and reads persecond) and the queriability of your data. In [Data Modeling Basics](Data Modeling Basics.md) and [How Partition Keys Work](How Partition Keys Work.md) we introduced you to the basics of Riak TS table schemas and how the partition key shapes the distribution of data within a cluster. In this section we are going expand upon the theoretical knowledge with practical advice on choosing partition keys including:
+In [Data Modeling Basics](Data Modeling Basics.md) and [How Partition Keys Work](How Partition Keys Work.md) we introduced you to the basics of Riak TS table schemas and how the partition key shapes the distribution of data within a cluster. In this section we are going to cover how the choice of partition keys affects the performance of your Riak TS cluster (both in terms of writes and reads per second) and the queriability of the data stored in your cluster.  
 
+* [Optimizing Partition Keys for Write Performance](#optimizing-partition-keys-for-write-performance) 
 * [How Riak TS Executes Queries](#how-riak-ts-executes-queries) 
 * [Why Use Quantums At All](#why-use-quantums-at-all)
+
+## Optimizing Partition Keys for Write Performance
 
 ## How Riak TS Executes Queries
 
