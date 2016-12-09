@@ -8,6 +8,10 @@ In [Data Modeling Basics](Data Modeling Basics.md) and [How Partition Keys Work]
 
 ## Optimizing Partition Keys for Write Performance
 
+The choice of partition key affects Riak TS's write performance in the same way that the key affects the distribution of data around a cluster. Riak TS distributes the data and the write workload around a cluster using the partition key. In a high write workload environment the choice of partition key can be a significant factor in determining how many writes per second a cluster can sustain.
+
+
+
 ## How Riak TS Executes Queries
 
 When Riak TS executes a query it splits the query into sub-queries along quantum boundaries. Each sub-query is then sent to the corresponding virtual node that handles that quantum's matching partition (or partition key's where no quantum is specified). At the partition level the virtual node **first** performs a range scan based on the partition keys in the ``` WHERE ``` clause **and then** applies a secondary filter on any additional fields included in the where clause.
