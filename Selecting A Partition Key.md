@@ -35,7 +35,9 @@ Now it might be tempting to create a primary key that looks like the following:
 	)
 ```
 
-In this primary key the partition key consists of only the quantum function meaning that all records written to the table will hash to the same partition for a one day time period (144,000,000 records per day vs 1,440 in the first example). Using this quantum only partition key gives you the ability to query across weather stations (more on querying later on in this document) but will have a negative impact on performance as writes for the day won't be distributed equally across all five nodes. Based on our previous example numbers above we would expect to see writes to only 3 out of 5 nodes in the cluster (with the standard replication factor of 3) with each of those nodes handling 1,667 writes per second vs 1000 writes per second.
+In this primary key the partition key consists of only the quantum function (we retain the StationId in the local key to maintain record uniqueness). All of the records written to the table using this partition key will hash to the same partition for a one day time period (144,000,000 records per day per partition vs 1,440 per partition in the first example). Using this quantum only partition key gives you the ability to query across weather stations (more on querying later on in this document) but will have a negative impact on performance as writes for the day won't be distributed equally across all five nodes. Based on our previous example numbers above we would expect to see writes to only 3 out of 5 nodes in the cluster (with the standard replication factor of 3) with each of those nodes handling 1,667 writes per second vs 1000 writes per second (an increase of 67% on each of those three nodes).
+
+
 
 
 ## How Riak TS Executes Queries
