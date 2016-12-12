@@ -21,10 +21,21 @@ The partition key in this example specifies that the combination of the StationI
 
 * There are 100,000 weather stations reporting data
 * Each weather station reports once a minute (1440 writes per day)
-* There are an average of 1,667 writes per second across the whole cluster
-* In a 5 node cluster each node would handle an average of 334 writes per second
+* There are an average of 5,001 writes per second across the whole cluster (1,667 * 3 for standard Riak TS replication factor)
+* In a 5 node cluster each node would handle an average of 1000 writes per second
 
+Based on the theoretical conditions our partition key design is ideal from a perspective of distributiing the write work load around our cluster optimizing both performance and data storage.
 
+Now it might be tempting to create a primary key that looks like the following:
+
+```
+	PRIMARY KEY (
+		(QUANTUM(ReadingTimeStamp, 1, 'd') ),
+		 ReadingTimeStamp, StationId
+	)
+```
+
+In this primary key the partition key consists of only the quantum function meaning that all records written to the table will hash to the same partition for a one day time period (144,000,000 records per day vs 1,440 in the first example). Using this quantum only partition key gives you the ability to query across weather stations (more on querying later on in this document) but will have a negative impact on performance. 
 
 
 ## How Riak TS Executes Queries
