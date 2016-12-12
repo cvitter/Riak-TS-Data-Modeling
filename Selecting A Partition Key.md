@@ -21,7 +21,7 @@ The partition key in this example specifies that the combination of the StationI
 
 * There are 100,000 weather stations reporting data
 * Each weather station reports once a minute (1440 writes per day)
-* There are an average of 5,001 writes per second across the whole cluster (1,667 * 3 for standard Riak TS replication factor)
+* There are an average of 5,001 writes per second across the whole cluster (100,000 updates a minute / 60 seconds = 1,667 updates per second * 3 for standard Riak TS replication factor)
 * In a 5 node cluster each node would handle an average of 1000 writes per second
 
 Based on the theoretical conditions our partition key design is ideal from a perspective of distributiing the write work load around our cluster optimizing both performance and data storage.
