@@ -8,7 +8,7 @@ In [Data Modeling Basics](Data Modeling Basics.md) and [How Partition Keys Work]
 
 ## Optimizing Partition Keys for Write Performance
 
-The choice of partition key affects Riak TS's write performance in the same way that the key affects the distribution of data around a cluster. Riak TS distributes the data and the write workload around a cluster using the partition key. In a high write workload environment the choice of partition key can be a significant factor in determining how many writes per second a cluster can sustain. Consider again the example table that we created in the [Data Modeling Basics](Data Modeling Basics.md) section with the following primary key:
+The choice of partition key directly affects Riak TS's write performance and it is important to design partition keys that allow writes to be distributed evenly across all of the cluster's nodes to maximize performance. In this section we are going to talk about things to consider when designing partition keys that will help you limit performance bottle necks. Let's start by taking another look at the example table that we created in the [Data Modeling Basics](Data Modeling Basics.md) section with the following primary key:
 
 ```
 	PRIMARY KEY (
@@ -17,9 +17,14 @@ The choice of partition key affects Riak TS's write performance in the same way 
 	)
 ```
 
-The partition key in this example specifies that the combination of the StationId column and ReadingTimeStamp column will hash to one partition (quantum) for a twenty-four hour period. That is an average of 1440 writes per day per weather station.
+The partition key in this example specifies that the combination of the StationId column and ReadingTimeStamp column will hash to one partition (quantum) for a twenty-four hour period. To understand how this affects performance lets consider the following hypothetical conditions:
 
-What if we were collecting data for 100,000 weather stations?
+* There are 100,000 weather stations reporting data
+* Each weather station reports once a minute (1440 writes per day)
+* There are an average of 1,667 writes per second across the whole cluster
+* In a 5 node cluster each node would handle an average of 334 writes per second
+
+
 
 
 ## How Riak TS Executes Queries
