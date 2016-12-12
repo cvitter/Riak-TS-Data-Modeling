@@ -24,7 +24,7 @@ The partition key in this example specifies that the combination of the StationI
 * There are an average of 5,001 writes per second across the whole cluster (100,000 updates a minute / 60 seconds = 1,667 updates per second * 3 for standard Riak TS replication factor)
 * In a 5 node cluster each node would handle an average of 1000 writes per second
 
-Based on the theoretical conditions our partition key design is ideal from a perspective of distributiing the write work load around our cluster optimizing both performance and data storage.
+Based on the above theoretical conditions our partition key design is ideal from a perspective of evenly distributiing the write work load around our cluster in terms of both performance and data storage.
 
 Now it might be tempting to create a primary key that looks like the following:
 
