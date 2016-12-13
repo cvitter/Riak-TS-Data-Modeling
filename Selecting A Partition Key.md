@@ -8,7 +8,15 @@ In [Data Modeling Basics](Data Modeling Basics.md) and [How Partition Keys Work]
 
 ## Optimizing Partition Keys for Write Performance
 
-The choice of partition key directly affects Riak TS's write performance and it is important to design partition keys that allow writes to be distributed evenly across all of the cluster's nodes to maximize performance. In this section we are going to talk about things to consider when designing partition keys that will help you limit performance bottle necks. Let's start by taking another look at the example table that we created in the [Data Modeling Basics](Data Modeling Basics.md) section with the following primary key:
+Write performance in a Riak TS is affected by a number of factors including:
+
+* The number of nodes in a cluster
+* The hardware specifications of physical nodes including CPU number and speed, RAM, drive performance, network card speed, etc.
+* The load balancer directing write requests to nodes (and the algorithm used by the load balancer to direct traffic)
+* The size of the object being written
+* And the partition key
+
+The key to maximizing performance in a cluster is to ensure that all of the nodes in the cluster are able to equally share in the write workload. From a schema design perspective your choice of partition key is the number one thing affecting write performance. The goal is to create a partition key that avoids performance issues. In this section we are going to talk about things to consider when designing partition keys that will help you limit performance bottle necks. Let's start by taking another look at the example table that we created in the [Data Modeling Basics](Data Modeling Basics.md) section with the following primary key:
 
 ```
 	PRIMARY KEY (
@@ -42,7 +50,7 @@ In review, the key difference in the design pattern of the two partition key exa
 * The first example writes data to 100,000 partitions in parallel that are equally distributed around the cluster
 * The second example writes data to 1 partition and writes are not equally distributed around the cluster
 
-
+These two examples are very black and white but they give you the basic tools to reason about how the choice of partition key will affect write performance. In the next section we will describe how Riak TS executes queries and how the execution path affects read performance.
 
 
 ## How Riak TS Executes Queries
