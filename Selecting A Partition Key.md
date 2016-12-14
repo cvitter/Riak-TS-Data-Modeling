@@ -55,7 +55,7 @@ These two examples are very black and white but they give you the basic tools to
 
 ## How Riak TS Executes Queries
 
-In the previous section we out lined the key factors behind maximizing write performance in a Riak TS cluster and how the choice of partition keys can make a significant impact on the number of writes per second your cluster can sustain. In this section we are going to outline how Riak TS executes queries and how the choice of partition keys affects read latency. As we hinted previously optimizing your schema for write speed can complicate querying and optimizing for read performance can negatively impact write performance.
+In the previous section we outlined the key factors behind maximizing write performance in a Riak TS cluster and how the choice of partition keys can make a significant impact on the number of writes per second your cluster can sustain. In this section we are going to outline how Riak TS executes queries and how the choice of partition keys affects read latency. As we hinted previously optimizing your schema for write speed can complicate querying and optimizing for read performance can negatively impact write performance.
 
 When Riak TS executes a query it splits the query into sub-queries along quantum boundaries. Each sub-query is then sent to the corresponding virtual node that handles that quantum's matching partition (or partition key's where no quantum is specified). At the partition level the virtual node **first** performs a range scan based on the partition keys in the ``` WHERE ``` clause **and then** applies a secondary filter on any additional fields included in the where clause.
 
