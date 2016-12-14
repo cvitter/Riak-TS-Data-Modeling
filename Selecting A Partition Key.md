@@ -55,9 +55,22 @@ These two examples are very black and white but they give you the basic tools to
 
 ## How Riak TS Executes Queries
 
-In the previous section we outlined the key factors behind maximizing write performance in a Riak TS cluster and how the choice of partition keys can make a significant impact on the number of writes per second your cluster can sustain. In this section we are going to outline how Riak TS executes queries and how the choice of partition keys affects read latency. As we hinted previously optimizing your schema for write speed can complicate querying and optimizing for read performance can negatively impact write performance.
+In the previous section we outlined the key factors behind maximizing write performance in a Riak TS cluster and how the choice of partition keys can make a significant impact on the number of writes per second a cluster can sustain. In this section we are going to outline how Riak TS executes queries and how the choice of partition keys affects read latency.
 
-When Riak TS executes a query it splits the query into sub-queries along quantum boundaries. Each sub-query is then sent to the corresponding virtual node that handles that quantum's matching partition (or partition key's where no quantum is specified). At the partition level the virtual node **first** performs a range scan based on the partition keys in the ``` WHERE ``` clause **and then** applies a secondary filter on any additional fields included in the where clause.
+* The Riak TS client sends a query to the Riak TS cluster (via a load balancer ideally)
+
+* The Riak TS node that handles the query (or coordinating node) splits the query into sub-queries along quantum boundaries
+
+* Each sub-query is then sent to the corresponding virtual node that handles that quantum's matching partition (or partition key's where no quantum is specified)
+
+* The virtual node **first** performs a range scan based on the partition keys in the ``` WHERE ``` clause
+
+* The virtual node **then** applies a secondary filter on any additional fields included in the ``` WHERE ``` clause
+
+* Each virtual node queried returns its piece of the query result set to the coordinating node
+
+* The coordinating node assembles the separate result sets into one unified product and returns the results to the client that sent the query
+
 
 Based on this query execution pattern you should design your partition key keeping in mind the following rules of thumb:
 
