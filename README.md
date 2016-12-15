@@ -9,7 +9,7 @@ If you are new to Riak TS I would suggest reading each of the following sections
 * [Data Modeling Basics](Data Modeling Basics.md)
 * [How Partition Keys Work](How Partition Keys Work.md)
 * [Selecting A Partition Key](Selecting A Partition Key.md)
-
+* [Why Use Quantams At All](Why Use Quantams At All.md)
 
 # Questions, Feedback, Pull Requests Etc.
 

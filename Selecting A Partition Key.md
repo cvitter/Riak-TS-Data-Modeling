@@ -4,7 +4,6 @@ In [Data Modeling Basics](Data Modeling Basics.md) and [How Partition Keys Work]
 
 * [Optimizing Partition Keys for Write Performance](#optimizing-partition-keys-for-write-performance) 
 * [How Riak TS Executes Queries](#how-riak-ts-executes-queries) 
-* [Why Use Quantums At All](#why-use-quantums-at-all)
 
 ## Optimizing Partition Keys for Write Performance
 
@@ -79,13 +78,10 @@ Based on this query execution pattern you should design your partition key keepi
 * Queries that **only** require partition keys in their ``` WHERE ``` clauses will be faster than queries that add non-partition-key columns to the ``` WHERE ``` clause since non key fields require a second level of filtering **after** the virtual node perfoms the intitial range scan on a partition.
 
 
-## Why Use Quantums At All
-
-As we noted in the [Partition Key](Data Modeling Basics.md#partition-key) section of the [Data Modeling Basics](Data Modeling Basics.md) document the quantum function is an optional part of the partition key.
 
 
 
 ---
 
- **Previous**: [How Partition Keys Work](How Partition Keys Work.md) | **Next**: 
+ **Previous**: [How Partition Keys Work](How Partition Keys Work.md) | **Next**: [Why Use Quantams At All](Why Use Quantams At All.md)
  
