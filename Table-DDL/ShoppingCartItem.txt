@@ -1,0 +1,16 @@
+# Sample CREATE TABLE statement used on the site Wiki at:
+# https://github.com/cvitter/Riak-TS-Data-Modeling/blob/master/Why Use Quantams At All.md
+CREATE TABLE ShoppingCartItem 
+(
+	CartId				VARCHAR		NOT NULL,
+	ItemId				VARCHAR		NOT NULL,
+	ItemAdded			TIMESTAMP	NOT NULL,
+	UnitCost			DOUBLE,
+	PRIMARY KEY (
+		(CartId),
+		 CartId, ItemId
+	)		
+);
+
+# Same statement as above optimized for use with Riak TS Shell (riak-shell)
+CREATE TABLE ShoppingCartItem (CartId VARCHAR NOT NULL, ItemId VARCHAR NOT NULL, ItemAdded TIMESTAMP NOT NULL, UnitCost DOUBLE, PRIMARY KEY ((CartId),CartId, ItemId));

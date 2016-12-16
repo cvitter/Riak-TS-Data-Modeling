@@ -22,6 +22,23 @@ CREATE TABLE ShoppingCartItem
 ```
 
 
+```
+CREATE TABLE ShoppingCartItem (CartId VARCHAR NOT NULL, ItemId VARCHAR NOT NULL, ItemAdded TIMESTAMP NOT NULL, UnitCost DOUBLE, PRIMARY KEY ((CartId),CartId, ItemId));
+```
+
+```
+riak-shell(5)>DESCRIBE ShoppingCartItem;
++---------+---------+-------+-----------+---------+--------+----+
+| Column  |  Type   |Is Null|Primary Key|Local Key|Interval|Unit|
++---------+---------+-------+-----------+---------+--------+----+
+| CartId  | varchar | false |     1     |    1    |        |    |
+| ItemId  | varchar | false |           |    2    |        |    |
+|ItemAdded|timestamp| false |           |         |        |    |
+|UnitCost | double  | true  |           |         |        |    |
++---------+---------+-------+-----------+---------+--------+----+
+```
+
+
 
 ---
 
