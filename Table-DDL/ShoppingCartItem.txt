@@ -4,8 +4,9 @@ CREATE TABLE ShoppingCartItem
 (
 	CartId				VARCHAR		NOT NULL,
 	ItemId				VARCHAR		NOT NULL,
+	ItemQuantity		SINT64		NOT NULL,
+	UnitCost			DOUBLE		NOT NULL,
 	ItemAdded			TIMESTAMP	NOT NULL,
-	UnitCost			DOUBLE,
 	PRIMARY KEY (
 		(CartId),
 		 CartId, ItemId
@@ -13,4 +14,4 @@ CREATE TABLE ShoppingCartItem
 );
 
 # Same statement as above optimized for use with Riak TS Shell (riak-shell)
-CREATE TABLE ShoppingCartItem (CartId VARCHAR NOT NULL, ItemId VARCHAR NOT NULL, ItemAdded TIMESTAMP NOT NULL, UnitCost DOUBLE, PRIMARY KEY ((CartId),CartId, ItemId));
+CREATE TABLE ShoppingCartItem (CartId VARCHAR NOT NULL, ItemId VARCHAR NOT NULL, ItemQuantity SINT64 NOT NULL, UnitCost DOUBLE NOT NULL, ItemAdded TIMESTAMP NOT NULL, PRIMARY KEY ((CartId), CartId, ItemId));

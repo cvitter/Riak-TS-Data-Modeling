@@ -12,8 +12,9 @@ CREATE TABLE ShoppingCartItem
 (
 	CartId				VARCHAR		NOT NULL,
 	ItemId				VARCHAR		NOT NULL,
+	ItemQuantity		SINT64		NOT NULL,
+	UnitCost			DOUBLE		NOT NULL,
 	ItemAdded			TIMESTAMP	NOT NULL,
-	UnitCost			DOUBLE,
 	PRIMARY KEY (
 		(CartId),
 		 CartId, ItemId
@@ -21,23 +22,46 @@ CREATE TABLE ShoppingCartItem
 );
 ```
 
-
 ```
-CREATE TABLE ShoppingCartItem (CartId VARCHAR NOT NULL, ItemId VARCHAR NOT NULL, ItemAdded TIMESTAMP NOT NULL, UnitCost DOUBLE, PRIMARY KEY ((CartId),CartId, ItemId));
-```
-
-```
-riak-shell(5)>DESCRIBE ShoppingCartItem;
-+---------+---------+-------+-----------+---------+--------+----+
-| Column  |  Type   |Is Null|Primary Key|Local Key|Interval|Unit|
-+---------+---------+-------+-----------+---------+--------+----+
-| CartId  | varchar | false |     1     |    1    |        |    |
-| ItemId  | varchar | false |           |    2    |        |    |
-|ItemAdded|timestamp| false |           |         |        |    |
-|UnitCost | double  | true  |           |         |        |    |
-+---------+---------+-------+-----------+---------+--------+----+
+CREATE TABLE ShoppingCartItem (CartId VARCHAR NOT NULL, ItemId VARCHAR NOT NULL, ItemQuantity SINT64 NOT NULL, UnitCost DOUBLE NOT NULL, ItemAdded TIMESTAMP NOT NULL, PRIMARY KEY ((CartId), CartId, ItemId));
 ```
 
+```
+riak-shell(2)>DESCRIBE ShoppingCartItem;
++------------+---------+-------+-----------+---------+--------+----+
+|   Column   |  Type   |Is Null|Primary Key|Local Key|Interval|Unit|
++------------+---------+-------+-----------+---------+--------+----+
+|   CartId   | varchar | false |     1     |    1    |        |    |
+|   ItemId   | varchar | false |           |    2    |        |    |
+|ItemQuantity| sint64  | false |           |         |        |    |
+|  UnitCost  | double  | false |           |         |        |    |
+| ItemAdded  |timestamp| false |           |         |        |    |
++------------+---------+-------+-----------+---------+--------+----+
+```
+
+
+```
+INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Shirt0001', 1, 12.25, '2016-12-16 15:43:22');
+INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Socks0001', 4, 3.75, '2016-12-16 15:47:02');
+INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Underwear0001', 4, 5.25, '2016-12-16 15:52:31');
+```
+
+
+
+```
+SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';
+```
+
+
+```
++----------------+-------------+------------+--------------------------+--------------------+
+|     CartId     |   ItemId    |ItemQuantity|         UnitCost         |     ItemAdded      |
++----------------+-------------+------------+--------------------------+--------------------+
+|ShoppingCart0001|  Shirt0001  |     1      |1.22500000000000000000e+01|2016-12-16T15:43:22Z|
+|ShoppingCart0001|  Socks0001  |     4      |3.75000000000000000000e+00|2016-12-16T15:47:02Z|
+|ShoppingCart0001|Underwear0001|     4      |5.25000000000000000000e+00|2016-12-16T15:52:31Z|
++----------------+-------------+------------+--------------------------+--------------------+
+```
 
 
 ---

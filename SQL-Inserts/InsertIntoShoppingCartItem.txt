@@ -1,0 +1,6 @@
+# Sample INSERT statements used on the site Wiki at:
+# https://github.com/cvitter/Riak-TS-Data-Modeling/blob/master/Why Use Quantams At All.md
+
+INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Shirt0001', 1, 12.25, '2016-12-16 15:43:22');
+INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Socks0001', 4, 3.75, '2016-12-16 15:47:02');
+INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Underwear0001', 4, 5.25, '2016-12-16 15:52:31');
