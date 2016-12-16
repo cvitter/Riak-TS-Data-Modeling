@@ -50,6 +50,9 @@ riak-shell(2)>DESCRIBE ShoppingCartItem;
 +------------+---------+-------+-----------+---------+--------+----+
 ```
 
+In our example table the partition key consists of the ``` CartId ``` column alone. This means that every record we write to the table that shares the same ``` CartId ``` will be written to the same partition in our cluster. Although different carts can have widely different number of line items associated with them the writes and reads will be distributed evenly around the cluster as the number of line items should average out over thousands of shopping carts.
+
+Use the following SQL ``` INSERT ``` statements to insert three line items into a shopping cart:
 
 ```
 INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Shirt0001', 1, 12.25, '2016-12-16 15:43:22');
@@ -57,14 +60,10 @@ INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Socks0001', 4, 3.75, '2
 INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Underwear0001', 4, 5.25, '2016-12-16 15:52:31');
 ```
 
-
-
-```
-SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';
-```
-
+The three line items that were inserted above all share the same ``` CartId ``` value meaning that we can use the following ``` SELECT ``` statement to retrieve the three records:
 
 ```
+riak-shell(2)>SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';
 +----------------+-------------+------------+--------------------------+--------------------+
 |     CartId     |   ItemId    |ItemQuantity|         UnitCost         |     ItemAdded      |
 +----------------+-------------+------------+--------------------------+--------------------+
