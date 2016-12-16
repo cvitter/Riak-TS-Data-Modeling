@@ -5,7 +5,14 @@ As we noted in the [Partition Key](Data Modeling Basics.md#partition-key) sectio
 
 ## The Riak TS Shopping Cart
 
+In the following example we are going to create a table in Riak TS that supports very basic ecommerce shopping cart functionality (I am sure a real world shopping cart is more complex) including capturing:
 
+* The ID of the item added to the cart
+* The quantity of the item added
+* The unit cost of the item (at the time it was added to the cart)
+* And the time that the item was added to the cart
+
+The DDL we will use is:
 
 ```
 CREATE TABLE ShoppingCartItem 
@@ -22,9 +29,13 @@ CREATE TABLE ShoppingCartItem
 );
 ```
 
+The following single line version of the DDL above can be copied and pasted directly into ``` riak-shell ```:
+
 ```
 CREATE TABLE ShoppingCartItem (CartId VARCHAR NOT NULL, ItemId VARCHAR NOT NULL, ItemQuantity SINT64 NOT NULL, UnitCost DOUBLE NOT NULL, ItemAdded TIMESTAMP NOT NULL, PRIMARY KEY ((CartId), CartId, ItemId));
 ```
+
+Once the ``` CREATE TABLE ``` statement has executed you can use the ``` DESCRIBE ``` command to review the table that we created:
 
 ```
 riak-shell(2)>DESCRIBE ShoppingCartItem;
