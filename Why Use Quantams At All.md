@@ -50,9 +50,9 @@ riak-shell(2)>DESCRIBE ShoppingCartItem;
 +------------+---------+-------+-----------+---------+--------+----+
 ```
 
-In our example table the partition key consists of the ``` CartId ``` column alone. This means that every record we write to the table that shares the same ``` CartId ``` will be written to the same partition in our cluster. Although different carts can have widely different number of line items associated with them the writes and reads will be distributed evenly around the cluster as the number of line items should average out over thousands of shopping carts.
+In our example table the partition key consists of the ``` CartId ``` column alone. This means that every record we write to the table that shares the same ``` CartId ``` will be written to the same partition in our cluster (Note: Record uniqueness is established at the local key level via combination of ``` CartId ``` and ``` ItemId ``` columns). Although different carts can have widely different number of line items associated with them the writes and reads will be distributed evenly around the cluster as the number of line items should average out over thousands of shopping carts.
 
-Use the following SQL ``` INSERT ``` statements to insert three line items into a shopping cart:
+With our example table created we can now add a few records to the table. Use the following SQL ``` INSERT ``` statements to insert three line items into a shopping cart:
 
 ```
 INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Shirt0001', 1, 12.25, '2016-12-16 15:43:22');
@@ -72,6 +72,32 @@ riak-shell(2)>SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';
 |ShoppingCart0001|Underwear0001|     4      |5.25000000000000000000e+00|2016-12-16T15:52:31Z|
 +----------------+-------------+------------+--------------------------+--------------------+
 ```
+
+Let's add three more items to our shopping cart:
+
+```
+INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Apple0001', 8, 2.50, '2016-12-16 15:53:37');
+INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'ZebraHoodie0001', 1, 25.55, '2016-12-16 15:58:04');
+INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'TennisRacket0001', 1, 65.95, '2016-12-16 16:05:54');
+```
+
+and then execute our ``` SELECT * ``` statement again:
+
+```
+riak-shell(17)>SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';                                            
++----------------+----------------+------------+--------------------------+--------------------+
+|     CartId     |     ItemId     |ItemQuantity|         UnitCost         |     ItemAdded      |
++----------------+----------------+------------+--------------------------+--------------------+
+|ShoppingCart0001|   Apple0001    |     8      |2.50000000000000000000e+00|2016-12-16T15:53:37Z|
+|ShoppingCart0001|   Shirt0001    |     1      |1.22500000000000000000e+01|2016-12-16T15:43:22Z|
+|ShoppingCart0001|   Socks0001    |     4      |3.75000000000000000000e+00|2016-12-16T15:47:02Z|
+|ShoppingCart0001|TennisRacket0001|     1      |6.59500000000000028422e+01|2016-12-16T16:05:54Z|
+|ShoppingCart0001| Underwear0001  |     4      |5.25000000000000000000e+00|2016-12-16T15:52:31Z|
+|ShoppingCart0001|ZebraHoodie0001 |     1      |2.55500000000000007105e+01|2016-12-16T15:58:04Z|
++----------------+----------------+------------+--------------------------+--------------------+
+```
+
+Notice that the output of the select statement is ordered by ``` CartId ``` and ``` ItemId ``` columns (the local key) which is how the records are phyically sorted on disk. ``` ORDER BY ``` is scheduled to be added in Riak TS 1.5 allowing you to change the ordering of your result using columns that are not part of the key.
 
 
 ---

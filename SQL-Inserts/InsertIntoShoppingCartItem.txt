@@ -4,3 +4,6 @@
 INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Shirt0001', 1, 12.25, '2016-12-16 15:43:22');
 INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Socks0001', 4, 3.75, '2016-12-16 15:47:02');
 INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Underwear0001', 4, 5.25, '2016-12-16 15:52:31');
+INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'Apple0001', 8, 2.50, '2016-12-16 15:53:37');
+INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'ZebraHoodie0001', 1, 25.55, '2016-12-16 15:58:04');
+INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'TennisRacket0001', 1, 65.95, '2016-12-16 16:05:54');
