@@ -5,14 +5,14 @@ As we noted in the [Partition Key](Data Modeling Basics.md#partition-key) sectio
 
 ## The Riak TS Shopping Cart
 
-In the following example we are going to create a table in Riak TS that supports very basic ecommerce shopping cart functionality (I am sure a real world shopping cart is more complex) including capturing:
+In the following example we are going to create a table in Riak TS that supports very basic ecommerce shopping cart functionality including capturing:
 
 * The ID of the item added to the cart
 * The quantity of the item added
 * The unit cost of the item (at the time it was added to the cart)
 * And the time that the item was added to the cart
 
-The DDL we will use is:
+The DDL we will use for our shopping cart table is:
 
 ```
 CREATE TABLE ShoppingCartItem 
@@ -35,7 +35,7 @@ The following single line version of the DDL above can be copied and pasted dire
 CREATE TABLE ShoppingCartItem (CartId VARCHAR NOT NULL, ItemId VARCHAR NOT NULL, ItemQuantity SINT64 NOT NULL, UnitCost DOUBLE NOT NULL, ItemAdded TIMESTAMP NOT NULL, PRIMARY KEY ((CartId), CartId, ItemId));
 ```
 
-Once the ``` CREATE TABLE ``` statement has executed you can use the ``` DESCRIBE ``` command to review the table that we created:
+Once the ``` CREATE TABLE ``` statement has executed you can use the ``` DESCRIBE ``` command to review the table that you created:
 
 ```
 riak-shell(2)>DESCRIBE ShoppingCartItem;
@@ -50,7 +50,7 @@ riak-shell(2)>DESCRIBE ShoppingCartItem;
 +------------+---------+-------+-----------+---------+--------+----+
 ```
 
-In our example table the partition key consists of the ``` CartId ``` column alone. This means that every record we write to the table that shares the same ``` CartId ``` will be written to the same partition in our cluster (Note: Record uniqueness is established at the local key level via combination of ``` CartId ``` and ``` ItemId ``` columns). Although different carts can have widely different number of line items associated with them the writes and reads will be distributed evenly around the cluster as the number of line items should average out over thousands of shopping carts.
+In our example table the partition key consists of the ``` CartId ``` column alone. This means that every record we write to the table that shares the same ``` CartId ``` will be written to the same partition in our cluster (Note: Record uniqueness is established at the local key level via the combination of ``` CartId ``` and ``` ItemId ``` columns). Although different carts can have widely different number of line items associated with them the writes and reads will be distributed evenly around the cluster as the number of line items should average out over a large number of shopping carts.
 
 With our example table created we can now add a few records to the table. Use the following SQL ``` INSERT ``` statements to insert three line items into a shopping cart:
 
@@ -97,7 +97,7 @@ riak-shell(17)>SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';
 +----------------+----------------+------------+--------------------------+--------------------+
 ```
 
-Notice that the output of the select statement is ordered by ``` CartId ``` and ``` ItemId ``` columns (the local key) which is how the records are phyically sorted on disk. ``` ORDER BY ``` is scheduled to be added in Riak TS 1.5 allowing you to change the ordering of your result using columns that are not part of the key.
+Notice that the output of the select statement is ordered by ``` CartId ``` and ``` ItemId ``` columns (the local key) which is how the records are phyically sorted on disk. ``` ORDER BY ``` is scheduled to be added in Riak TS 1.5 allowing you to change the ordering of your result set using columns that are not part of the key.
 
 
 ---
