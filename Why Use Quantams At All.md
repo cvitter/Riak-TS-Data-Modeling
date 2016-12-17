@@ -50,7 +50,7 @@ riak-shell(2)>DESCRIBE ShoppingCartItem;
 +------------+---------+-------+-----------+---------+--------+----+
 ```
 
-In our example table the partition key consists of the ``` CartId ``` column alone. This means that every record we write to the table that shares the same ``` CartId ``` will be written to the same partition in our cluster (Note: Record uniqueness is established at the local key level via the combination of ``` CartId ``` and ``` ItemId ``` columns). Although different carts can have widely different number of line items associated with them the writes and reads will be distributed evenly around the cluster as the number of line items should average out over a large number of shopping carts.
+In our example table the partition key consists of the ``` CartId ``` column alone. This means that every record we write to the table that shares the same ``` CartId ``` will be written to the same partition in our cluster (**Note**: Record uniqueness is established at the local key level via the combination of ``` CartId ``` and ``` ItemId ``` columns). Although different carts can have widely different number of line items associated with them the writes and reads will be distributed evenly around the cluster as the number of line items should average out over a large number of shopping carts.
 
 With our example table created we can now add a few records to the table. Use the following SQL ``` INSERT ``` statements to insert three line items into a shopping cart:
 
@@ -81,7 +81,7 @@ INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'ZebraHoodie0001', 1, 25
 INSERT INTO ShoppingCartItem VALUES('ShoppingCart0001', 'TennisRacket0001', 1, 65.95, '2016-12-16 16:05:54');
 ```
 
-and then execute our ``` SELECT * ``` statement again:
+and then execute our ``` SELECT ``` statement again:
 
 ```
 riak-shell(17)>SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';                                            
