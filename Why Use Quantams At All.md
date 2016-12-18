@@ -97,7 +97,11 @@ riak-shell(17)>SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';
 +----------------+----------------+------------+--------------------------+--------------------+
 ```
 
-Notice that the output of the select statement is ordered by ``` CartId ``` and ``` ItemId ``` columns (the local key) which is how the records are phyically sorted on disk. ``` ORDER BY ``` is scheduled to be added in Riak TS 1.5 allowing you to change the ordering of your result set using columns that are not part of the key.
+Notice that the output of the select statement is ordered by ``` CartId ``` and ``` ItemId ``` columns (the local key) which is how the records are phyically sorted on disk. ``` ORDER BY ``` is scheduled to be added in Riak TS 1.5 which will allow you to change the ordering of your result set using columns that are not part of the key. The following example (which will only work in Riak TS 1.5+) orders the result set by the time that the item was added to the shopping cart:
+
+```
+SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001' ORDER BY ItemAdded DESC;
+```
 
 In addition to the basic ``` SELECT ``` statement you can use aggregates like ``` COUNT ``` to count the total number of line itmes in the shopping cart or ``` SUM ``` to count the total number of items in the cart. For example:
 
