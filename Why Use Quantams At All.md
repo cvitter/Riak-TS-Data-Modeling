@@ -121,7 +121,11 @@ riak-shell(21)>SELECT SUM(ItemQuantity) FROM ShoppingCartItem WHERE CartId = 'Sh
 +-----------------+
 ```
 
+If we had added a column to our table that stored the total cost of the items added (e.g. ItemQuantity * UnitCost) it would be very easy to get the total dollar value of the shopping cart using ``` SUM ```.
 
+
+
+## Other Non-Time Based Use Cases for Riak TS
 
 
 
