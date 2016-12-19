@@ -15,7 +15,7 @@ Write performance in a Riak TS is affected by a number of factors including:
 * The size of the object being written
 * And the partition key
 
-The key to maximizing performance in a cluster is to ensure that all of the nodes in the cluster are able to equally share in the write workload. From a schema design perspective your choice of partition key is the number one thing affecting write performance. The goal is to create a partition key that avoids performance issues. In this section we are going to talk about things to consider when designing partition keys that will help you limit performance bottle necks. Let's start by taking another look at the example table that we created in the [Data Modeling Basics](Data Modeling Basics.md) section with the following primary key:
+The key to maximizing performance in a cluster is to ensure that all of the nodes in the cluster are able to equally share in the write workload. From a schema design perspective your choice of partition key is the number one thing affecting write performance. In this section we are going to talk about things to consider when designing partition keys that will help you limit performance bottle necks. Let's start by taking another look at the example table that we created in the [Data Modeling Basics](Data Modeling Basics.md) section with the following primary key:
 
 ```
 	PRIMARY KEY (
@@ -27,9 +27,15 @@ The key to maximizing performance in a cluster is to ensure that all of the node
 The partition key in this example specifies that the combination of the StationId column and ReadingTimeStamp column will hash to one partition (quantum) for a twenty-four hour period. To understand how this affects performance lets consider the following hypothetical conditions:
 
 * There are 100,000 weather stations reporting data
-* Each weather station reports once a minute (1440 writes per day)
-* There are an average of 5,001 writes per second across the whole cluster (100,000 updates a minute / 60 seconds = 1,667 updates per second * 3 for standard Riak TS replication factor)
-* In a 5 node cluster each node would handle an average of 1000 writes per second
+* Each weather station reports once a minute (1440 times a day)
+* In a 5 node cluster each node would average 1000 writes per second (see Simple Math below)
+
+**Simple Math**:
+```
+	1. 100,000 updates a minute / 60 seconds = 1666.6...
+	2. 1666.6 * 3 (the default n_val or Riak TS replication factor) = 5000
+	3. 5000 / 5 (the number of nodes in our theoretical cluster)  = 1000 writes per second, per node
+```
 
 Based on the above theoretical conditions our partition key design is ideal from a perspective of evenly distributing the write work load around our cluster in terms of both performance and data storage.
 
@@ -42,7 +48,7 @@ Now it might be tempting to create a primary key that looks like the following:
 	)
 ```
 
-In this primary key the partition key consists of only the quantum function (we retain the StationId in the local key to maintain record uniqueness). All of the records written to the table using this partition key will hash to the same partition for a one day time period (144,000,000 records per day per partition vs 1,440 per partition in the first example). Using this quantum only partition key gives you the ability to query across weather stations (more on querying later on in this document) but will have a negative impact on performance as writes for the day won't be distributed equally across all five nodes. Based on our previous example numbers above we would expect to see writes to only 3 out of 5 nodes in the cluster (with the standard replication factor of 3) with each of those nodes handling 1,667 writes per second vs 1000 writes per second (an increase of 67% on each of those three nodes).
+In this primary key the partition key contains only the quantum function (we retain the StationId in the local key to maintain record uniqueness). All of the records written to the table using this partition key will hash to the same partition for a one day time period (144,000,000 records per day per partition vs 1,440 per partition in the first example). Using this quantum only partition key gives you the ability to query across weather stations (more on querying later on in this document) but will have a negative impact on performance as writes for the day won't be distributed equally across all five nodes. Based on our previous example numbers above we would expect to see writes to only 3 out of 5 nodes in the cluster (with the standard replication factor of 3) with each of those nodes handling 1,667 writes per second vs 1000 writes per second (an increase of 67% on each of those three nodes).
 
 In review, the key difference in the design pattern of the two partition key examples above is that:
 
