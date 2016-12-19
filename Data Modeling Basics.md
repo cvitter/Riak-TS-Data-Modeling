@@ -46,7 +46,7 @@ For most of this documentation we will use riak-shell to execute example code. I
 
 From within your Riak TS root directory launch riak-shell using:
 
-``` > bin/riak-shell ```
+``` $ bin/riak-shell ```
 
 Riak-shell will output text that looks like the following example when it launches:
 ```
@@ -272,7 +272,7 @@ Although Riak TS features tables, columns, and rows it is important to remember 
 Riak TS tables map one-to-one to Riak KV bucket types (see Riak KV's documentation for more information on bucket types: http://docs.basho.com/riak/kv/latest/using/reference/bucket-types/). Creating a new table creates a new bucket type and a bucket within that bucket type with the table's name. You can use the riak-admin tool to view the server's bucket types. From the command line type the following command (if you haven't quit out or riak-shell yet type ```q;``` to exit):
 
 ``` 
-> bin/riak-admin bucket-type list
+$ bin/riak-admin bucket-type list
   default (active)
   WeatherStationData (active)
 ```
@@ -295,7 +295,7 @@ The riak-admin tool allows you to list all of the properties associated with a b
 
 
 ```
-> bin/riak-admin bucket-type status WeatherStationData
+$ bin/riak-admin bucket-type status WeatherStationData
 WeatherStationData is active
 
 young_vclock: 20
@@ -343,7 +343,7 @@ claimant: 'riak@127.0.0.1'
 A Riak TS row maps to a key/value pair. The value stored in the database contains both the values associated with each of the row's columns and the column names. If we run the SQL query from above using the HTTP API and curl, e.g.:
 
 ``` 
-> curl -XPOST http://127.0.0.1:8098/ts/v1/query --data "SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2014-07-22 12:00:00' AND ReadingTimeStamp <= '2014-07-22 20:00:00';"
+$ curl -XPOST http://127.0.0.1:8098/ts/v1/query --data "SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2014-07-22 12:00:00' AND ReadingTimeStamp <= '2014-07-22 20:00:00';"
 ```
 
 Riak TS should return the following JSON (formatted here for readability):
