@@ -1,11 +1,11 @@
 # [Riak TS](README.md) - Why Use Quanta At All
 
-As we noted in the [Partition Key](Data Modeling Basics.md#partition-key) section of the [Data Modeling Basics](Data Modeling Basics.md) document the quantum function is an optional part of the partition key. So far all of the examples we have explored have used the quantum function to distribute and query data based on a range of time but there are a subset of non-time based use cases that are also ideal candidates for Riak TS. One simple example that demonstrates the feasibility of non-time based use cases in Riak TS is the ecommerce shopping cart. In the following section we will talk through the implementation of a simple shopping cart example in Riak TS.
+As we noted in the [Partition Key](Data Modeling Basics.md#partition-key) section of the [Data Modeling Basics](Data Modeling Basics.md) document the quantum function is an optional part of the partition key. So far all of the examples we have explored have used the quantum function to distribute and query data based on a range of time but there are a subset of non-time based use cases that are also ideal candidates for Riak TS. One simple example that demonstrates the feasibility of non-time based use cases in Riak TS is the e-commerce shopping cart. In the following section we will talk through the implementation of a simple shopping cart example in Riak TS.
 
 
 ## The Riak TS Shopping Cart
 
-In the following example we are going to create a table in Riak TS that supports very basic ecommerce shopping cart functionality including capturing:
+In the following example we are going to create a table in Riak TS that supports very basic e-commerce shopping cart functionality including capturing:
 
 * The ID of the item added to the cart
 * The quantity of the item added
@@ -97,7 +97,7 @@ riak-shell(17)>SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';
 +----------------+----------------+------------+--------------------------+--------------------+
 ```
 
-Notice that the output of the select statement is ordered by ``` CartId ``` and ``` ItemId ``` columns (the local key) which is how the records are phyically sorted on disk. ``` ORDER BY ``` is scheduled to be added in Riak TS 1.5 which will allow you to change the ordering of your result set using columns that are not part of the key. The following example (which will only work in Riak TS 1.5+) orders the result set by the time that the item was added to the shopping cart:
+Notice that the output of the select statement is ordered by ``` CartId ``` and ``` ItemId ``` columns (the local key) which is how the records are physically sorted on disk. ``` ORDER BY ``` is scheduled to be added in Riak TS 1.5 which will allow you to change the ordering of your result set using columns that are not part of the key. The following example (which will only work in Riak TS 1.5+) orders the result set by the time that the item was added to the shopping cart:
 
 ```
 SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001' ORDER BY ItemAdded DESC;
@@ -128,14 +128,21 @@ If we had added a column to our table that stored the total cost of the items ad
 
 In the shopping cart example above we demonstrated how easy it would be to use Riak TS for a one non-time based use case. The basic requirements of the use case include:
 
+* Data grouped together by a simple identifier for easy access -  the ability to create and query an unbounded set of objects **easily**
+
 * High availability - people won't buy anything if their shopping carts vanish (**Note***: The enterprise version of Riak TS adds support for multi-cluster and multi-data center replication further improving Riak TS's high availability profile)
 
 * Low latency - people tend to abandon slow web sites
 
 * Even distribution of data - evenly utilizes the cluster hardware in terms of both storage and performance
 
-So what are some other use cases with similar requirements that
+Some similar use cases that share the same requirements include:
 
+* Testing - Capture and store test answers
+
+* Pick/part lists - A list of items to pack to fulfill an order
+
+* 
  
 
 ---
