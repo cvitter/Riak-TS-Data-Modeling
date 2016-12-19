@@ -11,14 +11,15 @@ The following instructions will help you get up and running with a single Riak T
 
 Once Riak TS has started you can further test that it is up and running using the following commands:
 
-``` > bin/riak ping```  
+``` $ bin/riak ping```  
 
 Riak should respond with:  
 
-``` > pong```  
+``` pong```  
 
-``` > bin/riak-admin test``` 
+You can also use ``` riak-admin test ``` as illustrated below:
 
-Riak should respond with:  
-
-``` > Successfully completed 1 read/write cycle to 'riak@127.0.0.1'```
+``` 
+$ bin/riak-admin test
+Successfully completed 1 read/write cycle to 'riak@127.0.0.1'
+```
