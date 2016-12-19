@@ -4,6 +4,8 @@ In [Data Modeling Basics](Data Modeling Basics.md) and [How Partition Keys Work]
 
 * [Optimizing Partition Keys for Write Performance](#optimizing-partition-keys-for-write-performance) 
 * [How Riak TS Executes Queries](#how-riak-ts-executes-queries) 
+* [How Big Should I Make My Quanta?](#how-big-should-i-make-my-quanta)
+* [What If I Don't Care What Time It Is?](#what-if-i-dont-care-what-time-it-is)
 
 ## Optimizing Partition Keys for Write Performance
 
@@ -62,6 +64,8 @@ These two examples are very black and white but they give you the basic tools to
 
 In the previous section we outlined the key factors behind maximizing write performance in a Riak TS cluster and how the choice of partition keys can make a significant impact on the number of writes per second a cluster can sustain. In this section we are going to outline how Riak TS executes queries and how the choice of partition keys affects read latency.
 
+At a high level queries are executed as follows:
+
 * The Riak TS client sends a query to the Riak TS cluster (via a load balancer ideally)
 
 * The Riak TS node that handles the query (or coordinating node) splits the query into sub-queries along quantum boundaries
@@ -83,6 +87,8 @@ Based on this query execution pattern you should design your partition key keepi
 
 * Queries that **only** require partition keys in their ``` WHERE ``` clauses will be faster than queries that add non-partition-key columns to the ``` WHERE ``` clause since non key fields require a second level of filtering **after** the virtual node performs the initial range scan on a partition.
 
+
+## How Big Should I Make My Quanta?
 
 
 ## What If I Don't Care What Time It Is?
