@@ -83,5 +83,5 @@ Based on this query execution pattern you should design your partition key keepi
 
 ---
 
- **Previous**: [How Partition Keys Work](How Partition Keys Work.md) | **Next**: [Why Use Quanta At All](Why Use Quanta At All.md)
+ **Previous**: [How Partition Keys Work](How Partition Keys Work.md) | **Next**: [Why Use Quanta At All?](Why Use Quanta At All.md)
  
