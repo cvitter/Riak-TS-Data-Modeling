@@ -15,7 +15,7 @@ Once Riak TS has started you can further test that it is up and running using th
 
 Riak should respond with:  
 
-``` pong```  
+``` pong ```  
 
 You can also use ``` riak-admin test ``` as illustrated below:
 
