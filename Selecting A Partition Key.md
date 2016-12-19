@@ -31,7 +31,7 @@ The partition key in this example specifies that the combination of the StationI
 * There are an average of 5,001 writes per second across the whole cluster (100,000 updates a minute / 60 seconds = 1,667 updates per second * 3 for standard Riak TS replication factor)
 * In a 5 node cluster each node would handle an average of 1000 writes per second
 
-Based on the above theoretical conditions our partition key design is ideal from a perspective of evenly distributiing the write work load around our cluster in terms of both performance and data storage.
+Based on the above theoretical conditions our partition key design is ideal from a perspective of evenly distributing the write work load around our cluster in terms of both performance and data storage.
 
 Now it might be tempting to create a primary key that looks like the following:
 
@@ -75,7 +75,7 @@ Based on this query execution pattern you should design your partition key keepi
 
 * Querying across fewer quanta is better in terms of performance. When possible you should use partition keys that limit the number of quanta you need to span in queries.
 
-* Queries that **only** require partition keys in their ``` WHERE ``` clauses will be faster than queries that add non-partition-key columns to the ``` WHERE ``` clause since non key fields require a second level of filtering **after** the virtual node perfoms the intitial range scan on a partition.
+* Queries that **only** require partition keys in their ``` WHERE ``` clauses will be faster than queries that add non-partition-key columns to the ``` WHERE ``` clause since non key fields require a second level of filtering **after** the virtual node performs the initial range scan on a partition.
 
 
 
@@ -83,5 +83,5 @@ Based on this query execution pattern you should design your partition key keepi
 
 ---
 
- **Previous**: [How Partition Keys Work](How Partition Keys Work.md) | **Next**: [Why Use Quantams At All](Why Use Quantams At All.md)
+ **Previous**: [How Partition Keys Work](How Partition Keys Work.md) | **Next**: [Why Use Quanta At All](Why Use Quanta At All.md)
  
