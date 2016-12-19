@@ -79,7 +79,9 @@ Based on this query execution pattern you should design your partition key keepi
 
 
 
+## What If I Don't Care What Time It Is?
 
+Up until now we have focused our data modeling discussion on data sets where time is an important factor. In the next section [Why Use Quanta At All?](Why Use Quanta At All.md) we are going to step away the quantum function and look at how Riak TS can be used to solve non-time based data problems. If the you don't care about non-time based use cases please feel free to stop here!
 
 ---
 
