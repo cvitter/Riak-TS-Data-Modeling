@@ -159,9 +159,9 @@ CREATE TABLE YourCoolUseCase
 );
 ```
 
+Don't forget that the columns used for the partition and local keys don't have to be of the VARCHAR data type and that the values use in the local key affect how the the data written is sorted (and returned in queries). While Riak TS will add ``` ORDER BY ``` to ``` SELECT ``` applying ``` ORDER BY ``` in a query is likely to have an impact on the performance of the query.
 
-
-
+If you find any creative non-time based use cases you would like to share please feel free to create an issue: https://github.com/cvitter/Riak-TS-Data-Modeling/issues.
 
 
 ---
