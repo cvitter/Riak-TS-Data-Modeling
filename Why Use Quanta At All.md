@@ -142,8 +142,27 @@ Some similar use cases that share the same requirements include:
 
 * Pick/part lists - A list of items to pack to fulfill an order
 
-* 
- 
+* To Do lists - A list of tasks to complete
+
+This grouping of use case types share a common key pattern illustrated in the DDL below:
+
+```
+CREATE TABLE YourCoolUseCase 
+(
+	GroupId				VARCHAR		NOT NULL,
+	ItemId				VARCHAR		NOT NULL,
+	...
+	PRIMARY KEY (
+		(GroupId),
+		 GroupId, ItemId
+	)		
+);
+```
+
+
+
+
+
 
 ---
 
