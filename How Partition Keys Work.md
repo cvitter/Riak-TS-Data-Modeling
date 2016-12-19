@@ -1,6 +1,6 @@
 # [Riak TS](README.md) - How Partition Keys Work
 
-Riak TS is designed to scale to handle massive data sets (into the Petabytes) and high volumes of read and write operations (1,000,000+ IOPs with the right number and type of hardware or virtual hosts for your specific use case). Riak TS achieves this scalability by being able to seamlessly distribute its data and workloads across many individual nodes in a cluster. Of course if data is distributed across many machines than the database needs to know how to address (or find) the data for reads and writes. In this section we are going to describe how Riak TS partitions and addresses data and how this influences the selection of partition keys.
+Riak TS is designed to scale to handle massive data sets (into the petabytes) and high volumes of read and write operations (1,000,000+ IOPs with the right number and type of hardware or virtual hosts for your specific use case). Riak TS achieves this scalability by being able to seamlessly distribute its data and workloads across many individual nodes in a cluster. Of course if data is distributed across many machines than the database needs to know how to address (or find) the data for reads and writes. In this section we are going to describe how Riak TS partitions and addresses data and how this influences the selection of partition keys.
 
 
 ## Partitions
@@ -97,7 +97,7 @@ How does Riak TS know which partition a key/value pair should be written too or 
 
 It is important to note that the consistent hashing mechanism that Riak TS (and KV) uses is designed to ensure an even distribution of data around your cluster. While you might expect that if you were to hash the letters of the alphabet (a, b, c, d, e, etc.) that the numeric output would be linear in fashion (example: 1, 2, 3, 4, 5, etc.) the opposite is actually true. To the casual observer the output of the hashing function would appear to be random in distribution (example: 1231014356, 3, 651231246633, 90123, 89923423112300012, etc.). 
 
-While this even distribution of data around the cluster is ideal for hardware utilization it is not ideal for use cases where you want to perform range queries. In the next section, [The Partition Key](#the-partition-key), we are going to discuss how Riak TS uses the partition key to enable colocation of data on partitions in support of range queries.
+While this even distribution of data around the cluster is ideal for hardware utilization it is not ideal for use cases where you want to perform range queries. In the next section, [The Partition Key](#the-partition-key), we are going to discuss how Riak TS uses the partition key to enable collocation of data on partitions in support of range queries.
 
 
 ## The Partition Key
@@ -120,7 +120,7 @@ In this example the partition portion of the key consists of the following:
 
 As we learned previously Riak TS is using a consistent hashing function to turn the the table name and key into a number in order to assign it to a partition. In the standard model for hashing keys (used by Riak KV and TS if you don't use a quantum function for your partition key) we would just concatenate the table name (bucket) and the two parts of the partition key (the StationId and ReadingTimeStamp columns) together and hash the resulting value into our number. However, when we use a quantum function in our partition key (e.g. ``` QUANTUM(ReadingTimeStamp, 1, 'd') ```), Riak TS behaves very differently.
 
-When you specify a partition key with a quantum function you are telling Riak TS that you want to colocate every record written for a specific range of time (one day in our current example) on a single partition. The boundaries for the quanta are calculated by Riak TS based on the start of the Unix Epoch: Jan 1, 1970 00:00:00 (If you are interested in the exact function that Riak TS uses to mark quanta you can view the code online here: https://github.com/basho/riak_ql/blob/develop/src/riak_ql_quanta.erl#L91). Every record written that falls within the boundaries of a quantum will have its partition key hash to the same value, e.g.:
+When you specify a partition key with a quantum function you are telling Riak TS that you want to collocate every record written for a specific range of time (one day in our current example) on a single partition. The boundaries for the quanta are calculated by Riak TS based on the start of the Unix Epoch: Jan 1, 1970 00:00:00 (If you are interested in the exact function that Riak TS uses to mark quanta you can view the code on line here: https://github.com/basho/riak_ql/blob/develop/src/riak_ql_quanta.erl#L91). Every record written that falls within the boundaries of a quantum will have its partition key hash to the same value, e.g.:
 
 
 * Key = ```{'Station-1001', '2016-07-22 12:22:57'}```
@@ -133,11 +133,11 @@ Will all hash to the same value and be stored on the same partition. The followi
 
 **Note**: Riak TS stores dates as UTC and converts from your cluster's local time zone when saving a record.
 
-When selecting a quantum to use for your partition key it is important to keep in mind that there are tradeoffs associated with the size of the quantum. There are two primary competing goals for choosing a quantum:
+When selecting a quantum to use for your partition key it is important to keep in mind that there are trade offs associated with the size of the quantum. There are two primary competing goals for choosing a quantum:
 
 1. Utilize your cluster's hardware efficiently by distributing the data evenly around the cluster (both in terms of storage and performance since focusing all of your reads and writes on a single node limits read and write throughput for the cluster);
 
-1. Colocate data close together to improve query performance.
+1. Collocate data close together to improve query performance.
 
 Small quanta favor writes in terms of performance and storage while larger quanta favor querying. Selecting the right quantum for your partition key is often the most challenging piece of the data modeling process.
 
@@ -175,7 +175,7 @@ and Riak will return the following output (truncated here to save some space):
 
 The output of the ``` EXPLAIN ``` statement includes the following details which help us understand how Riak TS splits queries into subqueries:
 
-* **Subquery**: unique interger for each subquery;
+* **Subquery**: unique integer for each subquery;
 * **Coverage Plan**: The nodes and partitions a subquery will run on (in the above example there are two interesting details to note: 1. The Riak TS cluster this was run on consisted of a single node and 2. the table we are querying uses Riak TS's default replication factor of 3 which is why there are three partitions listed for each subquery instead of only 1);
 * **Range Scan Start Key**: The subquery start key;
 * **Range Scan End Key**: The subquery end key;
