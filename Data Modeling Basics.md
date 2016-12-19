@@ -176,7 +176,7 @@ In our example DDL the partition key consists of the ```StationId``` column and 
 
 ``` (StationId, QUANTUM(ReadingTimeStamp, 1, 'd') ), ``` 
 
-The quantum function is designed to allow Riak TS to colocate data in a cluster based on a range of time. The three parameters that the function takes include:
+The quantum function is designed to allow Riak TS to collocate data in a cluster based on a range of time. The three parameters that the function takes include:
 
 * The name of the column to base the range of time on (must be of the TIMESTAMP data type)
 * Units of time expressed as a positive integer (must be greater than zero)
