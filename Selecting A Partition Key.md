@@ -5,7 +5,11 @@ In [Data Modeling Basics](Data Modeling Basics.md) and [How Partition Keys Work]
 * [Optimizing Partition Keys for Write Performance](#optimizing-partition-keys-for-write-performance) 
 * [How Riak TS Executes Queries](#how-riak-ts-executes-queries) 
 * [How Big Should I Make My Quanta?](#how-big-should-i-make-my-quanta)
+* [Should I Just Use a Quantum Function?](#should-i-just-use-a-quantum-function)
 * [What If I Don't Care What Time It Is?](#what-if-i-dont-care-what-time-it-is)
+
+**Important Note**: Every use case is different. In this document I am going to give a lot of general advice on how to design your Riak TS tables keeping read and write performance in mind _however_ I highly recommend that you benchmark your table designs for suitability before putting them into production.
+
 
 ## Optimizing Partition Keys for Write Performance
 
@@ -90,8 +94,47 @@ Based on this query execution pattern you should design your partition key keepi
 
 ## How Big Should I Make My Quanta?
 
-At this point you are probably asking yourself, "How big should I make my quanta?" While there isn't one simple rule of thumb to choosing the "perfect" quantum size the main consideration to keep in mind is the standard time range that your application will be querying. If your application typically requests all of the weather station updates for the last two weeks than the one day quantum we created in our ``` WeatherStationData ``` table example will be too small. In fact the quantum size we created in our sample table of one day is pretty small and increasing it, even significantly, shouldn't make a difference in performance since we have also have the ``` StationId ``` in our partition key ensuring that our day will still be distributed evenly around the cluster.
+At this point you are probably asking yourself, "How big should I make my quanta?" While there isn't one simple rule of thumb for choosing the "perfect" quantum size the main consideration to keep in mind is the standard time range that your application will be querying. If your application typically requests all of the weather station updates for the last two weeks than the one day quantum we created in our ``` WeatherStationData ``` table example will be too small. In fact the quantum size we created in our sample table of one day is pretty small. Increasing the size of the quantum, even significantly, shouldn't make a difference in write performance since we have have also partitioned our data on ``` StationId ``` ensuring that our writes and data will still be distributed evenly around the cluster.
 
+## Should I Just Use a Quantum Function?
+
+In [Optimizing Partition Keys for Write Performance](#optimizing-partition-keys-for-write-performance) we provided an example of a partition key that dropped the ``` StationId ``` and used only a quantum function:
+
+```
+	PRIMARY KEY (
+		(QUANTUM(ReadingTimeStamp, 1, 'd') ),
+		 ReadingTimeStamp, StationId
+	)
+```
+
+The advantage to creating a quantum only partition key is that it allows you to issue queries that return data for more than one weather station at a time. At first blush the temptation to follow this design pattern will be strong but let's consider the type of queries that you want to run against your data set. The following is a list of common questions you might want to ask of your weather station data:
+
+* What is the current temperature at weather station X?
+
+* What was the high/low temperature at weather station X yesterday?
+
+* What was the average temperature at weather station X on July 15th?
+
+* Which weather station had the highest/lowest temperature on December 25th?
+
+While there are questions that you will want to ask that require a review of all of the data for all of the stations, generally speaking in this use case the questions are weather station specific. Let's consider a simple query that returns the average temperature for one weather station for one day:
+
+```
+SELECT AVG(Temperature) FROM WeatherStationData WHERE
+     ReadingTimeStamp >= '2016-05-11 00:00:00' AND 
+     ReadingTimeStamp <= '2014-05-11 11:59:59' AND
+     StationId = 'Station-1001';
+```
+
+When the query is executed Riak TS will:
+
+1. Perform a range scan on the partition (or partitions) storing the data we a requesting
+
+1. Filter the result set on ``` StationId ```
+
+1. ``` AVG ``` the ``` Temperature ``` value
+
+Remember that each partition in our example will contain 144,000,000 records. Filtering down from 140,000,000 records to 1440 records for the one weather station we are interested before we even average the data could cause a significant performance issue. Querying across multiple quanta will increase the potential performance problems. That said, if your testing shows acceptable performance at scale feel free to ignore my advice not to go this route.
 
 
 ## What If I Don't Care What Time It Is?
