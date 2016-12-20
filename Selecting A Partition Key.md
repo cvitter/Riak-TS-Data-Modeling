@@ -90,6 +90,9 @@ Based on this query execution pattern you should design your partition key keepi
 
 ## How Big Should I Make My Quanta?
 
+At this point you are probably asking yourself, "How big should I make my quanta?" While there isn't one simple rule of thumb to choosing the "perfect" quantum size the main consideration to keep in mind is the standard time range that your application will be querying. If your application typically requests all of the weather station updates for the last two weeks than the one day quantum we created in our ``` WeatherStationData ``` table example will be too small. In fact the quantum size we created in our sample table of one day is pretty small and increasing it, even significantly, shouldn't make a difference in performance since we have also have the ``` StationId ``` in our partition key ensuring that our day will still be distributed evenly around the cluster.
+
+
 
 ## What If I Don't Care What Time It Is?
 
