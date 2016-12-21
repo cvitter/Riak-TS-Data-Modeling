@@ -5,7 +5,7 @@ Riak TS is designed to scale to handle massive data sets (into the petabytes) an
 
 ## Partitions
 
-Riak TS divides its dataset into partitions (which are managed by **Virtual Nodes**: http://docs.basho.com/riak/kv/2.1.4/learn/concepts/vnodes/). By default Riak TS has 64 partitions however this number is configurable and can range from a minimum of 8 partitions up to a maximum 1024 (in powers of 2 e.g.: 8, 16, 32, 64, 128, 256, 512, and 1024). The number of partitions is specified in the ``` riak.conf ``` file in Riak TS's ``` etc ``` directory. The following lines from the ``` riak.conf ``` contain the ``` ring_size ``` parameter and basic information about setting the parameter:
+Riak TS divides its dataset into partitions (which are managed by **Virtual Nodes**: http://docs.basho.com/riak/kv/latest/learn/concepts/vnodes/). By default Riak TS has 64 partitions however this number is configurable and can range from a minimum of 8 partitions up to a maximum 1024 (in powers of 2 e.g.: 8, 16, 32, 64, 128, 256, 512, and 1024). The number of partitions is specified in the ``` riak.conf ``` file in Riak TS's ``` etc ``` directory. The following lines from the ``` riak.conf ``` contain the ``` ring_size ``` parameter and basic information about setting the parameter:
 
 ```
 ## Number of partitions in the cluster (only valid when first
@@ -21,11 +21,11 @@ Riak TS divides its dataset into partitions (which are managed by **Virtual Node
 
 When first installed the ``` ring_size ``` parameter is commented out and the value defaults to 64. To set the value uncomment the parameter and update its value appropriately.
 
-**Warning**: The ring size needs to be set in each node's ``` riak.conf ``` and I recommend setting it before you start the node for the first time. If you need to change the ring size after you have started a node (or more than one node) check out the following documentation on how to do it safely: http://docs.basho.com/riak/kv/2.2.0/configuring/basic/#ring-size.
+**Warning**: The ring size needs to be set in each node's ``` riak.conf ``` and I recommend setting it before you start the node for the first time. If you need to change the ring size after you have started a node (or more than one node) check out the following documentation on how to do it safely: http://docs.basho.com/riak/kv/latest/configuring/basic/#ring-size.
 
 If you have a single Riak TS node all of the partitions will live on that single node. If you have a cluster of Riak TS nodes than the partitions are distributed equally around the cluster. For example, if you have 8 nodes and 64 partitions then each node will have 8 partitions.
 
-**Important Note:** The number of partitions has a direct impact on the scalability and performance of your cluster. Before setting up a production cluster please review the ring size planning guidance found here: http://docs.basho.com/riak/kv/2.1.4/setup/planning/cluster-capacity/#ring-size-number-of-partitions.
+**Important Note:** The number of partitions has a direct impact on the scalability and performance of your cluster. Before setting up a production cluster please review the ring size planning guidance found here: http://docs.basho.com/riak/kv/latest/setup/planning/cluster-capacity/#ring-size-number-of-partitions.
 
 
 ## The Ring
@@ -88,7 +88,7 @@ Transfers resulting from cluster changes: 51
 
 The final step in creating the cluster is to run the ``` riak-admin cluster commit ``` command. Once the  ``` commit ``` command is executed Riak TS will begin the process of moving each partition to its assigned node.
 
-**Note**: See the following documentation for a more complete introduction to creating a cluster: http://docs.basho.com/riak/kv/2.2.0/using/running-a-cluster/.
+**Note**: See the following documentation for a more complete introduction to creating a cluster: http://docs.basho.com/riak/kv/latest/using/running-a-cluster/.
 
 
 ## Consistent Hashing
