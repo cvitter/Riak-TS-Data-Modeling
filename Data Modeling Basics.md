@@ -130,11 +130,12 @@ The five data types currently supported by Riak TS are:
 
 | Data Type           | Description                                      |
 |---------------------|--------------------------------------------------|
-| VARCHAR             | String content including Unicode. Can only be compared using strict equality. Use single quotes to delimit varchar strings. |
+| VARCHAR             | Any Latin 1 string content is valid. Can only be compared using strict equality, and will not be typecast (e.g., to an integer) for comparison purposes. Use single quotes to delimit varchar strings. |
 | TIMESTAMP           | Timestamps are integer values expressing UNIX epoch time in UTC in milliseconds. Zero is not a valid timestamp. |
 | SINT64              | Signed 64-bit integer |
 | DOUBLE              | This type does not comply with its IEEE specification: NaN (not a number) and INF (infinity) cannot be used.|
 | BOOLEAN             | True or False, values accepted in any case |
+| Blob                | Can be used to store any unstructured data “as is”, including JSON or binary data. It will be displayed as a hex value (and can be input as hex) via riak-shell. Not yet recommended for use in primary keys. |
 
 By default columns allow NULL values. If you need to prevent NULL values from being saved in a column you can apply the ```NOT NULL``` constraint to a column definition, e.g.:
 
