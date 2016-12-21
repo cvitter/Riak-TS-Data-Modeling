@@ -325,8 +325,8 @@ WeatherStationData is active
 young_vclock: 20
 w: quorum
 small_vclock: 50
-rw: quorum
-r: quorum
+rw: one
+r: one
 pw: 0
 precommit: []
 pr: 0
@@ -335,27 +335,30 @@ old_vclock: 86400
 notfound_ok: true
 n_val: 3
 linkfun: {modfun,riak_kv_wm_link_walker,mapreduce_linkfun}
-last_write_wins: false
-dw: quorum
-dvv_enabled: true
-ddl_compiler_version: 2
-ddl: {ddl_v1,<<"WeatherStationData">>,
-     [{riak_field_v1,<<"StationId">>,1,varchar,false},
-      {riak_field_v1,<<"ReadingTimeStamp">>,2,timestamp,false},
-      {riak_field_v1,<<"Temperature">>,3,sint64,true},
-      {riak_field_v1,<<"Humidity">>,4,double,true},
-      {riak_field_v1,<<"WindSpeed">>,5,double,true},
-      {riak_field_v1,<<"WindDirection">>,6,double,true}],
-      {key_v1,[{param_v1,[<<"StationId">>]},
-          {hash_fn_v1,riak_ql_quanta,quantum,
-           [{param_v1,[<<"ReadingTimeStamp">>]},1,d],
-            timestamp}]},
-      {key_v1,[{param_v1,[<<"StationId">>]},
-      {param_v1,[<<"ReadingTimeStamp">>]}]}}
+last_write_wins: true
+dw: one
+dvv_enabled: false
+ddl_compiler_version: 320523031941664944417524937300681317050
+ddl: {ddl_v2,<<"WeatherStationData">>,
+         [{riak_field_v1,<<"StationId">>,1,varchar,false},
+          {riak_field_v1,<<"ReadingTimeStamp">>,2,timestamp,false},
+          {riak_field_v1,<<"Temperature">>,3,sint64,true},
+          {riak_field_v1,<<"Humidity">>,4,double,true},
+          {riak_field_v1,<<"WindSpeed">>,5,double,true},
+          {riak_field_v1,<<"WindDirection">>,6,double,true}],
+         {key_v1,
+             [{param_v2,[<<"StationId">>],undefined},
+              {hash_fn_v1,riak_ql_quanta,quantum,
+                  [{param_v2,[<<"ReadingTimeStamp">>],undefined},1,d],
+                  timestamp}]},
+         {key_v1,
+             [{param_v2,[<<"StationId">>],undefined},
+              {param_v2,[<<"ReadingTimeStamp">>],undefined}]},
+         v1}
 chash_keyfun: {riak_core_util,chash_std_keyfun}
 big_vclock: 50
 basic_quorum: false
-allow_mult: true
+allow_mult: false
 write_once: true
 active: true
 claimant: 'riak@127.0.0.1'
@@ -386,10 +389,10 @@ Riak TS should return the following JSON (formatted here for readability):
     [
       "Station-1001",
       1406032137000,
-      53,
+      52,
       43.2,
       2.5,
-      289.0
+      290.0
     ]
   ]
 }
