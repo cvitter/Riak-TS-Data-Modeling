@@ -141,7 +141,11 @@ When selecting a quantum to use for your partition key it is important to keep i
 
 Small quanta favor writes in terms of performance and storage while larger quanta favor querying. Selecting the right quantum for your partition key is often the most challenging piece of the data modeling process.
 
-The final important note to make about quanta is how they affect querying of data. When the database executes a ```SELECT``` statement that covers more than one quantum a sub-query is created for each quantum. By default Riak TS limits queries to a maximum span of 5 quanta in order to protect the cluster from being overloaded by queries attempting to retrieve too much data. If a query spans more than 5 quanta the database will return an error. The following ``` SELECT ``` example queries records across the entire month of July 2016 (when our table's quantum is set to 1 day) and will return an error when run:
+The final important note to make about quanta is how they affect querying of data. When the database executes a ```SELECT``` statement that covers more than one quantum a sub-query is created for each quantum. By default Riak TS limits queries to a maximum span of 5000 quanta in order to protect the cluster from being overloaded by queries attempting to retrieve too much data. If a query spans more than 5000 quanta the database will return an error.
+
+**Note**: Due to a bug in Riak TS 1.5 that actual quanta span is limited to 1000.
+
+The following ``` SELECT ``` example queries records across all of 2015, 2016, and 2017 (1096 days when our table's quantum is set to 1 day) and will return an error when run:
 
 ``` 
 SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2015-01-01 00:00:00' AND ReadingTimeStamp <= '2018-01-01 00:00:00';
@@ -152,37 +156,9 @@ When executed in the riak-shell application you should see the following error m
 ``` Error (1025): Query spans too many quanta (1096, max 1000) ```
 
 
-If you are really curious you can use the ``` EXPLAIN ``` statement in riak-shell to see details on how Riak TS executes the query above:
-
-```
-EXPLAIN SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2016-07-01 00:00:00' AND ReadingTimeStamp <= '2016-08-01 00:00:00';
-```
-
-and Riak will return the following output (truncated here to save some space):
-
-```
-+--------+-------------------------------------------------------+------------------------------------------------------------+-------------------+------------------------------------------------------------+-----------------+------+
-|Subquery|                     Coverage Plan                     |                    Range Scan Start Key                    |Is Start Inclusive?|                     Range Scan End Key                     |Is End Inclusive?|Filter|
-+--------+-------------------------------------------------------+------------------------------------------------------------+-------------------+------------------------------------------------------------+-----------------+------+
-|   1    |riak@127.0.0.1/61, riak@127.0.0.1/62, riak@127.0.0.1/63|StationId = 'Station-1001', ReadingTimeStamp = 1467331200000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467417600000|      false      |      |
-|   2    |riak@127.0.0.1/39, riak@127.0.0.1/40, riak@127.0.0.1/41|StationId = 'Station-1001', ReadingTimeStamp = 1467417600000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467504000000|      false      |      |
-|   3    | riak@127.0.0.1/10, riak@127.0.0.1/8, riak@127.0.0.1/9 |StationId = 'Station-1001', ReadingTimeStamp = 1467504000000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467590400000|      false      |      |
-|   4    |riak@127.0.0.1/18, riak@127.0.0.1/19, riak@127.0.0.1/20|StationId = 'Station-1001', ReadingTimeStamp = 1467590400000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467676800000|      false      |      |
-|   5    |riak@127.0.0.1/11, riak@127.0.0.1/12, riak@127.0.0.1/13|StationId = 'Station-1001', ReadingTimeStamp = 1467676800000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467763200000|      false      |      |
-|   6    |riak@127.0.0.1/24, riak@127.0.0.1/25, riak@127.0.0.1/26|StationId = 'Station-1001', ReadingTimeStamp = 1467763200000|       false       |StationId = 'Station-1001', ReadingTimeStamp = 1467849600000|      false      |      |
-```
-
-The output of the ``` EXPLAIN ``` statement includes the following details which help us understand how Riak TS splits queries into subqueries:
-
-* **Subquery**: unique integer for each subquery;
-* **Coverage Plan**: The nodes and partitions a subquery will run on (in the above example there are two interesting details to note: 1. The Riak TS cluster this was run on consisted of a single node and 2. the table we are querying uses Riak TS's default replication factor of 3 which is why there are three partitions listed for each subquery instead of only 1);
-* **Range Scan Start Key**: The subquery start key;
-* **Range Scan End Key**: The subquery end key;
-* **Filter**: Any non-partition key fields included in the WHERE clause of the query.
-
-**Note**: ``` EXPLAIN ``` was added in Riak TS 1.4 as an undocumented preview feature.
-
 ## Configuring The Quanta Span
+
+**Important Note**: Riak TS 1.5 has a bug that causes it to ignore the riak_kv.query.timeseries.max_quanta_span setting. The max quanta span is set to 1000 and cannot be changed. The following documentation describes how to update the setting in
 
 The maximum quanta that can be spanned in a query can be configured in the ``` riak.conf ``` file by setting the ``` riak_kv.query.timeseries.max_quanta_span ``` parameter as shown below:
 
@@ -197,12 +173,6 @@ The maximum quanta that can be spanned in a query can be configured in the ``` r
 ##   - an integer
 riak_kv.query.timeseries.max_quanta_span = 5000
 ```
-
-**Note**: The ``` riak_kv.query.timeseries.max_quanta_span ``` parameter replaced the ``` timeseries_query_max_quanta_span = 5 ``` parameter in Riak TS 1.4.
-
-As noted in the comments above you should add one to the quanta that you plan on querying or else expect that some percentage of the data you are trying to query will fall outside of quanta span window.
-
-**Warning**: Remember that the quanta span limit was put into place for a reason. Increasing the limit too much may result in negative impacts on the performance of your Riak TS cluster. 
 
 **Note**: For more information about Riak TS specific configuration settings see the following documentation: http://docs.basho.com/riak/ts/latest/using/configuring/.
 
