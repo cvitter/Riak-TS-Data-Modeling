@@ -243,7 +243,11 @@ Remembering that the current version or riak-shell doesn't support pasting multi
 INSERT INTO WeatherStationData VALUES ('Station-1001', '2014-07-22 16:28:57', 52, 43.2, 2.5, 290.0);
 ```
 
-If you cut and paste the SQL ```INSERT``` command above into riak-shell a new record should be added to the ```WeatherStationData``` table.
+If you cut and paste the SQL ```INSERT``` command above into riak-shell a new record should be added to the ```WeatherStationData``` table and riak-shell should respond with:
+
+```
+Inserted 1 row.
+```
 
 **Important Note**:  As of Riak TS version 1.4 you can write dates using the ISO 8061 data format (http://www.iso.org/iso/home/standards/iso8601.htm) as demonstrated in the SQL insert statement above.
 
