@@ -278,14 +278,14 @@ SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTim
 When the command has executed riak-shell should return the following output:
 
 ```
-+------------+--------------------+-----------+--------------------------+--------------------------+--------------------------+
-| StationId  |  ReadingTimeStamp  |Temperature|         Humidity         |        WindSpeed         |      WindDirection       |
-+------------+--------------------+-----------+--------------------------+--------------------------+--------------------------+
-|Station-1001|2014-07-22T16:28:57Z|    52     |4.32000000000000028422e+01|2.50000000000000000000e+00|2.89000000000000000000e+02|
-+------------+--------------------+-----------+--------------------------+--------------------------+--------------------------+
++------------+--------------------+-----------+--------+---------+-------------+
+| StationId  |  ReadingTimeStamp  |Temperature|Humidity|WindSpeed|WindDirection|
++------------+--------------------+-----------+--------+---------+-------------+
+|Station-1001|2014-07-22T16:28:57Z|    52     |  43.2  |   2.5   |    290.0    |
++------------+--------------------+-----------+--------+---------+-------------+
 ```
 
-**Note**: In Riak TS 1.5 the ```SELECT``` command is planned to include support for the equality operator (e.g. ```ReadingTimeStamp = '2014-07-22 20:00:00'```) in addition to bounded ranges for quantized fields in the ```WHERE``` clause.
+**Note**: In Riak TS 1.6 the ```SELECT``` command is planned to include support for the equality operator (e.g. ```ReadingTimeStamp = '2014-07-22 20:00:00'```) in addition to bounded ranges for quantized fields in the ```WHERE``` clause.
 
 ## Riak TS Table Architecture
 
