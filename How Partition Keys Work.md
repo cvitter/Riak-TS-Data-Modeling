@@ -144,14 +144,13 @@ Small quanta favor writes in terms of performance and storage while larger quant
 The final important note to make about quanta is how they affect querying of data. When the database executes a ```SELECT``` statement that covers more than one quantum a sub-query is created for each quantum. By default Riak TS limits queries to a maximum span of 5 quanta in order to protect the cluster from being overloaded by queries attempting to retrieve too much data. If a query spans more than 5 quanta the database will return an error. The following ``` SELECT ``` example queries records across the entire month of July 2016 (when our table's quantum is set to 1 day) and will return an error when run:
 
 ``` 
-SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2016-07-01 00:00:00' AND ReadingTimeStamp <= '2016-08-01 00:00:00'; 
+SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2015-01-01 00:00:00' AND ReadingTimeStamp <= '2018-01-01 00:00:00';
 ```
 
 When executed in the riak-shell application you should see the following error message:
 
-``` Error (1001): Too many subqueries (32) ```
+``` Error (1025): Query spans too many quanta (1096, max 1000) ```
 
-Notice that the number of quanta that the query would span is included in the error message, e.g.: ``` (32) ```.
 
 If you are really curious you can use the ``` EXPLAIN ``` statement in riak-shell to see details on how Riak TS executes the query above:
 
@@ -188,16 +187,15 @@ The output of the ``` EXPLAIN ``` statement includes the following details which
 The maximum quanta that can be spanned in a query can be configured in the ``` riak.conf ``` file by setting the ``` riak_kv.query.timeseries.max_quanta_span ``` parameter as shown below:
 
 ```
-## Maximum number of quanta that a query can span. Larger quanta spans
-## mean the time duration for a query can be bigger. This is constrained to
-## prevent excessively long running queries that could affect the performance
-## of the cluster.
+## Maximum number of quanta that a query can span. Note that even
+## when the number of quanta is less than this value, the query may be
+## cancelled if the projected size of the data exceeeds @see max_returned_data_size.
 ## 
-## Default: 5
+## Default: 5000
 ## 
 ## Acceptable values:
 ##   - an integer
-riak_kv.query.timeseries.max_quanta_span = 5
+riak_kv.query.timeseries.max_quanta_span = 5000
 ```
 
 **Note**: The ``` riak_kv.query.timeseries.max_quanta_span ``` parameter replaced the ``` timeseries_query_max_quanta_span = 5 ``` parameter in Riak TS 1.4.
