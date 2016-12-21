@@ -135,7 +135,7 @@ The five data types currently supported by Riak TS are:
 | SINT64              | Signed 64-bit integer |
 | DOUBLE              | This type does not comply with its IEEE specification: NaN (not a number) and INF (infinity) cannot be used.|
 | BOOLEAN             | True or False, values accepted in any case |
-| Blob                | Can be used to store any unstructured data “as is”, including JSON or binary data. It will be displayed as a hex value (and can be input as hex) via riak-shell. Not yet recommended for use in primary keys. |
+| BLOB                | Can be used to store any unstructured data “as is”, including JSON or binary data. It will be displayed as a hex value (and can be input as hex) via riak-shell. Not yet recommended for use in primary keys. |
 
 By default columns allow NULL values. If you need to prevent NULL values from being saved in a column you can apply the ```NOT NULL``` constraint to a column definition, e.g.:
 
@@ -207,6 +207,20 @@ You can add additional columns to the local key if for example additional column
 ``` StationId, ReadingTimeStamp, Temperature ```
 
 as long as the additional columns are added after the columns also contained within the partition key. 
+
+### Sorting with Local Keys
+
+As noted in the previous section, the local key affects how data is sorted on disk when it is written. In turn this sort order also affects the default order in which data is returned when queried. While Riak TS version 1.5 added ``` ORDER BY ``` to ``` SELECT ``` statements it is more efficient to pre-sort the data at write time.
+
+In our example table the sort order of our data is determined by ``` StationId ``` and ``` ReadingTimeStamp ```. By default the ``` TIMESTAMP ``` data type will sort in ascending order, i.e. oldest event to newest. If we wanted the data to be stored in descending order (newest event to oldest) we could modify the local key portion of our DDL as shown in the following example:
+
+```
+    PRIMARY KEY (
+        (StationId, QUANTUM(ReadingTimeStamp, 1, 'd') ),
+         StationId, ReadingTimeStamp DESC
+    ) 
+```
+
 
 ## Reading and Writing Data with Riak TS
 
