@@ -1,6 +1,6 @@
 # [Riak TS](README.md) - Why Use Quanta At All?
 
-As we noted in the [Partition Key](Data Modeling Basics.md#partition-key) section of the [Data Modeling Basics](Data Modeling Basics.md) document the quantum function is an optional part of the partition key. So far all of the examples we have explored have used the quantum function to distribute and query data based on a range of time but there are a subset of non-time based use cases that are also ideal candidates for Riak TS. One simple example that demonstrates the feasibility of non-time based use cases in Riak TS is the e-commerce shopping cart. In the following section we will talk through the implementation of a simple shopping cart example in Riak TS.
+As we noted in the [Partition Key](Data Modeling Basics.md#partition-key) section of the [Data Modeling Basics](Data Modeling Basics.md) document the quantum function is an optional part of the partition key. So far all of the examples we have explored have used the quantum function to distribute and query data based on a range of time but there are a subset of non-time based use cases that are also ideal candidates for Riak TS. One simple example that demonstrates the feasibility of non-time based use cases in Riak TS is the e-commerce shopping cart. In the following section we will walk through the implementation of a simple shopping cart example in Riak TS.
 
 
 ## The Riak TS Shopping Cart
@@ -39,15 +39,15 @@ Once the ``` CREATE TABLE ``` statement has executed you can use the ``` DESCRIB
 
 ```
 riak-shell(2)>DESCRIBE ShoppingCartItem;
-+------------+---------+-------+-----------+---------+--------+----+
-|   Column   |  Type   |Is Null|Primary Key|Local Key|Interval|Unit|
-+------------+---------+-------+-----------+---------+--------+----+
-|   CartId   | varchar | false |     1     |    1    |        |    |
-|   ItemId   | varchar | false |           |    2    |        |    |
-|ItemQuantity| sint64  | false |           |         |        |    |
-|  UnitCost  | double  | false |           |         |        |    |
-| ItemAdded  |timestamp| false |           |         |        |    |
-+------------+---------+-------+-----------+---------+--------+----+
++------------+---------+--------+-------------+---------+--------+----+----------+
+|   Column   |  Type   |Nullable|Partition Key|Local Key|Interval|Unit|Sort Order|
++------------+---------+--------+-------------+---------+--------+----+----------+
+|   CartId   | varchar | false  |      1      |    1    |        |    |          |
+|   ItemId   | varchar | false  |             |    2    |        |    |          |
+|ItemQuantity| sint64  | false  |             |         |        |    |          |
+|  UnitCost  | double  | false  |             |         |        |    |          |
+| ItemAdded  |timestamp| false  |             |         |        |    |          |
++------------+---------+--------+-------------+---------+--------+----+----------+
 ```
 
 In our example table the partition key consists of the ``` CartId ``` column alone. This means that every record we write to the table that shares the same ``` CartId ``` will be written to the same partition in our cluster (**Note**: Record uniqueness is established at the local key level via the combination of ``` CartId ``` and ``` ItemId ``` columns). Although different carts can have widely different number of line items associated with them the writes and reads will be distributed evenly around the cluster as the number of line items should average out over a large number of shopping carts.
@@ -64,13 +64,13 @@ The three line items that were inserted above all share the same ``` CartId ``` 
 
 ```
 riak-shell(2)>SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';
-+----------------+-------------+------------+--------------------------+--------------------+
-|     CartId     |   ItemId    |ItemQuantity|         UnitCost         |     ItemAdded      |
-+----------------+-------------+------------+--------------------------+--------------------+
-|ShoppingCart0001|  Shirt0001  |     1      |1.22500000000000000000e+01|2016-12-16T15:43:22Z|
-|ShoppingCart0001|  Socks0001  |     4      |3.75000000000000000000e+00|2016-12-16T15:47:02Z|
-|ShoppingCart0001|Underwear0001|     4      |5.25000000000000000000e+00|2016-12-16T15:52:31Z|
-+----------------+-------------+------------+--------------------------+--------------------+
++----------------+-------------+------------+--------+--------------------+
+|     CartId     |   ItemId    |ItemQuantity|UnitCost|     ItemAdded      |
++----------------+-------------+------------+--------+--------------------+
+|ShoppingCart0001|  Shirt0001  |     1      | 12.25  |2016-12-16T15:43:22Z|
+|ShoppingCart0001|  Socks0001  |     4      |  3.75  |2016-12-16T15:47:02Z|
+|ShoppingCart0001|Underwear0001|     4      |  5.25  |2016-12-16T15:52:31Z|
++----------------+-------------+------------+--------+--------------------+
 ```
 
 Let's add three more items to our shopping cart:
@@ -85,35 +85,45 @@ and then execute our ``` SELECT ``` statement again:
 
 ```
 riak-shell(17)>SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';                                            
-+----------------+----------------+------------+--------------------------+--------------------+
-|     CartId     |     ItemId     |ItemQuantity|         UnitCost         |     ItemAdded      |
-+----------------+----------------+------------+--------------------------+--------------------+
-|ShoppingCart0001|   Apple0001    |     8      |2.50000000000000000000e+00|2016-12-16T15:53:37Z|
-|ShoppingCart0001|   Shirt0001    |     1      |1.22500000000000000000e+01|2016-12-16T15:43:22Z|
-|ShoppingCart0001|   Socks0001    |     4      |3.75000000000000000000e+00|2016-12-16T15:47:02Z|
-|ShoppingCart0001|TennisRacket0001|     1      |6.59500000000000028422e+01|2016-12-16T16:05:54Z|
-|ShoppingCart0001| Underwear0001  |     4      |5.25000000000000000000e+00|2016-12-16T15:52:31Z|
-|ShoppingCart0001|ZebraHoodie0001 |     1      |2.55500000000000007105e+01|2016-12-16T15:58:04Z|
-+----------------+----------------+------------+--------------------------+--------------------+
++----------------+----------------+------------+--------+--------------------+
+|     CartId     |     ItemId     |ItemQuantity|UnitCost|     ItemAdded      |
++----------------+----------------+------------+--------+--------------------+
+|ShoppingCart0001|   Apple0001    |     8      |  2.5   |2016-12-16T15:53:37Z|
+|ShoppingCart0001|   Shirt0001    |     1      | 12.25  |2016-12-16T15:43:22Z|
+|ShoppingCart0001|   Socks0001    |     4      |  3.75  |2016-12-16T15:47:02Z|
+|ShoppingCart0001|TennisRacket0001|     1      | 65.95  |2016-12-16T16:05:54Z|
+|ShoppingCart0001| Underwear0001  |     4      |  5.25  |2016-12-16T15:52:31Z|
+|ShoppingCart0001|ZebraHoodie0001 |     1      | 25.55  |2016-12-16T15:58:04Z|
++----------------+----------------+------------+--------+--------------------+
 ```
 
-Notice that the output of the select statement is ordered by ``` CartId ``` and ``` ItemId ``` columns (the local key) which is how the records are physically sorted on disk. ``` ORDER BY ``` is scheduled to be added in Riak TS 1.5 which will allow you to change the ordering of your result set using columns that are not part of the key. The following example (which will only work in Riak TS 1.5+) orders the result set by the time that the item was added to the shopping cart:
+Notice that the output of the select statement is ordered by ``` CartId ``` and ``` ItemId ``` columns (the local key) which is how the records are physically sorted on disk. If we want to change the order of items in our result set we can use ``` ORDER BY ``` as demonstrated in the query below where we sort the result set to show our items in descending order of when they were added:
 
 ```
-SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001' ORDER BY ItemAdded DESC;
+riak-shell(18)>SELECT * FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001' ORDER BY ItemAdded DESC;
++----------------+----------------+------------+--------+--------------------+
+|     CartId     |     ItemId     |ItemQuantity|UnitCost|     ItemAdded      |
++----------------+----------------+------------+--------+--------------------+
+|ShoppingCart0001|TennisRacket0001|     1      | 65.95  |2016-12-16T16:05:54Z|
+|ShoppingCart0001|ZebraHoodie0001 |     1      | 25.55  |2016-12-16T15:58:04Z|
+|ShoppingCart0001|   Apple0001    |     8      |  2.5   |2016-12-16T15:53:37Z|
+|ShoppingCart0001| Underwear0001  |     4      |  5.25  |2016-12-16T15:52:31Z|
+|ShoppingCart0001|   Socks0001    |     4      |  3.75  |2016-12-16T15:47:02Z|
+|ShoppingCart0001|   Shirt0001    |     1      | 12.25  |2016-12-16T15:43:22Z|
++----------------+----------------+------------+--------+--------------------+
 ```
 
 In addition to the basic ``` SELECT ``` statement you can use aggregates like ``` COUNT ``` to count the total number of line items in the shopping cart or ``` SUM ``` to count the total number of items in the cart. For example:
 
 ```
-riak-shell(20)>SELECT COUNT(*) FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';           
+riak-shell(20)>SELECT COUNT(*) FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';
 +--------+    
 |COUNT(*)|
 +--------+
 |   6    |
 +--------+
 
-riak-shell(21)>SELECT SUM(ItemQuantity) FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';  
+riak-shell(21)>SELECT SUM(ItemQuantity) FROM ShoppingCartItem WHERE CartId = 'ShoppingCart0001';
 +-----------------+
 |SUM(ItemQuantity)|
 +-----------------+
@@ -159,7 +169,7 @@ CREATE TABLE YourCoolUseCase
 );
 ```
 
-Don't forget that the columns used for the partition and local keys don't have to be of the VARCHAR data type and that the values use in the local key affect how the the data written is sorted (and returned in queries). While Riak TS will add ``` ORDER BY ``` to ``` SELECT ``` applying ``` ORDER BY ``` in a query is likely to have an impact on the performance of the query.
+Don't forget that the columns used for the partition and local keys don't have to be of the VARCHAR data type and that the values use in the local key affect how the the data written is sorted (and returned in queries).
 
 If you find any creative non-time based use cases you would like to share please feel free to create an issue: https://github.com/cvitter/Riak-TS-Data-Modeling/issues.
 
