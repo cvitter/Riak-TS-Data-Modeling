@@ -158,7 +158,7 @@ When executed in the riak-shell application you should see the following error m
 
 ## Configuring The Quanta Span
 
-**Important Note**: Riak TS 1.5 has a bug that causes it to ignore the riak_kv.query.timeseries.max_quanta_span setting. The max quanta span is set to 1000 and cannot be changed. The following documentation describes how to update the setting in
+**Important Note**: Riak TS 1.5 has a bug that causes it to ignore the riak_kv.query.timeseries.max_quanta_span setting. The max quanta span is set to 1000 and cannot be changed.
 
 The maximum quanta that can be spanned in a query can be configured in the ``` riak.conf ``` file by setting the ``` riak_kv.query.timeseries.max_quanta_span ``` parameter as shown below:
 
