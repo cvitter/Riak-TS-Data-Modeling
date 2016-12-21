@@ -38,9 +38,9 @@ CREATE TABLE WeatherStationData
 Once you have a DDL like the example above there are four ways that you can send the DDL to Riak TS to create your table:
 
 * Use **riak-shell** (http://docs.basho.com/riak/ts/latest/using/riakshell/)  to execute the DDL;
-* Use Riak TS's HTTP API (http://docs.basho.com/riak/ts/1.4.0/developing/http/) to execute the DDL;
+* Use Riak TS's HTTP API (http://docs.basho.com/riak/ts/latest/developing/http/) to execute the DDL;
 * Use one of Riak TS's client libraries (Java, Python, Erlang, Node.js, .Net, Go, Ruby, PHP - see the following page for more information on Riak TS's client libraries: http://docs.basho.com/riak/ts/latest/developing/) to execute the DDL;
-* Or use the riak-admin command tool (see the following page for details on how to do this: http://docs.basho.com/riak/ts/latest/using/creating-activating/#riak-admin).
+* Or use the riak-admin command tool (see the following page for details on how to do this: http://docs.basho.com/riak/ts/latest/using/creating-activating/#create-table-using-riak-admin).
 
 For most of this documentation we will use riak-shell to execute example code. If you have already installed Riak TS (and it is running) let's go ahead and create the WeatherStationData table using riak-shell.
 
@@ -52,7 +52,7 @@ Riak-shell will output text that looks like the following example when it launch
 ```
 Erlang R16B02_basho10 (erts-5.10.3) [source] [64-bit] [smp:4:4] [async-threads:10] [kernel-poll:false] [frame-pointer] [dtrace]
 
-version "riak_shell 0.9/sql compiler 2", use 'quit;' or 'q;' to exit or 'help;' for help
+version "riak_shell 1.5/sql compiler 320523031941664944417524937300681317050", use 'quit;' or 'q;' to exit or 'help;' for help
 Connected...
 riak-shell(1)>
 ```
@@ -63,7 +63,12 @@ Copy and paste the following simplified, single line version of the CREATE TABLE
 CREATE TABLE WeatherStationData (StationId VARCHAR NOT NULL, ReadingTimeStamp TIMESTAMP NOT NULL, Temperature SINT64, Humidity DOUBLE, WindSpeed DOUBLE, WindDirection DOUBLE, PRIMARY KEY ((StationId, QUANTUM(ReadingTimeStamp, 1, 'd')), StationId, ReadingTimeStamp));
 ```
 
-Riak TS doesn't send "success" messages when tables are created successfully. If Riak TS is able to add the new table successfully you should simply see a new command prompt upon completion. 
+If your table has been created successfully you will see the following message and a command prompt:
+
+```
+Table WeatherStationData successfully created and activated.
+riak-shell(2)>
+```
 
 As noted above, once you have created a table you cannot alter or delete the table. If you run the table create statement a second time the database should output the following error message:
 
@@ -73,11 +78,11 @@ There are two ways within riak-shell to verify that your table has been created 
 
 ```
 riak-shell(2)>SHOW TABLES;
-+------------------+
-|      Table       |
-+------------------+
-|WeatherStationData|
-+------------------+
++------------------+------+
+|      Table       |Status|
++------------------+------+
+|WeatherStationData|Active|
++------------------+------+
 ```
 
 The second method is to use the ```DESCRIBE``` command to output your table's schema. Within riak-shell use the following command to output the schema for the WeatherStationData table:
@@ -87,16 +92,16 @@ The second method is to use the ```DESCRIBE``` command to output your table's sc
 The DESCRIBE command should return the following output for the WeatherStationData table:
 
 ```
-+----------------+---------+-------+-----------+---------+--------+----+
-|     Column     |  Type   |Is Null|Primary Key|Local Key|Interval|Unit|
-+----------------+---------+-------+-----------+---------+--------+----+
-|   StationId    | varchar | false |     1     |    1    |        |    |
-|ReadingTimeStamp|timestamp| false |     2     |    2    |   1    | d  |
-|  Temperature   | sint64  | true  |           |         |        |    |
-|    Humidity    | double  | true  |           |         |        |    |
-|   WindSpeed    | double  | true  |           |         |        |    |
-| WindDirection  | double  | true  |           |         |        |    |
-+----------------+---------+-------+-----------+---------+--------+----+
++----------------+---------+--------+-------------+---------+--------+----+----------+
+|     Column     |  Type   |Nullable|Partition Key|Local Key|Interval|Unit|Sort Order|
++----------------+---------+--------+-------------+---------+--------+----+----------+
+|   StationId    | varchar | false  |      1      |    1    |        |    |          |
+|ReadingTimeStamp|timestamp| false  |      2      |    2    |   1    | d  |          |
+|  Temperature   | sint64  |  true  |             |         |        |    |          |
+|    Humidity    | double  |  true  |             |         |        |    |          |
+|   WindSpeed    | double  |  true  |             |         |        |    |          |
+| WindDirection  | double  |  true  |             |         |        |    |          |
++----------------+---------+--------+-------------+---------+--------+----+----------+
 ```
 
 Now that we have created the table within Riak TS lets take a deeper look at the individual components of our DDL starting with the table name.

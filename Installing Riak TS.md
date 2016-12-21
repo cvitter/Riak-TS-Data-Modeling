@@ -6,8 +6,8 @@ The following instructions will help you get up and running with a single Riak T
 
 1. Download and expand the tar.gz file to your local directory (and move it to your preferred location on your system);
 1. Increase the open files limit on your machine (see http://docs.basho.com/riak/kv/2.1.4/using/performance/open-files-limit/ for more information on why and for instructions on increasing the open files limit on your machine)
-1. Navigate to your Riak TS directory (For example: ``` > cd riak-ts-1.4.0```);
-1. Start a Riak TS node: ``` > bin/riak start```
+1. Navigate to your Riak TS directory (For example: ``` $ cd riak-ts-1.5.0```);
+1. Start a Riak TS node: ``` $ bin/riak start```
 
 Once Riak TS has started you can further test that it is up and running using the following commands:
 
