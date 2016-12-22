@@ -5,7 +5,7 @@ Installing a single node of Riak TS locally for learning or development is a rel
 The following instructions will help you get up and running with a single Riak TS node on a Mac running OS X:
 
 1. Download and expand the tar.gz file to your local directory (and move it to your preferred location on your system);
-1. Increase the open files limit on your machine (see http://docs.basho.com/riak/kv/2.1.4/using/performance/open-files-limit/ for more information on why and for instructions on increasing the open files limit on your machine)
+1. Increase the open files limit on your machine (see http://docs.basho.com/riak/kv/latest/using/performance/open-files-limit/ for more information on why and for instructions on increasing the open files limit on your machine)
 1. Navigate to your Riak TS directory (For example: ``` $ cd riak-ts-1.5.0```);
 1. Start a Riak TS node: ``` $ bin/riak start```
 
