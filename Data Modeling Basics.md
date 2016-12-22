@@ -238,7 +238,7 @@ VALUES
 	('Station-1001', '2014-07-22 16:28:57', 52, 43.2, 2.5, 290.0);
 ```
 
-Remembering that the current version or riak-shell doesn't support pasting multi-line statements you can use the following streamlined version of the INSERT statement (it leaves off the column names) to create your first record:
+You can use the following streamlined version of the INSERT statement (it leaves off the column names) to create your first record:
 
 ```
 INSERT INTO WeatherStationData VALUES ('Station-1001', '2014-07-22 16:28:57', 52, 43.2, 2.5, 290.0);
