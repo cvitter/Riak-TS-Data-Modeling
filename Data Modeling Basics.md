@@ -13,7 +13,7 @@
 
 Before writing data to Riak TS you need to create a table. Tables are created using a DDL (Data Definition Language - https://en.wikipedia.org/wiki/Data_definition_language) which is based on the standard SQL DDL. 
 
-**Important Note About Table Creation**: As of Riak TS version 1.4 tables cannot be altered or deleted after they have been created so it is very important to carefully plan the table's schema before creating the table. Support for ALTER and DROP table commands is planned for future releases.
+**Important Note About Table Creation**: As of Riak TS 1.5 tables cannot be altered or deleted after they have been created so it is very important to carefully plan the table's schema before creating the table. Support for ALTER and DROP table commands is planned for future releases.
 
 The following sample DDL creates a table called WeatherStationData that has six columns:
 
@@ -57,7 +57,7 @@ Connected...
 riak-shell(1)>
 ```
 
-Copy and paste the following simplified, single line version of the CREATE TABLE statement (riak-shell currently doesn't pasting in multi-line code fragments) in to the shell and hitting enter:
+Copy and paste the following simplified, single line version of the CREATE TABLE statement in to the shell and hit enter:
 
 ```
 CREATE TABLE WeatherStationData (StationId VARCHAR NOT NULL, ReadingTimeStamp TIMESTAMP NOT NULL, Temperature SINT64, Humidity DOUBLE, WindSpeed DOUBLE, WindDirection DOUBLE, PRIMARY KEY ((StationId, QUANTUM(ReadingTimeStamp, 1, 'd')), StationId, ReadingTimeStamp));
@@ -74,7 +74,7 @@ As noted above, once you have created a table you cannot alter or delete the tab
 
 ``` Error (1014): Failed to create table WeatherStationData: already_active ```
 
-There are two ways within riak-shell to verify that your table has been created successfully (other than the absence of an error message). The first method is to use the ``` SHOW TABLES ``` command as illustrated below:
+There are two other ways within riak-shell to verify that your table has been created successfully. The first method is to use the ``` SHOW TABLES ``` command as illustrated below:
 
 ```
 riak-shell(2)>SHOW TABLES;
@@ -210,7 +210,9 @@ as long as the additional columns are added after the columns also contained wit
 
 ### Sorting with Local Keys
 
-As noted in the previous section, the local key affects how data is sorted on disk when it is written. In turn this sort order also affects the default order in which data is returned when queried. While Riak TS version 1.5 added ``` ORDER BY ``` to ``` SELECT ``` statements it is more efficient to pre-sort the data at write time.
+As noted in the previous section, the local key affects how data is sorted on disk when it is written. In turn this sort order also affects the default order in which data is returned when queried. While Riak TS version 1.5 added ``` ORDER BY ``` to ``` SELECT ``` statements it is more efficient to pre-sort the data at write time. Riak TS 1.5 added the ability to specify a sort order on a local key field using ASC or DESC.
+
+**Note**: Sort order can _only_ be specified on a local key in the primary key portion of the table DDL.
 
 In our example table the sort order of our data is determined by ``` StationId ``` and ``` ReadingTimeStamp ```. By default the ``` TIMESTAMP ``` data type will sort in ascending order, i.e. oldest event to newest. If we wanted the data to be stored in descending order (newest event to oldest) we could modify the local key portion of our DDL as shown in the following example:
 
@@ -220,7 +222,6 @@ In our example table the sort order of our data is determined by ``` StationId `
          StationId, ReadingTimeStamp DESC
     ) 
 ```
-
 
 ## Reading and Writing Data with Riak TS
 
