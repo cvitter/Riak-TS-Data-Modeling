@@ -143,22 +143,18 @@ Small quanta favor writes in terms of performance and storage while larger quant
 
 The final important note to make about quanta is how they affect querying of data. When the database executes a ```SELECT``` statement that covers more than one quantum a sub-query is created for each quantum. By default Riak TS limits queries to a maximum span of 5000 quanta in order to protect the cluster from being overloaded by queries attempting to retrieve too much data. If a query spans more than 5000 quanta the database will return an error.
 
-**Note**: Due to a bug in Riak TS 1.5 that actual quanta span is limited to 1000.
-
-The following ``` SELECT ``` example queries records across all of 2015, 2016, and 2017 (1096 days when our table's quantum is set to 1 day) and will return an error when run:
+The following ``` SELECT ``` example queries records across between July 22, 2000 and July 22, 2020 (7305 total days) and will return an error when run:
 
 ``` 
-SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2015-01-01 00:00:00' AND ReadingTimeStamp <= '2018-01-01 00:00:00';
+SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2000-07-22 12:00:00' AND ReadingTimeStamp <= '2020-07-22 20:00:00';
 ```
 
 When executed in the riak-shell application you should see the following error message:
 
-``` Error (1025): Query spans too many quanta (1096, max 1000) ```
+``` Error (1025): Query spans too many quanta (7305, max 5000) ```
 
 
 ## Configuring The Quanta Span
-
-**Important Note**: Riak TS 1.5 has a bug that causes it to ignore the riak_kv.query.timeseries.max_quanta_span setting. The max quanta span is set to 1000 and cannot be changed.
 
 The maximum quanta that can be spanned in a query can be configured in the ``` riak.conf ``` file by setting the ``` riak_kv.query.timeseries.max_quanta_span ``` parameter as shown below:
 

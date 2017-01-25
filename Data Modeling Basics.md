@@ -52,7 +52,7 @@ Riak-shell will output text that looks like the following example when it launch
 ```
 Erlang R16B02_basho10 (erts-5.10.3) [source] [64-bit] [smp:4:4] [async-threads:10] [kernel-poll:false] [frame-pointer] [dtrace]
 
-version "riak_shell 1.5/sql compiler 320523031941664944417524937300681317050", use 'quit;' or 'q;' to exit or 'help;' for help
+version "riak_shell 1.5/sql compiler 224106348230695526464726407567329086520", use 'quit;' or 'q;' to exit or 'help;' for help
 Connected...
 riak-shell(1)>
 ```
@@ -257,23 +257,22 @@ Inserted 1 row.
 
 Now that we have added a row to our ```WeatherStationData``` table we can verify that it was written by using the SQL ```SELECT``` command to retrieve the new record. When querying your data the following rules apply to the partition portion of the record's primary key:
 
-* All columns in the partition key must be in the query's ```WHERE``` clause
-* The quantized field (if there is one, ```ReadingTimeStamp``` in our example) must be included as a bounded range (e.g. ```ReadingTimeStamp >= 1469204877 AND ReadingTimeStamp <= 1469204977``` or ```ReadingTimeStamp >= '2014-07-22 12:00:00' AND ReadingTimeStamp <= '2014-07-22 20:00:00'```)
-* All other partition columns must be included as exact matches (e.g. ```StationId = 'Station-1001'```)
+* All columns in the partition key must be in the query's ```WHERE``` clause;
+* Quantized keys (timestamps) can be included as bounded ranges or exact matches;
+* All other partition columns must be included as exact matches (e.g. ```StationId = 'Station-1001'```).
 
 The following SQL ```SELECT``` will select our newly created records from the database:
 
 ```
-SELECT * FROM WeatherStationData WHERE
-     StationId = 'Station-1001' AND
-     ReadingTimeStamp >= '2014-07-22 12:00:00' AND 
-     ReadingTimeStamp <= '2014-07-22 20:00:00';
+SELECT * FROM WeatherStationData WHERE 
+    StationId = 'Station-1001' AND 
+    ReadingTimeStamp = '2014-07-22T16:28:57'; 
 ```
 
 Cut and paste the single line version of the SQL statement into riak-shell to test:
 
 ```
-SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp >= '2014-07-22 12:00:00' AND ReadingTimeStamp <= '2014-07-22 20:00:00';
+SELECT * FROM WeatherStationData WHERE StationId = 'Station-1001' AND ReadingTimeStamp = '2014-07-22T16:28:57'; 
 ```
 
 When the command has executed riak-shell should return the following output:
@@ -286,7 +285,7 @@ When the command has executed riak-shell should return the following output:
 +------------+--------------------+-----------+--------+---------+-------------+
 ```
 
-**Note**: In Riak TS 1.6 the ```SELECT``` command is planned to include support for the equality operator (e.g. ```ReadingTimeStamp = '2014-07-22 20:00:00'```) in addition to bounded ranges for quantized fields in the ```WHERE``` clause.
+**Note**: Riak TS 1.5.1 added support for the equality operator (e.g. ```ReadingTimeStamp = '2014-07-22 20:00:00'```) in addition to bounded ranges for quantized fields in the ```WHERE``` clause.
 
 ## Riak TS Table Architecture
 
