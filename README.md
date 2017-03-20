@@ -2,14 +2,14 @@
 
 **Riak TS** (http://docs.basho.com/riak/ts) is a distributed NoSQL database optimized for time series use cases. Although Riak TS is based on Riak KV (http://docs.basho.com/riak/kv), you interact with Riak TS via tables, rows, and columns. This Github repository contains readmes and sample code designed to walk you through the basics of working with Riak TS and data modeling based on its unique distributed architecture including practical guidance on how to model for a variety of common use cases.
 
-**Note**: Having a running instance of Riak TS when reading through these documents will be useful if you want to get hands on experience with data modeling and querying Riak TS. If you haven't already installed Riak TS please see [Installing Riak TS](Installing Riak TS.md) before proceeding.
+**Note**: Having a running instance of Riak TS when reading through these documents will be useful if you want to get hands on experience with data modeling and querying Riak TS. If you haven't already installed Riak TS please see [Installing Riak TS](Installing%20Riak%20TS.md) before proceeding.
 
 If you are new to Riak TS I would suggest reading each of the following sections in order as the concepts build on each other to give you both a theoretical and practical understanding of best practices around data modeling:
 
 * [Data Modeling Basics](Data%20Modeling%20Basics.md)
-* [How Partition Keys Work](How Partition Keys Work.md)
-* [Selecting A Partition Key](Selecting A Partition Key.md)
-* [Why Use Quanta At All?](Why Use Quanta At All.md)
+* [How Partition Keys Work](How%20Partition%20Keys%20Work.md)
+* [Selecting A Partition Key](Selecting%20A%20Partition%20Key.md)
+* [Why Use Quanta At All?](Why%20Use%20Quanta%20At%20All.md)
 
 # Questions, Feedback, Pull Requests Etc.
 
