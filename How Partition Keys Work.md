@@ -102,7 +102,7 @@ While this even distribution of data around the cluster is ideal for hardware ut
 
 ## The Partition Key
 
-Now that we understand how data is partitioned and addressed in Riak TS let's return to the primary key, or more specifically the partition portion of the primary key. In the previous section [Data Modeling Basics](Data Modeling Basics.md) we used the following primary key for the ``` WeatherStationData ``` table that we created:
+Now that we understand how data is partitioned and addressed in Riak TS let's return to the primary key, or more specifically the partition portion of the primary key. In the previous section [Data Modeling Basics](Data%20Modeling%20Basics.md) we used the following primary key for the ``` WeatherStationData ``` table that we created:
 
 
 ```
@@ -172,10 +172,10 @@ riak_kv.query.timeseries.max_quanta_span = 5000
 
 **Note**: For more information about Riak TS specific configuration settings see the following documentation: http://docs.basho.com/riak/ts/latest/using/configuring/.
 
-In the next section [Selecting A Partition Key](Selecting A Partition Key.md) we will go into more detail about how to select partition keys that make sense for specific types of use cases.
+In the next section [Selecting A Partition Key](Selecting%20A%20Partition%20Key.md) we will go into more detail about how to select partition keys that make sense for specific types of use cases.
 
 ---
 
- **Previous**: [ Data Modeling Basics](Data Modeling Basics.md) | **Next**: [Selecting A Partition Key](Selecting A Partition Key.md)
+ **Previous**: [ Data Modeling Basics](Data%20Modeling%20Basics.md) | **Next**: [Selecting A Partition Key](Selecting%20A%20Partition%20Key.md)
 
 

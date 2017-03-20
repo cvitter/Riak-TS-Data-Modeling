@@ -1,6 +1,6 @@
 # [Riak TS](README.md) - Selecting A Partition Key
 
-In [Data Modeling Basics](Data Modeling Basics.md) and [How Partition Keys Work](How Partition Keys Work.md) we introduced you to the basics of Riak TS table schemas and how the partition key shapes the distribution of data within a cluster. In this section we are going to cover how the choice of partition keys affects the performance of your Riak TS cluster (both in terms of writes and reads per second) and the queriability of the data stored in your cluster.  
+In [Data Modeling Basics](Data%20Modeling%20Basics.md) and [How Partition Keys Work](How%20Partition%20Keys%20Work.md) we introduced you to the basics of Riak TS table schemas and how the partition key shapes the distribution of data within a cluster. In this section we are going to cover how the choice of partition keys affects the performance of your Riak TS cluster (both in terms of writes and reads per second) and the queriability of the data stored in your cluster.  
 
 * [Optimizing Partition Keys for Write Performance](#optimizing-partition-keys-for-write-performance) 
 * [How Riak TS Executes Queries](#how-riak-ts-executes-queries) 
@@ -21,7 +21,7 @@ Write performance in a Riak TS is affected by a number of factors including:
 * The size of the object being written
 * And the partition key
 
-The key to maximizing performance in a cluster is to ensure that all of the nodes in the cluster are able to equally share in the write workload. From a schema design perspective your choice of partition key is the number one thing affecting write performance. In this section we are going to talk about things to consider when designing partition keys that will help you limit performance bottle necks. Let's start by taking another look at the example table that we created in the [Data Modeling Basics](Data Modeling Basics.md) section with the following primary key:
+The key to maximizing performance in a cluster is to ensure that all of the nodes in the cluster are able to equally share in the write workload. From a schema design perspective your choice of partition key is the number one thing affecting write performance. In this section we are going to talk about things to consider when designing partition keys that will help you limit performance bottle necks. Let's start by taking another look at the example table that we created in the [Data Modeling Basics](Data%20Modeling%20Basics.md) section with the following primary key:
 
 ```
 	PRIMARY KEY (
@@ -139,9 +139,9 @@ Remember that each partition in our example will contain 144,000,000 records. Fi
 
 ## What If I Don't Care What Time It Is?
 
-Up until now we have focused our data modeling discussion on data sets where time is an important factor. In the next section [Why Use Quanta At All?](Why Use Quanta At All.md) we are going to step away the quantum function and look at how Riak TS can be used to solve non-time based data problems. If the you don't care about non-time based use cases please feel free to stop here!
+Up until now we have focused our data modeling discussion on data sets where time is an important factor. In the next section [Why Use Quanta At All?](Why%20Use%20Quanta%20At%20All.md) we are going to step away the quantum function and look at how Riak TS can be used to solve non-time based data problems. If the you don't care about non-time based use cases please feel free to stop here!
 
 ---
 
- **Previous**: [How Partition Keys Work](How Partition Keys Work.md) | **Next**: [Why Use Quanta At All?](Why Use Quanta At All.md)
+ **Previous**: [How Partition Keys Work](How%20Partition%20Keys%20Work.md) | **Next**: [Why Use Quanta At All?](Why%20Use%20Quanta%20At%20All.md)
  
