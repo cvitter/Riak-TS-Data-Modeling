@@ -6,7 +6,7 @@
 
 If you are new to Riak TS I would suggest reading each of the following sections in order as the concepts build on each other to give you both a theoretical and practical understanding of best practices around data modeling:
 
-* [Data Modeling Basics](Data Modeling Basics.md)
+* [Data Modeling Basics](Data%20Modeling%20Basics.md)
 * [How Partition Keys Work](How Partition Keys Work.md)
 * [Selecting A Partition Key](Selecting A Partition Key.md)
 * [Why Use Quanta At All?](Why Use Quanta At All.md)
